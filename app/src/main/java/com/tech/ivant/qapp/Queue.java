@@ -1,5 +1,6 @@
 package com.tech.ivant.qapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.provider.BaseColumns;
  * Created by matthew on 6/27/15.
  */
 public class Queue {
+
     /*
      * calldate
      * customerName
@@ -26,19 +28,53 @@ public class Queue {
     //public long callDate;
     public String customerName;
     public String notes;
+    public long id;
 
     public Queue(){
-
     }
 
     public Queue(String customerName, String notes) {
         this.customerName = customerName;
         this.notes = notes;
+        this.id = -1;
     }
 
-    public void save(){
+    public Queue(String customerName, String notes, long id) {
+        this.customerName = customerName;
+        this.notes = notes;
+        this.id = id;
+    }
+
+    public void save(Context context){
         //Check for identical entry, then save if unique
 
+        if(id>0) {
+            SQLiteDatabase db = getWriteSQLiteDB(context);
+            ContentValues values = new ContentValues();
+            values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
+            values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
+            this.id = db.insert(QueueEntry.TABLE_NAME, null, values);
+        }
+        else{
+            update(context);
+        }
+    }
+
+    public void update(Context context){
+        if(id<=0){
+            save(context);
+        }else{
+            SQLiteDatabase db = getReadSQLiteDB(context);
+            ContentValues values = new ContentValues();
+            values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
+            values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
+            db.update(QueueEntry.TABLE_NAME, values, QueueEntry.COLUMN_NAME_ID + " = " + this.id, null);
+        }
+    }
+
+    public void delete(Context context){
+        SQLiteDatabase db = getReadSQLiteDB(context);
+        db.delete(QueueEntry.TABLE_NAME, QueueEntry.COLUMN_NAME_ID + " = " + this.id, null);
     }
 
     public static SQLiteDatabase getReadSQLiteDB(Context context){
@@ -75,7 +111,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2));
+                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(0));
                 c.moveToNext();
             }
             return query;
@@ -92,7 +128,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2));
+                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(0));
                 c.moveToNext();
             }
             return query;
@@ -114,12 +150,12 @@ public class Queue {
                 + QueueEntry.COLUMN_NAME_SERVICE_ID + " INTEGER, "
                 + "FOREIGN KEY(" + QueueEntry.COLUMN_NAME_SERVICE_ID + ") REFERENCES "
                 + Service.ServiceEntry.TABLE_NAME + "("
-                + Service.ServiceEntry.COLUMN_NAME_ID + ")";
+                + Service.ServiceEntry.COLUMN_NAME_ID + "));";
         public static final String SQL_DELETE_TABLE =
-                "DROP TABLE IF EXISTS " + QueueEntry.TABLE_NAME;
+                "DROP TABLE IF EXISTS " + QueueEntry.TABLE_NAME +";";
 
         public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "StoryReader.db";
+        public static final String DATABASE_NAME = "queue_app.db";
 
         public QueueDBHelper(Context context){
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
