@@ -1,17 +1,61 @@
 package com.tech.ivant.qapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public final static String SERVICE_ID_EXTRA = "com.tech.ivant.service_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DBManager.initializeDB(this);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final Service[] services = Service.all(this);
+
+        final ListView servicesList = (ListView) findViewById(R.id.serviceListView);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        servicesList.setAdapter(adapter);
+
+        if( services != null) {
+            for (Service service : services) {
+                adapter.add(service.name);
+            }
+        }
+
+        final MainActivity context = this;
+
+        servicesList.setClickable(true);
+        servicesList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Intent open_service = new Intent(context, ViewService.class);
+                open_service.putExtra(SERVICE_ID_EXTRA, services[position].id+"");
+                startActivity(open_service);
+            }
+        });
+
     }
 
     @Override
@@ -34,5 +78,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void newService(View view){
+        Intent intent = new Intent(this, NewService.class);
+        startActivity(intent);
     }
 }

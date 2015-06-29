@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".NewService"
+            android:label="@string/title_activity_new_service" >
+        </activity>
+        <activity
+            android:name=".ViewService"
+            android:label="@string/title_activity_view_service" >
+        </activity>
+        <activity
+            android:name=".NewQueue"
+            android:label="@string/title_activity_new_queue" >
+        </activity>
     </application>
 
 </manifest>
