@@ -49,6 +49,11 @@ public class NewQueue extends ActionBarActivity {
 
         Queue new_q = new Queue(edit_name.getText().toString(), edit_note.getText().toString(), service_id);
         new_q.save(this);
+        Service service = Service.find(this, service_id);
+        service.endNumber++;
+        new_q.queueNumber = service.endNumber;
+        new_q.update(this);
+        service.update(this);
         finish();
     }
 }

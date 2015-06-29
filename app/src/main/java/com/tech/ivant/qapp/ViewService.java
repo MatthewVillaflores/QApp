@@ -1,5 +1,8 @@
 package com.tech.ivant.qapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 public class ViewService extends ActionBarActivity {
 
     private Service service;
+    private Queue[] queue_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class ViewService extends ActionBarActivity {
             service_note.setText(service.notes);
         }
 
-        Queue[] queue_list = Queue.where(this, Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id+"");
+        queue_list = Queue.where(this, Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id+"");
 
         final ListView queue_list_view = (ListView) findViewById(R.id.queueList);
 
@@ -46,7 +50,7 @@ public class ViewService extends ActionBarActivity {
 
         if(queue_list!=null){
             for(Queue queue : queue_list){
-                adapter.add(queue.customerName);
+                adapter.add(queue.queueNumber + " : " + queue.customerName);
             }
         }
     }
@@ -80,6 +84,43 @@ public class ViewService extends ActionBarActivity {
     }
 
     public void callNext(View view){
+        Queue called = null;
+        if(queue_list != null) {
+            for (Queue queue : queue_list) {
+                if (queue.queueNumber == service.startNumber) {
+                    called = queue;
+                    break;
+                }
+            }
+        }
+        if(called == null){
+            new AlertDialog.Builder(this)
+                    .setTitle("Call")
+                    .setMessage("No one to call")
+                    .show();
+        }else{
+            final Queue f_called = called;
+            final Context f_context = this;
+            new AlertDialog.Builder(this)
+                    .setTitle("Call")
+                    .setMessage(called.customerName + " is next")
+                    .setPositiveButton("Go", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            f_called.delete(f_context);
+                            service.startNumber++;
+                            service.update(f_context);
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    })
+                    .setNegativeButton("Later", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+        }
 
     }
 }

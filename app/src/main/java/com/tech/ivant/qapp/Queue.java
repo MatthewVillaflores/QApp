@@ -31,6 +31,10 @@ public class Queue {
     public long service_id;
     public long id;
 
+    public int queueNumber;
+    public long queueDate;
+
+
     public Queue(){
     }
 
@@ -39,6 +43,7 @@ public class Queue {
         this.notes = notes;
         this.service_id = service_id;
         this.id = -1;
+        this.queueDate = System.currentTimeMillis();
     }
 
     public Queue(String customerName, String notes, long service_id, long id) {
@@ -46,6 +51,16 @@ public class Queue {
         this.notes = notes;
         this.service_id = service_id;
         this.id = id;
+        this.queueDate = System.currentTimeMillis();
+    }
+
+    public Queue(String customerName, String notes, long service_id, long id, int queueNumber, long queueDate) {
+        this.customerName = customerName;
+        this.notes = notes;
+        this.service_id = service_id;
+        this.id = id;
+        this.queueNumber = queueNumber;
+        this.queueDate = queueDate;
     }
 
     public static void initialize(Context context){
@@ -59,6 +74,8 @@ public class Queue {
             values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, this.service_id);
+            values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, this.queueDate);
+            values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, this.queueNumber);
             this.id = db.insert(QueueEntry.TABLE_NAME, null, values);
         } else {
             update(context);
@@ -74,6 +91,8 @@ public class Queue {
             values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, this.service_id);
+            values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, this.queueDate);
+            values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, this.queueNumber);
             db.update(QueueEntry.TABLE_NAME, values, QueueEntry.COLUMN_NAME_ID + " = " + this.id, null);
         }
     }
@@ -101,7 +120,7 @@ public class Queue {
                 + id + ";", null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            return new Queue(c.getString(1), c.getString(2), c.getLong(3), c.getLong(0));
+            return new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
         } else {
             return null;
         }
@@ -117,7 +136,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(3), c.getLong(0));
+                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
                 c.moveToNext();
             }
             return query;
@@ -134,7 +153,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(3), c.getLong(0));
+                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
                 c.moveToNext();
             }
             return query;
@@ -149,6 +168,8 @@ public class Queue {
             + QueueEntry.COLUMN_NAME_ID +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + QueueEntry.COLUMN_NAME_CNAME + " STRING, "
             + QueueEntry.COLUMN_NAME_NOTES + " TEXT, "
+            + QueueEntry.COLUMN_NAME_QUEUE_NUMBER + " INTEGER, "
+            + QueueEntry.COLUMN_NAME_QUEUE_DATE + " INTEGER, "
             + QueueEntry.COLUMN_NAME_SERVICE_ID + " INTEGER, "
             + "FOREIGN KEY (" + QueueEntry.COLUMN_NAME_SERVICE_ID + ") REFERENCES "
             + Service.ServiceEntry.TABLE_NAME + "("
@@ -161,6 +182,8 @@ public class Queue {
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_CNAME = "customer_name";
         public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_QUEUE_NUMBER = "queue_number";
+        public static final String COLUMN_NAME_QUEUE_DATE = "queue_date";
         public static final String COLUMN_NAME_SERVICE_ID = "service_id";
     }
 }

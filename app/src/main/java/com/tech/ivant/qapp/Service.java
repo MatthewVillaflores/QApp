@@ -26,19 +26,36 @@ public class Service {
     public String name;
     public String notes;
 
+    public int startNumber;
+    public int endNumber;
+
+
     public Service() {
+
     }
 
     public Service(String name, String notes) {
         this.name = name;
         this.notes = notes;
         this.id = -1;
+        this.startNumber = 1;
+        this.endNumber = 0;
     }
 
-    public Service(String name, String notes, long id) {
+    public Service(long id, String name, String notes) {
         this.id = id;
         this.name = name;
         this.notes = notes;
+        this.startNumber = 1;
+        this.endNumber = 0;
+    }
+
+    public Service(long id, String name, String notes, int startNumber, int endNumber) {
+        this.id = id;
+        this.name = name;
+        this.notes = notes;
+        this.startNumber = startNumber;
+        this.endNumber = endNumber;
     }
 
     public static void initialize(Context context){
@@ -61,6 +78,8 @@ public class Service {
             ContentValues values = new ContentValues();
             values.put(ServiceEntry.COLUMN_NAME_SNAME, this.name);
             values.put(ServiceEntry.COLUMN_NAME_NOTES, this.notes);
+            values.put(ServiceEntry.COLUMN_NAME_START_NUMBER, this.startNumber);
+            values.put(ServiceEntry.COLUMN_NAME_END_NUMBER, this.endNumber);
             this.id = db.insert(ServiceEntry.TABLE_NAME, null, values);
         } else {
             update(context);
@@ -75,6 +94,8 @@ public class Service {
             ContentValues values = new ContentValues();
             values.put(ServiceEntry.COLUMN_NAME_SNAME, this.name);
             values.put(ServiceEntry.COLUMN_NAME_NOTES, this.notes);
+            values.put(ServiceEntry.COLUMN_NAME_START_NUMBER, this.startNumber);
+            values.put(ServiceEntry.COLUMN_NAME_END_NUMBER, this.endNumber);
             db.update(ServiceEntry.TABLE_NAME, values, ServiceEntry.COLUMN_NAME_ID + " = " + this.id, null);
         }
     }
@@ -90,7 +111,7 @@ public class Service {
                 + " WHERE " + ServiceEntry.COLUMN_NAME_ID + " = " + id + ";", null);
         if(c.getCount() > 0){
             c.moveToFirst();
-            return new Service(c.getString(1), c.getString(2), c.getLong(0));
+            return new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
         }
         return null;
     }
@@ -103,7 +124,7 @@ public class Service {
             c.moveToFirst();
             Service[] services = new Service[c.getCount()];
             for(int i=0;i<c.getCount();i++){
-                services[i] = new Service(c.getString(1), c.getString(2), c.getLong(0));
+                services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
                 c.moveToNext();
             }
             return services;
@@ -119,7 +140,7 @@ public class Service {
             c.moveToFirst();
             Service[] services = new Service[c.getCount()];
             for(int i=0;i<c.getCount();i++){
-                services[i] = new Service(c.getString(1), c.getString(2), c.getLong(0));
+                services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
                 c.moveToNext();
             }
             return services;
@@ -132,7 +153,10 @@ public class Service {
             "CREATE TABLE " + ServiceEntry.TABLE_NAME +" ("
             + ServiceEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + ServiceEntry.COLUMN_NAME_SNAME + " STRING, "
-            + ServiceEntry.COLUMN_NAME_NOTES + " TEXT);";
+            + ServiceEntry.COLUMN_NAME_NOTES + " TEXT, "
+            + ServiceEntry.COLUMN_NAME_START_NUMBER + " INTEGER, "
+            + ServiceEntry.COLUMN_NAME_END_NUMBER + " INTEGER "
+                    + ");";
     public static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + ServiceEntry.TABLE_NAME + ";";
 
@@ -143,6 +167,8 @@ public class Service {
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_SNAME = "name";
         public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_START_NUMBER = "start_number";
+        public static final String COLUMN_NAME_END_NUMBER = "end_number";
     }
 
 }
