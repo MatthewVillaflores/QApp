@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:id="@+id/new_queue_view"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -12,7 +13,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/queue_name_edit_text"
         android:hint="@string/new_queue_name_hint"
+        android:layout_toLeftOf="@+id/submitNewQueueButton"
         android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/queue_mobile_edit_text"
+        android:hint="@string/new_queue_mobile_number_hint"
+        android:layout_below="@+id/queue_name_edit_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -23,7 +37,7 @@
         android:hint="@string/new_queue_notes_hint"
         android:ems="10"
         android:id="@+id/queue_notes_edit_text"
-        android:layout_below="@+id/queue_name_edit_text"
+        android:layout_below="@+id/queue_mobile_edit_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -32,8 +46,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/submitNewQueueButton"
         android:text="@string/new_queue_submit_button"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:onClick="newQueue"
         />
+
 </RelativeLayout>

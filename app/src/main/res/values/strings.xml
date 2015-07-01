@@ -18,5 +18,6 @@
     <string name="new_queue_name_hint">Enter name</string>
     <string name="new_queue_notes_hint">Optional notes</string>
     <string name="new_queue_submit_button">Enqueue</string>
+    <string name="new_queue_mobile_number_hint">Mobile Number</string>
 
 </resources>

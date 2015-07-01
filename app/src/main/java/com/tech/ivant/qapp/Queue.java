@@ -28,11 +28,11 @@ public class Queue {
     //public long callDate;
     public String customerName;
     public String notes;
-    public long service_id;
-    public long id;
-
+    public String mobileNumber;
     public int queueNumber;
     public long queueDate;
+    public long service_id;
+    public long id;
 
 
     public Queue(){
@@ -41,6 +41,16 @@ public class Queue {
     public Queue(String customerName, String notes, long service_id) {
         this.customerName = customerName;
         this.notes = notes;
+        this.mobileNumber = "";
+        this.service_id = service_id;
+        this.id = -1;
+        this.queueDate = System.currentTimeMillis();
+    }
+
+    public Queue(String customerName, String notes, String mobileNumber, long service_id){
+        this.customerName = customerName;
+        this.notes = notes;
+        this.mobileNumber = mobileNumber;
         this.service_id = service_id;
         this.id = -1;
         this.queueDate = System.currentTimeMillis();
@@ -54,6 +64,14 @@ public class Queue {
         this.queueDate = System.currentTimeMillis();
     }
 
+    public Queue(String customerName, String notes, String mobileNumber, long service_id, long id){
+        this.customerName = customerName;
+        this.notes = notes;
+        this.mobileNumber = mobileNumber;
+        this.service_id = service_id;
+        this.id = id;
+    }
+
     public Queue(String customerName, String notes, long service_id, long id, int queueNumber, long queueDate) {
         this.customerName = customerName;
         this.notes = notes;
@@ -61,6 +79,16 @@ public class Queue {
         this.id = id;
         this.queueNumber = queueNumber;
         this.queueDate = queueDate;
+    }
+
+    public Queue(String customerName, String notes, String mobileNumber, int queueNumber, long queueDate, long service_id, long id) {
+        this.customerName = customerName;
+        this.notes = notes;
+        this.mobileNumber = mobileNumber;
+        this.queueNumber = queueNumber;
+        this.queueDate = queueDate;
+        this.service_id = service_id;
+        this.id = id;
     }
 
     public static void initialize(Context context){
@@ -73,6 +101,7 @@ public class Queue {
             ContentValues values = new ContentValues();
             values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
+            values.put(QueueEntry.COLUMN_NAME_MOBILE_NUMBER, this.mobileNumber);
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, this.service_id);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, this.queueDate);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, this.queueNumber);
@@ -90,6 +119,7 @@ public class Queue {
             ContentValues values = new ContentValues();
             values.put(QueueEntry.COLUMN_NAME_CNAME, this.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, this.notes);
+            values.put(QueueEntry.COLUMN_NAME_MOBILE_NUMBER, this.mobileNumber);
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, this.service_id);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, this.queueDate);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, this.queueNumber);
@@ -120,7 +150,7 @@ public class Queue {
                 + id + ";", null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            return new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
+            return translateCursorToQueue(c);
         } else {
             return null;
         }
@@ -136,7 +166,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
+                query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
             return query;
@@ -153,7 +183,7 @@ public class Queue {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
             for (int i = 0; i < c.getCount(); i++) {
-                query[i] = new Queue(c.getString(1), c.getString(2), c.getLong(5), c.getLong(0), c.getInt(3), c.getLong(4));
+                query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
             return query;
@@ -162,12 +192,19 @@ public class Queue {
         }
     }
 
+    // ID, NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE DATE, SERVICE ID
+    // NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE_DATE, SERVICE_ID, ID
+
+    private static Queue translateCursorToQueue(Cursor c){
+        return new Queue(c.getString(1), c.getString(2), c.getString(3), c.getInt(4), c.getLong(5), c.getLong(6), c.getLong(0));
+    }
 
     public static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + QueueEntry.TABLE_NAME + " ("
             + QueueEntry.COLUMN_NAME_ID +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + QueueEntry.COLUMN_NAME_CNAME + " STRING, "
             + QueueEntry.COLUMN_NAME_NOTES + " TEXT, "
+            + QueueEntry.COLUMN_NAME_MOBILE_NUMBER + " STRING, "
             + QueueEntry.COLUMN_NAME_QUEUE_NUMBER + " INTEGER, "
             + QueueEntry.COLUMN_NAME_QUEUE_DATE + " INTEGER, "
             + QueueEntry.COLUMN_NAME_SERVICE_ID + " INTEGER, "
@@ -182,6 +219,7 @@ public class Queue {
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_CNAME = "customer_name";
         public static final String COLUMN_NAME_NOTES = "notes";
+        public static final String COLUMN_NAME_MOBILE_NUMBER = "mobile_number";
         public static final String COLUMN_NAME_QUEUE_NUMBER = "queue_number";
         public static final String COLUMN_NAME_QUEUE_DATE = "queue_date";
         public static final String COLUMN_NAME_SERVICE_ID = "service_id";

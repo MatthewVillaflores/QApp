@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
 
 
 public class ViewService extends ActionBarActivity {
@@ -29,7 +32,7 @@ public class ViewService extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
-
+        
         TextView service_name = (TextView) findViewById(R.id.serviceName);
         TextView service_note = (TextView) findViewById(R.id.serviceNote);
 
@@ -48,11 +51,26 @@ public class ViewService extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         queue_list_view.setAdapter(adapter);
 
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
+
         if(queue_list!=null){
             for(Queue queue : queue_list){
-                adapter.add(queue.queueNumber + " : " + queue.customerName);
+                adapter.add(df.format(queue.queueDate
+                ) + " : " + queue.customerName);
             }
         }
+        final ViewService context = this;
+        queue_list_view.setClickable(true);
+        queue_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                new AlertDialog.Builder(context)
+                        .setMessage(queue_list[position].customerName + "\n"
+                                + queue_list[position].mobileNumber + "\n"
+                                + queue_list[position].notes)
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -63,7 +81,7 @@ public class ViewService extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public  boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.

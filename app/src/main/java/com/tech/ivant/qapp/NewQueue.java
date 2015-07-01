@@ -46,8 +46,9 @@ public class NewQueue extends ActionBarActivity {
     public void newQueue(View view){
         EditText edit_name = (EditText) findViewById(R.id.queue_name_edit_text);
         EditText edit_note = (EditText) findViewById(R.id.queue_notes_edit_text);
+        EditText edit_mobile = (EditText) findViewById(R.id.queue_mobile_edit_text);
 
-        Queue new_q = new Queue(edit_name.getText().toString(), edit_note.getText().toString(), service_id);
+        Queue new_q = new Queue(edit_name.getText().toString(), edit_note.getText().toString(), edit_mobile.getText().toString(), service_id);
         new_q.save(this);
         Service service = Service.find(this, service_id);
         service.endNumber++;
