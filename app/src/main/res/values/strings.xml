@@ -19,5 +19,22 @@
     <string name="new_queue_notes_hint">Optional notes</string>
     <string name="new_queue_submit_button">Enqueue</string>
     <string name="new_queue_mobile_number_hint">Mobile Number</string>
+    <string name="title_activity_test">test</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="nav_sms_title">SMS</string>
+    <string name="nav_monitor_queue_title">Monitor Queue</string>
+    <string name="nav_reports_title">Reports</string>
+    <string name="nav_settings_title">Settings</string>
 
 </resources>
