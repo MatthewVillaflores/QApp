@@ -1,5 +1,7 @@
 package com.tech.ivant.qapp;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,7 +31,6 @@ public class MainActivity extends ActionBarActivity{
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
-    private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,44 @@ public class MainActivity extends ActionBarActivity{
         mActivityTitle = getTitle().toString();
         setUpDrawer();
 
+        Fragment home_fragment = new HomeFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, home_fragment).commit();
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+
+    }
+
+    public void selectItem(int position){
+        Fragment fragment;
+        switch(position){
+            case 1:
+                fragment = new SmsFragment();
+                break;
+            case 2:
+                fragment = new ReportFragment();
+                break;
+            case 3:
+                fragment = new SettingsFragment();
+                break;
+            default:
+                fragment = new HomeFragment();
+                break;
+        }
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
+
+        mDrawerLayout.closeDrawer(mDrawerList);
+
     }
 
     private void setUpDrawer(){
@@ -77,7 +116,7 @@ public class MainActivity extends ActionBarActivity{
     @Override
     public void onResume(){
         super.onResume();
-
+/*
         final Service[] services = Service.all(this);
 
         final ListView servicesList = (ListView) findViewById(R.id.serviceListView);
@@ -102,7 +141,7 @@ public class MainActivity extends ActionBarActivity{
                 startActivity(open_service);
             }
         });
-
+*/
     }
 
     public void restoreActionBar() {
