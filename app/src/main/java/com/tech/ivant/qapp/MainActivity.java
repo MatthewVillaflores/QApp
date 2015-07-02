@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity{
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
