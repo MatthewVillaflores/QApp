@@ -118,32 +118,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume(){
         super.onResume();
-/*8
-        final Service[] services = Service.all(this);
 
-        final ListView servicesList = (ListView) findViewById(R.id.serviceListView);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        servicesList.setAdapter(adapter);
-
-        if( services != null) {
-            for (Service service : services) {
-                adapter.add(service.name);
-            }
-        }
-
-        final MainActivity context = this;
-
-        servicesList.setClickable(true);
-        servicesList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent open_service = new Intent(context, ViewService.class);
-                open_service.putExtra(SERVICE_ID_EXTRA, services[position].id+"");
-                startActivity(open_service);
-            }
-        });
-*/
     }
 
     @Override
