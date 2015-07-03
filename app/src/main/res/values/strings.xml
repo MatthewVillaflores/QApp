@@ -23,5 +23,7 @@
     <string name="nav_sms_title">Sms</string>
     <string name="nav_reports_title">Reports</string>
     <string name="nav_settings_title">Settings</string>
+    <string name="drawer_open">Open Nav</string>
+    <string name="drawer_close">Close Nav</string>
 
 </resources>

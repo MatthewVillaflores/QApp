@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
+import com.tech.ivant.qapp.fragments.ReportFragment;
+import com.tech.ivant.qapp.fragments.SettingsFragment;
+import com.tech.ivant.qapp.fragments.SmsFragment;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     private ArrayAdapter<String> mAdapter;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +75,13 @@ public class MainActivity extends ActionBarActivity {
         Fragment fragment;
         switch(position){
             case 1:
-//                fragment = new SmsFragment();
+                fragment = new SmsFragment();
                 break;
             case 2:
-//                fragment = new ReportFragment();
+                fragment = new ReportFragment();
                 break;
             case 3:
-//                fragment = new SettingsFragment();
+                fragment = new SettingsFragment();
                 break;
             default:
                 fragment = new MonitorQueueFragment();
@@ -88,9 +93,26 @@ public class MainActivity extends ActionBarActivity {
                 .replace(R.id.frame_container, fragment).commit();
 
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
 
+
+    private void setUpDrawer(){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-    }
+
 
     @Override
     public void onResume(){
