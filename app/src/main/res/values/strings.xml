@@ -19,5 +19,9 @@
     <string name="new_queue_notes_hint">Optional notes</string>
     <string name="new_queue_submit_button">Enqueue</string>
     <string name="new_queue_mobile_number_hint">Mobile Number</string>
+    <string name="nav_monitor_queue_title">Monitor Queue</string>
+    <string name="nav_sms_title">Sms</string>
+    <string name="nav_reports_title">Reports</string>
+    <string name="nav_settings_title">Settings</string>
 
 </resources>
