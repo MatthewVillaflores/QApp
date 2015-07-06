@@ -28,6 +28,14 @@
             android:name=".NewQueue"
             android:label="@string/title_activity_new_queue" >
         </activity>
+        <activity
+            android:name=".callNext"
+            android:label="@string/title_activity_call_next"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tech.ivant.qapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +33,16 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         DBManager.initializeDB(this);
 
         mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
@@ -133,17 +138,29 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+/*
+/*
+noinspection SimplifiableIfStatement
+if (id == R.id.action_settings) {
+return true;
+}
+* /
+
+return super.onOptionsItemSelected(item);
+
+* /
+*/
+
+        if (id == R.id.addQueue_toolbar){
+            startActivity(new Intent(this, NewQueue.class));
+        }
+        if (id == R.id.callNext_toolbar){
+            startActivity(new Intent(this, callNext.class));
         }
 
-        return super.onOptionsItemSelected(item);
-
-        */
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

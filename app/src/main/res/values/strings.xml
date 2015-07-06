@@ -15,6 +15,8 @@
     <string name="view_service_queue_button">Queue</string>
     <string name="view_activity_call_button">Call</string>
     <string name="title_activity_new_queue">Queue</string>
+    <string name="addQueue">Add Queue</string>
+    <string name="callNext">Call Next</string>
     <string name="new_queue_name_hint">Enter name</string>
     <string name="new_queue_notes_hint">Optional notes</string>
     <string name="new_queue_submit_button">Enqueue</string>
@@ -25,5 +27,13 @@
     <string name="nav_settings_title">Settings</string>
     <string name="drawer_open">Open Nav</string>
     <string name="drawer_close">Close Nav</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_call_next">callNext</string>
+    <string name="noShow">No Show</string>
+    <string name="arrived">Arrived</string>
+    <string name="arrivalTime">Arrival Time</string>
+    <string name="waitingTime">Waiting Time</string>
+    <string name="phone">Phone</string>
+    <string name="notes">Notes</string>
 
 </resources>
