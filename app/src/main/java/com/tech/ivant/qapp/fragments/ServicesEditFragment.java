@@ -29,6 +29,20 @@ public class ServicesEditFragment extends Fragment{
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
         final Service[] services = populateList(rootView);
 
+        return rootView;
+    }
+
+    public Service[] populateList(final View rootView){
+        final Service[] services = Service.all(getActivity());
+        ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
+        ArrayAdapter<String> services_list_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+        services_edit_list.setAdapter(services_list_adapter);
+        if(services != null) {
+            for (Service service : services) {
+                services_list_adapter.add(service.name);
+            }
+        }
+
         services_edit_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,19 +68,7 @@ public class ServicesEditFragment extends Fragment{
             }
         });
 
-        return rootView;
-    }
 
-    public Service[] populateList(View rootView){
-        final Service[] services = Service.all(getActivity());
-        ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
-        ArrayAdapter<String> services_list_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
-        services_edit_list.setAdapter(services_list_adapter);
-        if(services != null) {
-            for (Service service : services) {
-                services_list_adapter.add(service.name);
-            }
-        }
         return services;
     }
 }
