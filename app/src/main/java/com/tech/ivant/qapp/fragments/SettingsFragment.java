@@ -41,4 +41,5 @@ public class SettingsFragment extends Fragment {
             addPreferencesFromResource(R.xml.settings_preference);
         }
     }
+
 }

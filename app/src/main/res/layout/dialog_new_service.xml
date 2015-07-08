@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:id="@+id/dialog_new_service_help"
+            android:text="Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:layout_below="@id/dialog_new_service_help"
+            android:id="@+id/dialog_new_service_name"
+            android:hint="Service Name" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/dialog_new_Service_default_time"
+            android:layout_below="@+id/dialog_new_service_name"
+            android:layout_margin="25dp"
+            android:text="5" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="25dp"
+            android:text="Save"
+            android:onClick="createNewService"
+            android:id = "@+id/dialog_new_service_create_button"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="25dp"
+            android:text="Cancel"
+            android:id = "@+id/dialog_new_service_cancel_button" />
+    </RelativeLayout>
+
+</FrameLayout>
