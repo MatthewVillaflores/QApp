@@ -5,10 +5,12 @@
     android:layout_height="match_parent" >
     <EditTextPreference
         android:key="company_name"
-        android:title="Company Name" />
+        android:title="Company Name"
+        android:defaultValue="Company ABC" />
     <EditTextPreference
         android:key="language"
-        android:title="Language" />
+        android:title="Language"
+        android:defaultValue="English"/>
     <EditTextPreference
         android:key="date_format"
         android:title="Date Format" />

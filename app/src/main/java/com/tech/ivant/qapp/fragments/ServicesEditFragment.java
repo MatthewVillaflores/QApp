@@ -14,6 +14,8 @@ import android.widget.ListView;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ import java.util.List;
  */
 public class ServicesEditFragment extends Fragment{
     public ServicesEditFragment(){}
+    private EditServiceAdapter mServiceAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -35,6 +38,19 @@ public class ServicesEditFragment extends Fragment{
     public Service[] populateList(final View rootView){
         final Service[] services = Service.all(getActivity());
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
+
+
+        try {
+             mServiceAdapter = new EditServiceAdapter
+                    (getActivity(), new ArrayList<Service>(Arrays.asList(services)), rootView.getResources());
+        } catch(NullPointerException er){
+             mServiceAdapter = new EditServiceAdapter
+                     (getActivity(), new ArrayList<Service>(), rootView.getResources());
+        }
+
+        services_edit_list.setAdapter(mServiceAdapter);
+
+        /*
         ArrayAdapter<String> services_list_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
         services_edit_list.setAdapter(services_list_adapter);
         if(services != null) {
@@ -67,8 +83,10 @@ public class ServicesEditFragment extends Fragment{
                         .show();
             }
         });
-
+        */
 
         return services;
     }
+
+
 }

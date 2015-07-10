@@ -2,6 +2,7 @@ package com.tech.ivant.qapp.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tech.ivant.qapp.R;
@@ -85,6 +88,8 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
             //}
         }
 
+        final BaseAdapter adapter = this;
+
         if(data.size()>=position){
             //tempValues = null;
             tempValues = data.get(position);
@@ -95,11 +100,12 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
                 public void onClick(final View v) {
                     new AlertDialog.Builder(v.getContext())
                             .setMessage("Are you sure you want to delete?")
-                            .setPositiveButton("Yes", new ServicesEditFragment.DeleteButtonListener
-                                    (data.remove(position)))
+                            .setPositiveButton("Yes", new DeleteButtonListener
+                                    (data.get(position), v, adapter))
                             .setNegativeButton("Cancel", null).show();
                 }
             });
+            holder.list_edit_button.setOnClickListener(new EditButtonListener(data.get(position), vi, adapter));
 
             vi.setOnClickListener(new ServiceListOnItemClickListener(position));
 
@@ -127,4 +133,67 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
 
         }
     }
+
+    private class DeleteButtonListener implements DialogInterface.OnClickListener{
+
+        Service rService;
+        View refView;
+        BaseAdapter adapter;
+
+        public DeleteButtonListener(Service service, View v, BaseAdapter adapt){
+            rService = service;
+            refView = v;
+            adapter = adapt;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            data.remove(rService);
+            rService.delete(refView.getContext());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class EditButtonListener implements View.OnClickListener{
+        Service service;
+        View rootview;
+        BaseAdapter adapter;
+        public EditButtonListener(Service service, View v, BaseAdapter adapt){
+            this.service = service;
+            this.rootview = v;
+            adapter = adapt;
+        }
+
+        @Override
+        public void onClick(View v) {
+            final Dialog edit_Service = new Dialog(v.getContext());
+            edit_Service.setTitle("Edit Service");
+            edit_Service.setContentView(R.layout.dialog_edit_service);
+
+            final EditText service_name = (EditText) edit_Service.findViewById(R.id.dialog_edit_service_name);
+            service_name.setText(service.name);
+
+            edit_Service.show();
+
+            Button cancel = (Button)edit_Service.findViewById(R.id.dialog_edit_service_cancel_button);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    edit_Service.dismiss();
+                }
+            });
+
+            Button save = (Button)edit_Service.findViewById(R.id.dialog_edit_service_save_button);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    service.name = service_name.getText().toString();
+                    service.update(v.getContext());
+                    edit_Service.dismiss();
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
 }
