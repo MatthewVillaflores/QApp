@@ -2,18 +2,26 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:id="@+id/preferences_fragment">
     <EditTextPreference
         android:key="company_name"
-        android:title="Company Name"
+        android:title="@string/settings_company_name"
         android:defaultValue="Company ABC" />
-    <EditTextPreference
+    <ListPreference
         android:key="language"
         android:title="Language"
+        android:dialogTitle="Language"
+        android:entries="@array/settings_languages"
+        android:entryValues="@array/settings_languages"
         android:defaultValue="English"/>
-    <EditTextPreference
+    <ListPreference
         android:key="date_format"
-        android:title="Date Format" />
+        android:title="Date Format"
+        android:dialogTitle="Date Format"
+        android:entries="@array/settings_date_format"
+        android:entryValues="@array/settings_date_format"
+        android:defaultValue="mm/dd/yy"/>
     <CheckBoxPreference
         android:key="hour_format"
         android:title="Use 24-hour Time Format"

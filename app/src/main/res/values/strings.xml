@@ -25,5 +25,25 @@
     <string name="nav_settings_title">Settings</string>
     <string name="drawer_open">Open Nav</string>
     <string name="drawer_close">Close Nav</string>
+    <string name="settings_company_name">Company Name</string>
+
+
+    <string-array
+        name="settings_languages">
+        <item>English</item>
+        <item>Filipino</item>
+        <item>Chinese</item>
+        <item>Portuguese</item>
+        <item>Spanish</item>
+        <item>Japanese</item>
+    </string-array>
+
+    <string-array name="settings_date_format">
+        <item>mm/dd/yy</item>
+        <item>dd/mm/yy</item>
+    </string-array>
+
+
+
 
 </resources>

@@ -7,7 +7,11 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -38,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
     private String mActivityTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mCurrentPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +137,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onResume(){
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String company_name = sharedPreferences.getString("company_name", "Company ABC");
+
+        this.setTitle(company_name);
         super.onResume();
     }
 
