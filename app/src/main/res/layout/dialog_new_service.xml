@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="25dp"
             android:id="@+id/dialog_new_service_help"
-            android:text="Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services" />
+            android:text="@string/dialog_new_service_help_text" />
 
         <EditText
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_margin="25dp"
             android:layout_below="@id/dialog_new_service_help"
             android:id="@+id/dialog_new_service_name"
-            android:hint="Service Name" />
+            android:hint="@string/dialog_new_service_hint" />
 
 
         <EditText
@@ -41,7 +41,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="25dp"
-            android:text="Save"
+            android:text="@string/dialog_new_service_save_button"
             android:onClick="createNewService"
             android:id = "@+id/dialog_new_service_create_button"/>
 
@@ -51,7 +51,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_margin="25dp"
-            android:text="Cancel"
+            android:text="@string/dialog_new_service_cancel_button"
             android:id = "@+id/dialog_new_service_cancel_button" />
     </RelativeLayout>
 

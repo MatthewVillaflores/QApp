@@ -9,7 +9,7 @@
         android:id="@+id/label_edit_services"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Services"
+        android:text="@string/settings_service_edit_title"
         android:textSize="24dp"/>
     <ListView
         android:id="@+id/edit_services_list"
