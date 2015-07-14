@@ -111,8 +111,13 @@ public class Service {
                 + " WHERE " + ServiceEntry.COLUMN_NAME_ID + " = " + id + ";", null);
         if(c.getCount() > 0){
             c.moveToFirst();
-            return new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
+            Service service = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
+            c.close();
+            db.close();
+            return service;
         }
+        c.close();
+        db.close();
         return null;
     }
 
@@ -127,9 +132,13 @@ public class Service {
                 services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
                 c.moveToNext();
             }
+            db.close();
+            c.close();
             return services;
         }
 
+        db.close();
+        c.close();
         return null;
     }
 
@@ -143,9 +152,12 @@ public class Service {
                 services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
                 c.moveToNext();
             }
+            c.close();
+            db.close();
             return services;
         }
-
+        c.close();
+        db.close();
         return null;
     }
 

@@ -39,9 +39,8 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
     private ActionBarDrawerToggle mDrawerToggle;
-    private int mCurrentPosition;
+    private int mCurrentPosition;                   //Tells which fragment is active or opened
 
 
     @Override
@@ -72,7 +71,6 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mActivityTitle = getTitle().toString();
         setUpDrawer();
 
         Fragment home_fragment = new MonitorQueueFragment();

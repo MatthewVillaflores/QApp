@@ -150,8 +150,10 @@ public class Queue {
                 + id + ";", null);
         if(c.getCount()>0) {
             c.moveToFirst();
+            db.close();
             return translateCursorToQueue(c);
         } else {
+            db.close();
             return null;
         }
     }
@@ -161,7 +163,6 @@ public class Queue {
         SQLiteDatabase db = getReadSQLiteDB(context);
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME
                 + " WHERE " + columnname + " = " + value + ";", null);
-
         if(c.getCount()>0) {
             c.moveToFirst();
             Queue[] query = new Queue[c.getCount()];
@@ -169,8 +170,10 @@ public class Queue {
                 query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
+            db.close();
             return query;
         } else {
+            db.close();
             return null;
         }
     }
@@ -186,8 +189,10 @@ public class Queue {
                 query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
+            db.close();
             return query;
         } else {
+            db.close();
             return null;
         }
     }
