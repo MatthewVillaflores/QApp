@@ -44,6 +44,14 @@
     <string name="dialog_edit_service_cancel_button">Cancel</string>
 
 
+    <string name="KEY_PREFERENCE_COMPANY_NAME">ivant_queuepad_company_name</string>
+    <string name="KEY_PREFERENCE_LANGUAGE">ivant_queuepad_language</string>
+    <string name="KEY_PREFERENCE_DATE_FORMAT">ivant_queuepad_date_format</string>
+    <string name="KEY_PREFERENCE_HOUR_FORMAT">ivant_queuepad_hour_format</string>
+    <string name="KEY_PREFERENCE_MANUAL_CALL">ivant_queuepad_manual_call</string>
+    <string name="KEY_PREFERENCE_AUTOMATIC_CLEAN">ivant_queuepad_automatic_clean</string>
+
+
     <string-array
         name="settings_languages">
         <item>English</item>

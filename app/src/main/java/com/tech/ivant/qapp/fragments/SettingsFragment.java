@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,9 @@ public class SettingsFragment extends Fragment {
 
     public static class SettingsPreferences extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-        public static String KEY_COMPANY_NAME = "company_name";
-        public static String KEY_LANGUAGE = "language";
-        public static String KEY_DATE_FORMAT = "date_format";
+        public String KEY_COMPANY_NAME;
+        public String KEY_LANGUAGE;
+        public String KEY_DATE_FORMAT;
 
         @Override
         public void onResume(){
@@ -68,6 +69,14 @@ public class SettingsFragment extends Fragment {
         @Override
         public void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
+
+
+            KEY_COMPANY_NAME = getResources().getString(R.string.KEY_PREFERENCE_COMPANY_NAME);
+            KEY_LANGUAGE = getResources().getString(R.string.KEY_PREFERENCE_LANGUAGE);
+            KEY_DATE_FORMAT = getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT);
+
+            Log.d("KEYCOMPANYNAME", KEY_COMPANY_NAME);
+
             addPreferencesFromResource(R.xml.settings_preference);
             MainActivity parentActivity = (MainActivity) getActivity();
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(parentActivity);

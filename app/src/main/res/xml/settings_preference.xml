@@ -5,35 +5,35 @@
     android:layout_height="match_parent"
     android:id="@+id/preferences_fragment">
     <EditTextPreference
-        android:key="company_name"
+        android:key="@string/KEY_PREFERENCE_COMPANY_NAME"
         android:title="@string/settings_company_name"
         android:defaultValue="Company ABC" />
     <ListPreference
-        android:key="language"
+        android:key="@string/KEY_PREFERENCE_LANGUAGE"
         android:title="@string/settings_language_title"
         android:dialogTitle="@string/settings_language_title"
         android:entries="@array/settings_languages"
         android:entryValues="@array/settings_languages"
         android:defaultValue="English"/>
     <ListPreference
-        android:key="date_format"
+        android:key="@string/KEY_PREFERENCE_DATE_FORMAT"
         android:title="@string/settings_date_format_title"
         android:dialogTitle="@string/settings_date_format_title"
         android:entries="@array/settings_date_format"
         android:entryValues="@array/settings_date_format"
         android:defaultValue="mm/dd/yy"/>
     <CheckBoxPreference
-        android:key="hour_format"
+        android:key="@string/KEY_PREFERENCE_HOUR_FORMAT"
         android:title="@string/settings_24hour_format_title"
         android:defaultValue="false" />
     <PreferenceCategory>
         <CheckBoxPreference
-            android:key="manual_call"
+            android:key="@string/KEY_PREFERENCE_MANUAL_CALL"
             android:title="@string/settings_manual_call_title"
             android:summary="@string/settings_manual_call_summary"
             android:defaultValue="true" />
         <CheckBoxPreference
-            android:key="automatic_clean"
+            android:key="@string/KEY_PREFERENCE_AUTOMATIC_CLEAN"
             android:title="@string/settings_automatic_clean_title"
             android:summary="@string/settings_automatic_clean_summary"
             android:defaultValue="false" />

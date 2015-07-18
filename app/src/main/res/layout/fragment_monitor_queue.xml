@@ -8,15 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/monitorQueueTopBar"
-        android:padding="50dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Here will be the Waiting Time and Queue Count"/>
-
-
+        android:id="@+id/monitorQueueTopBar">
     </FrameLayout>
 
     <View

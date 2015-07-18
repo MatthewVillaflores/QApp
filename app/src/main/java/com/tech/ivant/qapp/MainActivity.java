@@ -139,7 +139,7 @@ public class MainActivity extends ActionBarActivity {
     public void onResume(){
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String company_name = sharedPreferences.getString("company_name", "Company ABC");
+        String company_name = sharedPreferences.getString(getResources().getString(R.string.KEY_PREFERENCE_COMPANY_NAME), "Company ABC");
 
         this.setTitle(company_name);
         super.onResume();

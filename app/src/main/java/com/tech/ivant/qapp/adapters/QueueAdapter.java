@@ -2,8 +2,10 @@ package com.tech.ivant.qapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +88,16 @@ public class QueueAdapter extends BaseAdapter{
             holder.queueId.setText((position+1)+"");
             holder.queueName.setText(tempValue.customerName);
             holder.queueNote.setText(tempValue.notes);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(vi.getContext());
+            boolean is24Hour = sharedPreferences.getBoolean(vi.getResources().getString(R.string.KEY_PREFERENCE_HOUR_FORMAT), false);
+
+            SimpleDateFormat dateFormat;
+            if(is24Hour){
+                dateFormat = new SimpleDateFormat("HH:mm");
+            }else{
+                dateFormat = new SimpleDateFormat("hh:mm aa");
+            }
             holder.queueArrival.setText(dateFormat.format(tempValue.queueDate));
 
             WaitTimer mWaitTimer = new WaitTimer(holder, tempValue);

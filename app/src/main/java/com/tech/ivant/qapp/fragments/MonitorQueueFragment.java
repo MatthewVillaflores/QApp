@@ -29,6 +29,8 @@ public class MonitorQueueFragment extends Fragment {
 
     private Service mService = null;
     public static String KEY_SERVICE_ID = "ivant_monitor_queue_service_id";
+    public static String KEY_SERVICE_COUNT = "ivant_monitor_queue_service_count";
+    public static String KEY_SERVICE_AVE_WAITING = "ivant_monitor_queue_service_ave_waiting";
 
     public MonitorQueueFragment(){}
 
@@ -74,12 +76,34 @@ public class MonitorQueueFragment extends Fragment {
 
     public void updateList(View view){
 
-        Fragment fragment = new ViewServiceFragment();
-        Bundle arguments = new Bundle();
-        arguments.putLong(KEY_SERVICE_ID, mService.id);
-        fragment.setArguments(arguments);
+        Fragment fragmentTop = new ViewServiceTopFragment();
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.viewServiceFragmentFrame, fragment).commit();
+        Bundle arguments = new Bundle();
+
+        Queue[] queueList = Queue.where(getActivity(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mService.id + "");
+        if(queueList==null){
+            arguments.putInt(KEY_SERVICE_COUNT, 0);
+            arguments.putLong(KEY_SERVICE_AVE_WAITING, 0);
+        }else{
+            arguments.putInt(KEY_SERVICE_COUNT, queueList.length);
+
+            long totalWait = 0;
+            for(Queue queue : queueList){
+                totalWait += System.currentTimeMillis() - queue.queueDate;
+            }
+            totalWait = totalWait/queueList.length;
+            arguments.putLong(KEY_SERVICE_AVE_WAITING, totalWait);
+
+        }
+
+        fragmentTop.setArguments(arguments);
+        fragmentManager.beginTransaction().replace(R.id.monitorQueueTopBar, fragmentTop).commit();
+
+        Fragment fragmentBottom = new ViewServiceFragment();
+        arguments = new Bundle();
+        arguments.putLong(KEY_SERVICE_ID, mService.id);
+        fragmentBottom.setArguments(arguments);
+        fragmentManager.beginTransaction().replace(R.id.viewServiceFragmentFrame, fragmentBottom).commit();
     }
 
 }
