@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tech.ivant.qapp.R;
@@ -70,7 +69,7 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
         ViewHolder holder;
 
         if(convertView==null){
-            vi = inflater.inflate(R.layout.list_service_item, null);
+            vi = inflater.inflate(R.layout.adapter_settings_service, null);
 
             holder = new ViewHolder();
             holder.list_service_name = (TextView)vi.findViewById(R.id.list_service_name);

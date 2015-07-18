@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,10 +17,13 @@ import android.widget.TextView;
 import com.tech.ivant.qapp.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.adapters.QueueAdapter;
 
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,6 +36,8 @@ public class ViewServiceFragment extends Fragment{
     private Dialog addQueueDialog;
     private Dialog callNextDialog;
     private ArrayAdapter<String> mAdapter;
+    private QueueAdapter qAdapter;
+    private BaseAdapter bAdapter;
     private ListView mListView;
     private Queue[] queueList;
 
@@ -54,12 +60,22 @@ public class ViewServiceFragment extends Fragment{
         CallNextListener callnextlistener = new CallNextListener();
         callNext.setOnClickListener(callnextlistener);
 
-        updateList();
+        updateList(rootView);
         return rootView;
     }
 
-    public void updateList(){
+    public void updateList(View rootView){
 
+        queueList = Queue.where(getActivity(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mService.id + "");
+
+        if(queueList != null) {
+            bAdapter = new QueueAdapter(getActivity(), new ArrayList<Queue>(Arrays.asList(queueList)), rootView.getResources());
+        }else{
+            String[] content = {"Nothing to display"};
+            bAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, content);
+        }
+        mListView.setAdapter(bAdapter);
+        /*
         mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
 
 
@@ -73,7 +89,7 @@ public class ViewServiceFragment extends Fragment{
             mAdapter.add("Nothing to display");
         }
         mListView.setAdapter(mAdapter);
-
+        */
     }
 
     private class NewQueueListener implements View.OnClickListener{
@@ -130,7 +146,7 @@ public class ViewServiceFragment extends Fragment{
 
             addQueueDialog.dismiss();
 
-            updateList();
+            updateList(v);
         }
     }
 
@@ -186,7 +202,7 @@ public class ViewServiceFragment extends Fragment{
                     public void onClick(View v) {
                         mService.startNumber++;
                         cCalled.delete(v.getContext());
-                        updateList();
+                        updateList(v);
                         callNextDialog.dismiss();
                     }
                 });
