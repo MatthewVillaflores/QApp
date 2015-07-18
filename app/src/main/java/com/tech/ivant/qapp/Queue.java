@@ -36,6 +36,7 @@ public class Queue {
 
 
     public Queue(){
+        this.id = -1;
     }
 
     public Queue(String customerName, String notes, long service_id) {
