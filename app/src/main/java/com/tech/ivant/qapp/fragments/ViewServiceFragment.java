@@ -2,7 +2,11 @@ package com.tech.ivant.qapp.fragments;
 
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +96,12 @@ public class ViewServiceFragment extends Fragment{
         */
     }
 
+    public void broadcastDbChange(){
+        Intent localBroadcast = new Intent("db_new_queue");
+        localBroadcast.putExtra(MonitorQueueFragment.EXTRA_NEW_QUEUE, true);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(localBroadcast);
+    }
+
     private class NewQueueListener implements View.OnClickListener{
 
         public NewQueueListener(){
@@ -102,6 +112,12 @@ public class ViewServiceFragment extends Fragment{
             addQueueDialog = new Dialog(v.getContext());
             addQueueDialog.setTitle("Add Queue - " + mService.name);
             addQueueDialog.setContentView(R.layout.dialog_add_queue);
+
+            TextView currentDate = (TextView) addQueueDialog.findViewById(R.id.addQueueCurrentDate);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+            String preferredDateFormat = sharedPreferences.getString(v.getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT), "MM/dd/yy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(preferredDateFormat);
+            currentDate.setText(dateFormat.format(System.currentTimeMillis()));
 
             Button cancel = (Button) addQueueDialog.findViewById(R.id.addQueueCancelButton);
             cancel.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +159,7 @@ public class ViewServiceFragment extends Fragment{
             Log.d(LOG_TAG, "Added new Queue: " + queue.id + ":" + queue.customerName + ":" + queue.mobileNumber + ":" + queue.notes + ":" + queue.service_id);
             Log.d(LOG_TAG, "To Service: " + mService.name + ":" + mService.id);
 
+            broadcastDbChange();
 
             addQueueDialog.dismiss();
 
@@ -202,6 +219,7 @@ public class ViewServiceFragment extends Fragment{
                     public void onClick(View v) {
                         mService.startNumber++;
                         cCalled.delete(v.getContext());
+                        broadcastDbChange();
                         updateList(v);
                         callNextDialog.dismiss();
                     }

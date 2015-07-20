@@ -63,8 +63,8 @@
     </string-array>
 
     <string-array name="settings_date_format">
-        <item>mm/dd/yy</item>
-        <item>dd/mm/yy</item>
+        <item>MM/dd/yy</item>
+        <item>dd/MM/yy</item>
     </string-array>
 
 

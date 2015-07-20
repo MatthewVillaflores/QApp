@@ -2,7 +2,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
     android:id="@+id/preferences_fragment">
     <EditTextPreference
         android:key="@string/KEY_PREFERENCE_COMPANY_NAME"
@@ -21,7 +21,7 @@
         android:dialogTitle="@string/settings_date_format_title"
         android:entries="@array/settings_date_format"
         android:entryValues="@array/settings_date_format"
-        android:defaultValue="mm/dd/yy"/>
+        android:defaultValue="MM/dd/yy"/>
     <CheckBoxPreference
         android:key="@string/KEY_PREFERENCE_HOUR_FORMAT"
         android:title="@string/settings_24hour_format_title"

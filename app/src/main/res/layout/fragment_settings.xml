@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="2">
 
     <FrameLayout
         android:id="@+id/preferences_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
     </FrameLayout>
 
@@ -13,9 +18,7 @@
         android:id="@+id/services_edit_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/preferences_frame">
+        android:layout_weight="1">
 
     </FrameLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

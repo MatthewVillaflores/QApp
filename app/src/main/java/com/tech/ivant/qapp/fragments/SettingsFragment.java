@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.R;
@@ -37,6 +39,10 @@ public class SettingsFragment extends Fragment {
                 .replace(R.id.preferences_frame, settingsPreferences).commit();
         fm.beginTransaction()
                 .replace(R.id.services_edit_frame, new ServicesEditFragment()).commit();
+
+        FrameLayout preferenceFrame = (FrameLayout) rootView.findViewById(R.id.preferences_frame);
+        FrameLayout servicesEditFrame = (FrameLayout) rootView.findViewById(R.id.services_edit_frame);
+
 
         //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
         //Preference company_name = settingsPreferences.findPreference(SettingsPreferences.KEY_COMPANY_NAME);
