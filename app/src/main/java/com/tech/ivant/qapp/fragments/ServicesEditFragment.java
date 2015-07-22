@@ -12,7 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.entities.Service;
+import com.tech.ivant.qapp.dao.ServiceDao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class ServicesEditFragment extends Fragment{
     }
 
     public Service[] populateList(final View rootView){
-        final Service[] services = Service.all(getActivity());
+        final Service[] services = ServiceDao.all();
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
 
 

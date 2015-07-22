@@ -15,7 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.entities.Service;
+import com.tech.ivant.qapp.dao.ServiceDao;
 
 import java.util.ArrayList;
 
@@ -148,7 +149,7 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
         @Override
         public void onClick(DialogInterface dialog, int which) {
             data.remove(rService);
-            rService.delete(refView.getContext());
+            ServiceDao.delete(rService);
             adapter.notifyDataSetChanged();
         }
     }
@@ -187,7 +188,7 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
                 @Override
                 public void onClick(View v) {
                     service.name = service_name.getText().toString();
-                    service.update(v.getContext());
+                    ServiceDao.update(service);
                     edit_Service.dismiss();
                     adapter.notifyDataSetChanged();
                 }

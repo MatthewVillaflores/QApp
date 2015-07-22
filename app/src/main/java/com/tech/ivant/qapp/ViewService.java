@@ -14,6 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
+
 import java.text.SimpleDateFormat;
 
 
@@ -38,7 +41,7 @@ public class ViewService extends ActionBarActivity {
 
         Intent intent = getIntent();
         long id = Long.parseLong(intent.getStringExtra(MainActivity.SERVICE_ID_EXTRA));
-        service = Service.find(this, id);
+        service = ServiceDao.find(id);
         if(service != null) {
             service_name.setText(service.name);
             service_note.setText(service.notes);
@@ -127,7 +130,7 @@ public class ViewService extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             f_called.delete(f_context);
                             service.startNumber++;
-                            service.update(f_context);
+                            ServiceDao.update(service);
                             finish();
                             startActivity(getIntent());
                         }

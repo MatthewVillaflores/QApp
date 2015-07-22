@@ -19,7 +19,8 @@ import android.widget.ListView;
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.Queue;
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.entities.Service;
+import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.ViewService;
 
 /**
@@ -44,9 +45,9 @@ public class MonitorQueueFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_monitor_queue, container, false);
         //updateList(rootView);
 
-        Service services[] = Service.all(getActivity());
+        Service services[] = ServiceDao.all();
 
-        if(services != null) {
+        if(services.length > 0) {
             mService = services[0];
 
             HorizontalScrollView hScroll = (HorizontalScrollView) rootView.findViewById(R.id.serviceListHScroll);
@@ -86,6 +87,10 @@ public class MonitorQueueFragment extends Fragment {
     }
 
     public void updateList(View view){
+
+        if(mService == null){
+            return;
+        }
 
         Fragment fragmentTop = new ViewServiceTopFragment();
         FragmentManager fragmentManager = getFragmentManager();

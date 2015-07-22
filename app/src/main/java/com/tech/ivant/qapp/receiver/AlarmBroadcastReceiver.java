@@ -11,7 +11,8 @@ import android.util.Log;
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.Queue;
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
 
 /**
  * Created by matthew on 7/22/15.
@@ -25,7 +26,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (sharedPreferences.getBoolean(context.getResources().getString(R.string.KEY_PREFERENCE_AUTOMATIC_CLEAN), false)) {
             Log.d(LOG_KEY, "Cleaning up queue");
-            Service[] services = Service.all(context);
+            Service[] services = ServiceDao.all();
             if( services != null ) {
                 for (Service service : services) {
                     Queue[] queues = Queue.where(context, Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id + "");

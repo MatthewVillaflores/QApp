@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+
 /**
  * Created by matthew on 6/27/15.
  */
@@ -210,8 +212,8 @@ public class Queue {
             + QueueEntry.COLUMN_NAME_QUEUE_DATE + " INTEGER, "
             + QueueEntry.COLUMN_NAME_SERVICE_ID + " INTEGER, "
             + "FOREIGN KEY (" + QueueEntry.COLUMN_NAME_SERVICE_ID + ") REFERENCES "
-            + Service.ServiceEntry.TABLE_NAME + "("
-            + Service.ServiceEntry.COLUMN_NAME_ID + "));";
+            + ServiceDao.ServiceEntry.TABLE_NAME + "("
+            + ServiceDao.ServiceEntry.COLUMN_NAME_ID + "));";
     public static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + QueueEntry.TABLE_NAME +";";
 

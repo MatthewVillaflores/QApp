@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
+
 
 public class NewService extends ActionBarActivity {
 
@@ -43,7 +46,7 @@ public class NewService extends ActionBarActivity {
         EditText text_name = (EditText) findViewById(R.id.name_edit_text);
         EditText text_note = (EditText) findViewById(R.id.note_edit_text);
         Service service = new Service(text_name.getText().toString(), text_note.getText().toString());
-        service.save(this);
+        ServiceDao.save(service);
         finish();
     }
 }

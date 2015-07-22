@@ -23,7 +23,8 @@ import android.widget.TextView;
 
 import com.tech.ivant.qapp.Queue;
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.Service;
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.adapters.QueueAdapter;
 import com.tech.ivant.qapp.receiver.AlarmBroadcastReceiver;
 
@@ -57,7 +58,7 @@ public class ViewServiceFragment extends Fragment{
         final View rootView = inflater.inflate(R.layout.fragment_view_service, container, false);
 
         Bundle arguments = getArguments();
-        mService  = Service.find(getActivity(), arguments.getLong(MonitorQueueFragment.KEY_SERVICE_ID));
+        mService  = ServiceDao.find(arguments.getLong(MonitorQueueFragment.KEY_SERVICE_ID));
 
         mListView = (ListView) rootView.findViewById(R.id.queueListView);
 
@@ -177,7 +178,7 @@ public class ViewServiceFragment extends Fragment{
             queue.queueNumber = mService.endNumber;
 
             queue.save(v.getContext());
-            mService.update(v.getContext());
+            ServiceDao.update(mService);
 
             Log.d(LOG_TAG, "Added new Queue: " + queue.id + ":" + queue.customerName + ":" + queue.mobileNumber + ":" + queue.notes + ":" + queue.service_id);
             Log.d(LOG_TAG, "To Service: " + mService.name + ":" + mService.id);

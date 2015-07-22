@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+
 /**
  * Created by matthew on 6/29/15.
  */
@@ -24,13 +26,13 @@ public class DBManager extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Service.SQL_CREATE_TABLE);
+        db.execSQL(ServiceDao.SQL_CREATE_TABLE);
         db.execSQL(Queue.SQL_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(Service.SQL_DELETE_TABLE);
+        db.execSQL(ServiceDao.SQL_DELETE_TABLE);
         db.execSQL(Queue.SQL_DELETE_TABLE);
         onCreate(db);
     }

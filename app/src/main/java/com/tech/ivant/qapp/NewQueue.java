@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
+
 
 public class NewQueue extends ActionBarActivity {
 
@@ -50,11 +53,11 @@ public class NewQueue extends ActionBarActivity {
 
         Queue new_q = new Queue(edit_name.getText().toString(), edit_note.getText().toString(), edit_mobile.getText().toString(), service_id);
         new_q.save(this);
-        Service service = Service.find(this, service_id);
+        Service service = ServiceDao.find(service_id);
         service.endNumber++;
         new_q.queueNumber = service.endNumber;
         new_q.update(this);
-        service.update(this);
+        ServiceDao.update(service);
         finish();
     }
 }

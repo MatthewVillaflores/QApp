@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.tech.ivant.qapp.constants.StaticMethods;
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
 import com.tech.ivant.qapp.fragments.ReportFragment;
 import com.tech.ivant.qapp.fragments.SettingsFragment;
@@ -239,7 +241,7 @@ public class MainActivity extends ActionBarActivity {
         EditText service_name_edit = (EditText) newServiceDialog.findViewById(R.id.dialog_new_service_name);
         if(service_name_edit != null) {
             Service service = new Service(service_name_edit.getText().toString(), "");
-            service.save(this);
+            ServiceDao.save(service);
         }
         newServiceDialog.dismiss();
         selectItem(mCurrentPosition);
