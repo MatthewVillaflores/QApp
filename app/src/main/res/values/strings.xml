@@ -50,6 +50,7 @@
     <string name="KEY_PREFERENCE_HOUR_FORMAT">ivant_queuepad_hour_format</string>
     <string name="KEY_PREFERENCE_MANUAL_CALL">ivant_queuepad_manual_call</string>
     <string name="KEY_PREFERENCE_AUTOMATIC_CLEAN">ivant_queuepad_automatic_clean</string>
+    <string name="KEY_PREFERENCE_AUTOMATIC_CLEAN_TIME">ivant_queuepad_automatic_clean_time</string>
 
 
     <string-array

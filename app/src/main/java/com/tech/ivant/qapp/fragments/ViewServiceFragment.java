@@ -2,7 +2,10 @@ package com.tech.ivant.qapp.fragments;
 
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,6 +25,7 @@ import com.tech.ivant.qapp.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.Service;
 import com.tech.ivant.qapp.adapters.QueueAdapter;
+import com.tech.ivant.qapp.receiver.AlarmBroadcastReceiver;
 
 import org.w3c.dom.Text;
 
@@ -44,12 +48,13 @@ public class ViewServiceFragment extends Fragment{
     private BaseAdapter bAdapter;
     private ListView mListView;
     private Queue[] queueList;
+    private BroadcastReceiver mCleanupBroadCastListener;
 
     public ViewServiceFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_view_service, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_view_service, container, false);
 
         Bundle arguments = getArguments();
         mService  = Service.find(getActivity(), arguments.getLong(MonitorQueueFragment.KEY_SERVICE_ID));
@@ -64,8 +69,25 @@ public class ViewServiceFragment extends Fragment{
         CallNextListener callnextlistener = new CallNextListener();
         callNext.setOnClickListener(callnextlistener);
 
+        mCleanupBroadCastListener = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getBooleanExtra(AlarmBroadcastReceiver.EXTRA_QUEUE_CLEANED, true)){
+                    updateList(rootView);
+                }
+            }
+        };
+
+        LocalBroadcastManager.getInstance(rootView.getContext()).registerReceiver(mCleanupBroadCastListener, new IntentFilter("queue_clean_up"));
+
         updateList(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mCleanupBroadCastListener);
+        super.onDestroy();
     }
 
     public void updateList(View rootView){
@@ -94,6 +116,7 @@ public class ViewServiceFragment extends Fragment{
         }
         mListView.setAdapter(mAdapter);
         */
+        broadcastDbChange();
     }
 
     public void broadcastDbChange(){
@@ -158,9 +181,6 @@ public class ViewServiceFragment extends Fragment{
 
             Log.d(LOG_TAG, "Added new Queue: " + queue.id + ":" + queue.customerName + ":" + queue.mobileNumber + ":" + queue.notes + ":" + queue.service_id);
             Log.d(LOG_TAG, "To Service: " + mService.name + ":" + mService.id);
-
-            broadcastDbChange();
-
             addQueueDialog.dismiss();
 
             updateList(v);
@@ -219,7 +239,6 @@ public class ViewServiceFragment extends Fragment{
                     public void onClick(View v) {
                         mService.startNumber++;
                         cCalled.delete(v.getContext());
-                        broadcastDbChange();
                         updateList(v);
                         callNextDialog.dismiss();
                     }

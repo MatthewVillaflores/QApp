@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
 import com.tech.ivant.qapp.fragments.ReportFragment;
 import com.tech.ivant.qapp.fragments.SettingsFragment;
@@ -34,6 +35,7 @@ import com.tech.ivant.qapp.fragments.SmsFragment;
 public class MainActivity extends ActionBarActivity {
 
     public final static String SERVICE_ID_EXTRA = "com.tech.ivant.service_id";
+    public final static String BROADCAST_AUTOMATIC_CLEAN_ALARM = "com.tech.ivant.alarm_automatic_clean";
     private final static String STATE_CURRENT_POSITION = "com.tech.ivant.current_fragment_position";
 
     private ListView mDrawerList;
@@ -57,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         DBManager.initializeDB(this);
+        StaticMethods.setUpAutomaticCleanAlarm(this);
 
         mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
         String[] drawer_list = {

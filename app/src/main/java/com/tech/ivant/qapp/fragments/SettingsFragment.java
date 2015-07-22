@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.R;
+import com.tech.ivant.qapp.constants.StaticMethods;
+import com.tech.ivant.qapp.preferences.TimePickerPreference;
+import com.tech.ivant.qapp.util.DayTime;
 
 /**
  * Created by matthew on 7/3/15.
@@ -58,7 +61,10 @@ public class SettingsFragment extends Fragment {
 
         public String KEY_COMPANY_NAME;
         public String KEY_LANGUAGE;
+        public String KEY_TIME_FORMAT;
         public String KEY_DATE_FORMAT;
+        public String KEY_AUTOMATIC_CLEAN;
+        public String KEY_AUTOMATIC_CLEAN_TIME;
 
         @Override
         public void onResume(){
@@ -79,7 +85,11 @@ public class SettingsFragment extends Fragment {
 
             KEY_COMPANY_NAME = getResources().getString(R.string.KEY_PREFERENCE_COMPANY_NAME);
             KEY_LANGUAGE = getResources().getString(R.string.KEY_PREFERENCE_LANGUAGE);
+            KEY_TIME_FORMAT = getResources().getString(R.string.KEY_PREFERENCE_HOUR_FORMAT);
             KEY_DATE_FORMAT = getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT);
+            KEY_AUTOMATIC_CLEAN = getResources().getString(R.string.KEY_PREFERENCE_AUTOMATIC_CLEAN);
+            KEY_AUTOMATIC_CLEAN_TIME = getResources().getString(R.string.KEY_PREFERENCE_AUTOMATIC_CLEAN_TIME);
+
 
             Log.d("KEYCOMPANYNAME", KEY_COMPANY_NAME);
 
@@ -99,11 +109,18 @@ public class SettingsFragment extends Fragment {
             String date_format_string = sharedPreferences.getString(KEY_DATE_FORMAT, "mm/dd/yy");
             date_format.setSummary(date_format_string);
 
+            Preference automatic_clean = findPreference(KEY_AUTOMATIC_CLEAN_TIME);
+            long clean_time = sharedPreferences.getLong(KEY_AUTOMATIC_CLEAN_TIME, TimePickerPreference.DEFAULT_VALUE);
+            if(sharedPreferences.getBoolean(KEY_TIME_FORMAT, false)){
+                automatic_clean.setTitle(DayTime.format24hr(clean_time));
+            }else{
+                automatic_clean.setTitle(DayTime.format12hr(clean_time));
+            }
         }
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            String default_value;
+            String default_value = null;
             if(key.equals(KEY_COMPANY_NAME)){
                 default_value = "Company ABC";
             }
@@ -113,8 +130,20 @@ public class SettingsFragment extends Fragment {
             else if(key.equals(KEY_DATE_FORMAT)){
                 default_value = "mm/dd/yy";
             }
-            else{
-                default_value = null;
+            else if(key.equals(KEY_AUTOMATIC_CLEAN)){
+                if(sharedPreferences.getBoolean(key, false)){
+                    StaticMethods.setUpAutomaticCleanAlarm(getActivity());
+                }
+            }
+            else if(key.equals(KEY_AUTOMATIC_CLEAN_TIME)){
+                Preference preference = findPreference(key);
+                long val = sharedPreferences.getLong(key, TimePickerPreference.DEFAULT_VALUE);
+                if(sharedPreferences.getBoolean(KEY_TIME_FORMAT, false)){
+                    preference.setTitle(DayTime.format24hr(val));
+                } else {
+                    preference.setTitle(DayTime.format12hr(val));
+                }
+                StaticMethods.setUpAutomaticCleanAlarm(getActivity());
             }
             if(default_value != null) {
                 Preference preference = findPreference(key);

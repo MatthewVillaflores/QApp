@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tech.ivant.qapp" >
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +30,8 @@
             android:name=".NewQueue"
             android:label="@string/title_activity_new_queue" >
         </activity>
+        <receiver android:name=".receiver.AlarmBroadcastReceiver"></receiver>
+        <receiver android:name=".receiver.BootUpReceiver"></receiver>
     </application>
 
 </manifest>

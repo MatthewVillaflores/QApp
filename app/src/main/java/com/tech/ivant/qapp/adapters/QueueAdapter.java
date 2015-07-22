@@ -125,14 +125,7 @@ public class QueueAdapter extends BaseAdapter{
 
         @Override
         public void run() {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH mm ss");
             long elapsedTime = System.currentTimeMillis() - value.queueDate;
-
-            long elapsedDay = elapsedTime / daysInMilli;
-            //elapsedTime = elapsedTime % daysInMilli;
-
-            long elapsedHour = elapsedTime / hoursInMilli;
-            //elapsedTime = elapsedTime % hoursInMilli;
 
             long elapsedMinute = elapsedTime / minutesInMilli;
             elapsedTime = elapsedTime % minutesInMilli;

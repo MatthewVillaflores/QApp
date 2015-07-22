@@ -37,6 +37,11 @@
             android:title="@string/settings_automatic_clean_title"
             android:summary="@string/settings_automatic_clean_summary"
             android:defaultValue="false" />
+        <com.tech.ivant.qapp.preferences.TimePickerPreference
+            android:key="@string/KEY_PREFERENCE_AUTOMATIC_CLEAN_TIME"
+            android:title="Automatic Clean Time"
+            android:defaultValue="57600000"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

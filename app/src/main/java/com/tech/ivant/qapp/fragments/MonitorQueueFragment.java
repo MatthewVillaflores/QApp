@@ -34,6 +34,8 @@ public class MonitorQueueFragment extends Fragment {
 
     public static final String EXTRA_NEW_QUEUE = "com.tech.ivant.qapp.new_queue";
 
+    private View mRootView;
+
     public MonitorQueueFragment(){}
 
 
@@ -73,7 +75,14 @@ public class MonitorQueueFragment extends Fragment {
 
             updateList(rootView);
         }
+        mRootView = rootView;
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        updateList(mRootView);
+        super.onResume();
     }
 
     public void updateList(View view){

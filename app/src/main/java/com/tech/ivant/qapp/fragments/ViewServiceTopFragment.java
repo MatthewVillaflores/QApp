@@ -64,7 +64,7 @@ public class ViewServiceTopFragment extends Fragment {
 
     public void getInfo(View rootView){
 
-        Queue[] queueList = Queue.where(getActivity(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mServiceId + "");
+        Queue[] queueList = Queue.where(rootView.getContext(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mServiceId + "");
         if(queueList==null){
             mCount = 0;
             mAveWaitMinutes = 0;

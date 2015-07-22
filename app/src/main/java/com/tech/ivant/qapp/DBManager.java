@@ -12,8 +12,10 @@ public class DBManager extends SQLiteOpenHelper{
     public final static String DATABASE_NAME = "queue_app.db";
     public final static int DATABASE_VERSION = 1;
 
+    public static DBManager dbManager;
+
     public static void initializeDB(Context context){
-        new DBManager(context);
+        dbManager = new DBManager(context);
     }
 
     public DBManager(Context context){
@@ -32,4 +34,13 @@ public class DBManager extends SQLiteOpenHelper{
         db.execSQL(Queue.SQL_DELETE_TABLE);
         onCreate(db);
     }
+
+    public static SQLiteDatabase getReadDatabase(){
+        return dbManager.getReadableDatabase();
+    }
+
+    public static SQLiteDatabase getWriteDatabase(){
+        return dbManager.getWritableDatabase();
+    }
+
 }
