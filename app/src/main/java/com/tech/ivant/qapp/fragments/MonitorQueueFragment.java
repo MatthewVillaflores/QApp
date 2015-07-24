@@ -1,27 +1,19 @@
 package com.tech.ivant.qapp.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
-import com.tech.ivant.qapp.MainActivity;
-import com.tech.ivant.qapp.Queue;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.ViewService;
 
 /**
  * Created by matthew on 7/3/15.

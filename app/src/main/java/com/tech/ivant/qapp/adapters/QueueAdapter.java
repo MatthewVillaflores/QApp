@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tech.ivant.qapp.Queue;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
 
 import java.text.SimpleDateFormat;

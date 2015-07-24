@@ -14,10 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tech.ivant.qapp.Queue;
+import com.tech.ivant.qapp.dao.QueueDao;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by matthew on 7/18/15.
@@ -64,8 +63,8 @@ public class ViewServiceTopFragment extends Fragment {
 
     public void getInfo(View rootView){
 
-        Queue[] queueList = Queue.where(rootView.getContext(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mServiceId + "");
-        if(queueList==null){
+        Queue[] queueList = QueueDao.where(QueueDao.QueueEntry.COLUMN_NAME_SERVICE_ID, mServiceId + "");
+        if(queueList.length <= 0){
             mCount = 0;
             mAveWaitMinutes = 0;
             mAveWaitSeconds = 0;

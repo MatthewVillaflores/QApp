@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.preferences.TimePickerPreference;
@@ -18,7 +19,11 @@ import java.util.Calendar;
  * Created by matthew on 7/22/15.
  */
 public class StaticMethods {
+    private static final String LOG_KEY = "STATIC_METHODS";
+
     public static void setUpAutomaticCleanAlarm(Context context){
+
+        Log.d(LOG_KEY, "Setting up Alarm");
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if(sharedPreferences.getBoolean(context.getResources().getString(R.string.KEY_PREFERENCE_AUTOMATIC_CLEAN), false)){

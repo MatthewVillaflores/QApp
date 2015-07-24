@@ -8,8 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.tech.ivant.qapp.MainActivity;
-import com.tech.ivant.qapp.Queue;
+import com.tech.ivant.qapp.dao.QueueDao;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.entities.Service;
@@ -29,11 +29,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             Service[] services = ServiceDao.all();
             if( services != null ) {
                 for (Service service : services) {
-                    Queue[] queues = Queue.where(context, Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id + "");
-                    if (queues != null) {
-                        for (Queue queue : queues) {
-                            queue.delete(context);
-                        }
+                    Queue[] queues = QueueDao.where(QueueDao.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id + "");
+                    for (Queue queue : queues) {
+                        QueueDao.delete(queue);
                     }
                 }
                 broadcastClean(context);

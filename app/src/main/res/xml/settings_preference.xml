@@ -2,7 +2,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:id="@+id/preferences_fragment">
     <EditTextPreference
         android:key="@string/KEY_PREFERENCE_COMPANY_NAME"

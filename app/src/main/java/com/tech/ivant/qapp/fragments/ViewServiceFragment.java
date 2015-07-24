@@ -21,19 +21,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.tech.ivant.qapp.Queue;
+import com.tech.ivant.qapp.dao.QueueDao;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.adapters.QueueAdapter;
 import com.tech.ivant.qapp.receiver.AlarmBroadcastReceiver;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by matthew on 7/15/15.
@@ -93,9 +91,9 @@ public class ViewServiceFragment extends Fragment{
 
     public void updateList(View rootView){
 
-        queueList = Queue.where(getActivity(), Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, mService.id + "");
+        queueList = QueueDao.where(QueueDao.QueueEntry.COLUMN_NAME_SERVICE_ID, mService.id);
 
-        if(queueList != null) {
+        if(queueList.length > 0) {
             bAdapter = new QueueAdapter(getActivity(), new ArrayList<Queue>(Arrays.asList(queueList)), rootView.getResources());
         }else{
             String[] content = {"Nothing to display"};
@@ -177,7 +175,7 @@ public class ViewServiceFragment extends Fragment{
             mService.endNumber++;
             queue.queueNumber = mService.endNumber;
 
-            queue.save(v.getContext());
+            QueueDao.save(queue);
             ServiceDao.update(mService);
 
             Log.d(LOG_TAG, "Added new Queue: " + queue.id + ":" + queue.customerName + ":" + queue.mobileNumber + ":" + queue.notes + ":" + queue.service_id);
@@ -239,7 +237,7 @@ public class ViewServiceFragment extends Fragment{
                     @Override
                     public void onClick(View v) {
                         mService.startNumber++;
-                        cCalled.delete(v.getContext());
+                        QueueDao.delete(cCalled);
                         updateList(v);
                         callNextDialog.dismiss();
                     }

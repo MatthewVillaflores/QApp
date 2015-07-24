@@ -50,6 +50,7 @@ public class ServiceDao {
         db.delete(ServiceEntry.TABLE_NAME, ServiceEntry.COLUMN_NAME_ID + " = " + service.id, null);
     }
 
+    //Query: Find a Service using id. returns a Service
     public static Service find(long id){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME
@@ -61,10 +62,7 @@ public class ServiceDao {
         return null;
     }
 
-    public static Service[] where(String column, long value){
-        return where(column, Long.toString(value));
-    }
-
+    //Query: Find Services based on a column and a value. returns a list. returns empty list if found nothing
     public static Service[] where(String column, String query){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME
@@ -81,7 +79,12 @@ public class ServiceDao {
 
         return new Service[0];
     }
+    //Overload: implicit conversion from long to String
+    public static Service[] where(String column, long value){
+        return where(column, Long.toString(value));
+    }
 
+    //Query: get all Service in the database. returns a list. returns empty list if databa
     public static Service[] all(){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME + ";", null);

@@ -14,7 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tech.ivant.qapp.dao.QueueDao;
 import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.entities.Service;
 
 import java.text.SimpleDateFormat;
@@ -47,7 +49,7 @@ public class ViewService extends ActionBarActivity {
             service_note.setText(service.notes);
         }
 
-        queue_list = Queue.where(this, Queue.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id+"");
+        queue_list = QueueDao.where(QueueDao.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id + "");
 
         final ListView queue_list_view = (ListView) findViewById(R.id.queueList);
 
@@ -128,7 +130,7 @@ public class ViewService extends ActionBarActivity {
                     .setPositiveButton("Go", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            f_called.delete(f_context);
+                            QueueDao.delete(f_called);
                             service.startNumber++;
                             ServiceDao.update(service);
                             finish();
