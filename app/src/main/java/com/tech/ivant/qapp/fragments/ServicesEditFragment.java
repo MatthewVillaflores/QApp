@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.tech.ivant.qapp.R;
+import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.dao.ServiceDao;
 
@@ -33,6 +36,8 @@ public class ServicesEditFragment extends Fragment{
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
         final Service[] services = populateList(rootView);
 
+        services_edit_list.setScrollContainer(false);
+        StaticMethods.setListViewHeightBasedOnChildren(services_edit_list);
         return rootView;
     }
 
@@ -88,6 +93,7 @@ public class ServicesEditFragment extends Fragment{
 
         return services;
     }
+
 
 
 }
