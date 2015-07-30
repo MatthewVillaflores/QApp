@@ -7,18 +7,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:isScrollContainer="false">
         <FrameLayout
             android:id="@+id/preferences_frame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:isScrollContainer="false"/>
 
         <FrameLayout
             android:id="@+id/services_edit_frame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </FrameLayout>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </ScrollView>

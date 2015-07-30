@@ -1,6 +1,5 @@
 package com.tech.ivant.qapp.preferences;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -12,12 +11,9 @@ import android.view.View;
 import android.widget.TimePicker;
 
 import com.tech.ivant.qapp.R;
-import com.tech.ivant.qapp.util.DayTime;
+import com.tech.ivant.qapp.util.TimeHandler;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by matthew on 7/21/15.
@@ -29,7 +25,7 @@ public class TimePickerPreference extends DialogPreference {
     private final String LOG_KEY = "TIME_PICKER_PREFERENCE";
 
     private TimePicker mTimePicker;
-    private DayTime mCurrentValue;
+    private TimeHandler mCurrentValue;
 
     public TimePickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,7 +33,7 @@ public class TimePickerPreference extends DialogPreference {
         setPositiveButtonText("Ok");
         setNegativeButtonText("Cancel");
 
-        mCurrentValue = new DayTime();
+        mCurrentValue = new TimeHandler();
         changeValue(this.getPersistedLong(DEFAULT_VALUE));
 
         setDialogIcon(null);

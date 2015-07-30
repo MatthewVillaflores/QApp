@@ -1,6 +1,7 @@
 package com.tech.ivant.qapp.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by matthew on 7/21/15.
@@ -9,7 +10,7 @@ import java.text.SimpleDateFormat;
  * for setting the time given only an hour value and a minute value.
  *
  */
-public class DayTime {
+public class TimeHandler {
 
     public final long secondsInMilli = 1000;
     public final long minutesInMilli = secondsInMilli * 60;
@@ -19,30 +20,32 @@ public class DayTime {
 
     private int HOUR;
     private int MINUTE;
-    private final long BASE_VALUE = 57600000;
     private long longValue;
+    private Calendar mCalendar;
 
-    public DayTime(){
+    public TimeHandler(){
         this.HOUR = 0;
         this.MINUTE = 0;
-        this.longValue = BASE_VALUE;
-    }
-
-    public DayTime(int hh, int mm){
-        this.HOUR = hh;
-        this.MINUTE = mm;
+        mCalendar = Calendar.getInstance();
         getMillis();
     }
 
-    public DayTime(long val){
-        this.longValue = val;
-        long temp = val - BASE_VALUE;
-        this.HOUR = (int) (temp / hoursInMilli);
-        this.MINUTE = (int) ((temp % hoursInMilli) / minutesInMilli);
+    public TimeHandler(int hh, int mm){
+        this.HOUR = hh;
+        this.MINUTE = mm;
+        mCalendar = Calendar.getInstance();
+        getMillis();
+    }
+
+    public TimeHandler(long val){
+        mCalendar = Calendar.getInstance();
+        setLongValue(val);
     }
 
     public long getMillis(){
-        longValue = BASE_VALUE + (HOUR*hoursInMilli) + (MINUTE*minutesInMilli);
+        mCalendar.set(Calendar.HOUR_OF_DAY, HOUR);
+        mCalendar.set(Calendar.MINUTE, MINUTE);
+        longValue = mCalendar.getTimeInMillis();
         return longValue;
     }
 
@@ -70,9 +73,9 @@ public class DayTime {
 
     public void setLongValue(long longValue) {
         this.longValue = longValue;
-        long temp = longValue - BASE_VALUE;
-        this.HOUR = (int) (temp / hoursInMilli);
-        this.MINUTE = (int) ((temp % hoursInMilli) / minutesInMilli);
+        mCalendar.setTimeInMillis(longValue);
+        this.HOUR = mCalendar.get(Calendar.HOUR_OF_DAY);
+        this.MINUTE = mCalendar.get(Calendar.MINUTE);
     }
 
     public static String format12hr(long val){

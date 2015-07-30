@@ -27,7 +27,7 @@ import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.adapters.QueueAdapter;
-import com.tech.ivant.qapp.receiver.AlarmBroadcastReceiver;
+import com.tech.ivant.qapp.receiver.CleanUpReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class ViewServiceFragment extends Fragment{
         mCleanupBroadCastListener = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getBooleanExtra(AlarmBroadcastReceiver.EXTRA_QUEUE_CLEANED, true)){
+                if(intent.getBooleanExtra(CleanUpReceiver.EXTRA_QUEUE_CLEANED, true)){
                     updateList(rootView);
                 }
             }
@@ -161,22 +161,16 @@ public class ViewServiceFragment extends Fragment{
         }
 
         public void addQueue(View v){
-            Queue queue = new Queue();
             EditText editTextName = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextName);
             EditText editTextMobileNumber = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextMobileNumber);
             EditText editTextNotes = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextNotes);
 
-            queue.customerName = editTextName.getText().toString();
-            queue.mobileNumber = editTextMobileNumber.getText().toString();
-            queue.notes = editTextNotes.getText().toString();
-            queue.queueDate = System.currentTimeMillis();
-            queue.service_id = mService.id;
+            String customerName = editTextName.getText().toString();
+            String mobileNumber = editTextMobileNumber.getText().toString();
+            String notes = editTextNotes.getText().toString();
+            long service_id = mService.id;
 
-            mService.endNumber++;
-            queue.queueNumber = mService.endNumber;
-
-            QueueDao.save(queue);
-            ServiceDao.update(mService);
+            Queue queue = Queue.enqueue(customerName, mobileNumber, notes, service_id);
 
             Log.d(LOG_TAG, "Added new Queue: " + queue.id + ":" + queue.customerName + ":" + queue.mobileNumber + ":" + queue.notes + ":" + queue.service_id);
             Log.d(LOG_TAG, "To Service: " + mService.name + ":" + mService.id);
@@ -237,7 +231,8 @@ public class ViewServiceFragment extends Fragment{
                     @Override
                     public void onClick(View v) {
                         mService.startNumber++;
-                        QueueDao.delete(cCalled);
+                        ServiceDao.update(mService);
+                        Queue.call(cCalled);
                         updateList(v);
                         callNextDialog.dismiss();
                     }

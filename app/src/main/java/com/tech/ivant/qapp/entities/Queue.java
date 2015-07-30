@@ -1,5 +1,12 @@
 package com.tech.ivant.qapp.entities;
 
+import com.tech.ivant.qapp.dao.QueueDao;
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.dao.records.TotalQueueDao;
+import com.tech.ivant.qapp.entities.records.TotalQueue;
+
+import java.util.Calendar;
+
 /**
  * Created by matthew on 7/22/15.
  */
@@ -83,6 +90,42 @@ public class Queue {
         this.queueDate = queueDate;
         this.service_id = service_id;
         this.id = id;
+    }
+
+    public static Queue enqueue(String customerName, String mobileNumber, String notes, long serviceId){
+
+        Queue queue = new Queue();
+
+        queue.customerName = customerName;
+        queue.mobileNumber = mobileNumber;
+        queue.notes = notes;
+        queue.queueDate = System.currentTimeMillis();
+        queue.service_id = serviceId;
+
+        Service mService = ServiceDao.find(serviceId);
+        mService.endNumber++;
+        queue.queueNumber = mService.endNumber;
+
+        QueueDao.save(queue);
+        ServiceDao.update(mService);
+        return queue;
+    }
+
+    public static void call(Queue queue){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        TotalQueue[] today = TotalQueue.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.YEAR));
+        if (today.length == 0){
+            today = new TotalQueue[]{new TotalQueue(calendar.get(Calendar.DAY_OF_MONTH),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.YEAR),
+                    0, queue.service_id)};
+        }
+        today[0].total+=1;
+        TotalQueueDao.update(today[0]);
+        QueueDao.delete(queue);
     }
 
 }

@@ -30,7 +30,7 @@
             android:name=".NewQueue"
             android:label="@string/title_activity_new_queue" >
         </activity>
-        <receiver android:name=".receiver.AlarmBroadcastReceiver"></receiver>
+        <receiver android:name=".receiver.CleanUpReceiver"></receiver>
         <receiver android:name=".receiver.BootUpReceiver"></receiver>
     </application>
 

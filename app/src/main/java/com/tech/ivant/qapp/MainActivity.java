@@ -1,5 +1,6 @@
 package com.tech.ivant.qapp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -47,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private int mCurrentPosition;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +60,7 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        DBManager.initializeDB(this);
-        StaticMethods.setUpAutomaticCleanAlarm(this);
+        initializeApp();
 
         mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
         String[] drawer_list = {
@@ -95,6 +94,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void initializeApp(){
+        DBManager.initializeDB(this);
+        StaticMethods.mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        StaticMethods.mSharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
+        StaticMethods.context = this;
+        StaticMethods.setUpAutomaticCleanAlarm();
     }
 
     public void selectItem(int position){

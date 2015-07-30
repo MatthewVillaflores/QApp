@@ -1,7 +1,5 @@
 package com.tech.ivant.qapp.fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
@@ -9,22 +7,18 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.preferences.TimePickerPreference;
-import com.tech.ivant.qapp.util.DayTime;
+import com.tech.ivant.qapp.util.TimeHandler;
 
 /**
  * Created by matthew on 7/3/15.
@@ -44,6 +38,7 @@ public class SettingsFragment extends Fragment {
 
         fm.beginTransaction()
                 .replace(R.id.preferences_frame, settingsPreferences).commit();
+
         fm.beginTransaction()
                 .replace(R.id.services_edit_frame, new ServicesEditFragment()).commit();
 
@@ -52,7 +47,7 @@ public class SettingsFragment extends Fragment {
         FrameLayout servicesEditFrame = (FrameLayout) rootView.findViewById(R.id.services_edit_frame);
 
         preferenceFrame.setScrollContainer(false);
-        servicesEditFrame.setScrollContainer(false);
+        //servicesEditFrame.setScrollContainer(false);
         //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         //preferenceFrame.setLayoutParams(layoutParams);
         //preferenceFrame.getLayoutParams().height = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -121,19 +116,29 @@ public class SettingsFragment extends Fragment {
             Preference automatic_clean = findPreference(KEY_AUTOMATIC_CLEAN_TIME);
             long clean_time = sharedPreferences.getLong(KEY_AUTOMATIC_CLEAN_TIME, TimePickerPreference.DEFAULT_VALUE);
             if(sharedPreferences.getBoolean(KEY_TIME_FORMAT, false)){
-                automatic_clean.setTitle(DayTime.format24hr(clean_time));
+                automatic_clean.setTitle(TimeHandler.format24hr(clean_time));
             }else{
-                automatic_clean.setTitle(DayTime.format12hr(clean_time));
+                automatic_clean.setTitle(TimeHandler.format12hr(clean_time));
             }
 
+            /*
             PreferenceScreen preferenceScreen = getPreferenceScreen();
-
             ListView listView = new ListView(this.getActivity());
-            preferenceScreen.bind(listView);
             listView.setAdapter(preferenceScreen.getRootAdapter());
             listView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             listView.setScrollContainer(false);
+            preferenceScreen.bind(listView);
             StaticMethods.setListViewHeightBasedOnChildren(listView);
+            */
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.preference_settings_layout, null);
+
+            ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+            listView.setMinimumHeight(400);
+            return rootView;
         }
 
         @Override
@@ -150,18 +155,18 @@ public class SettingsFragment extends Fragment {
             }
             else if(key.equals(KEY_AUTOMATIC_CLEAN)){
                 if(sharedPreferences.getBoolean(key, false)){
-                    StaticMethods.setUpAutomaticCleanAlarm(getActivity());
+                    StaticMethods.setUpAutomaticCleanAlarm();
                 }
             }
             else if(key.equals(KEY_AUTOMATIC_CLEAN_TIME)){
                 Preference preference = findPreference(key);
                 long val = sharedPreferences.getLong(key, TimePickerPreference.DEFAULT_VALUE);
                 if(sharedPreferences.getBoolean(KEY_TIME_FORMAT, false)){
-                    preference.setTitle(DayTime.format24hr(val));
+                    preference.setTitle(TimeHandler.format24hr(val));
                 } else {
-                    preference.setTitle(DayTime.format12hr(val));
+                    preference.setTitle(TimeHandler.format12hr(val));
                 }
-                StaticMethods.setUpAutomaticCleanAlarm(getActivity());
+                StaticMethods.setUpAutomaticCleanAlarm();
             }
             if(default_value != null) {
                 Preference preference = findPreference(key);
