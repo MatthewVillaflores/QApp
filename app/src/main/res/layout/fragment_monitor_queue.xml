@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:weightSum="1"
+    android:id="@+id/linearLayout_monitorQueue">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/monitorQueueTopBar">
-    </FrameLayout>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:id="@+id/monitorQueueSeparator1"
-        android:layout_below="@id/monitorQueueTopBar"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        />
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/serviceListHScroll"
-        android:layout_below="@id/monitorQueueSeparator1" >
+       >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/serviceListLinearLayout"
@@ -37,12 +40,101 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/accentColor"
+        android:weightSum="1"
+        android:elevation="10sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/ic_totalcounticon"/>
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:src="@drawable/nameicon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/monitor_queue_label_name"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_vertical"
+            android:padding="5sp"
+            android:textSize="10sp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:text="                                              "
+            android:id="@+id/textView3"
+            android:layout_gravity="center_vertical" />
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView4"
+            android:src="@drawable/arrivalicon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/monitor_queue_label_arrival_time"
+            android:id="@+id/textView4"
+            android:layout_gravity="center_vertical"
+            android:padding="5sp"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
+
+            />
+
+        <TextView
+            android:layout_width="21dp"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:id="@+id/textView6" />
+
+        <ImageView
+            android:layout_width="17dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:src="@drawable/waitingicon"
+            android:layout_weight="0.08"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/monitor_queue_label_waiting_time"
+            android:id="@+id/textView5"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:padding="5sp" />
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/serviceListHScroll"
-        android:id="@+id/viewServiceFragmentFrame">
+        android:id="@+id/viewServiceFragmentFrame"
+        android:layout_alignBottom="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
     </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>

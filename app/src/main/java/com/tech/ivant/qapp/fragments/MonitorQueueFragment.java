@@ -91,7 +91,6 @@ public class MonitorQueueFragment extends Fragment {
 
         fragmentTop.setArguments(arguments);
         fragmentManager.beginTransaction().replace(R.id.monitorQueueTopBar, fragmentTop).commit();
-
         Fragment fragmentBottom = new ViewServiceFragment();
         fragmentBottom.setArguments(arguments);
         fragmentManager.beginTransaction().replace(R.id.viewServiceFragmentFrame, fragmentBottom).commit();

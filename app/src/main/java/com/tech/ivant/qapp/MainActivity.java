@@ -1,22 +1,18 @@
 package com.tech.ivant.qapp;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.support.v4.app.FragmentActivity;
 
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.dao.ServiceDao;
@@ -33,10 +30,11 @@ import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
 import com.tech.ivant.qapp.fragments.ReportFragment;
 import com.tech.ivant.qapp.fragments.SettingsFragment;
 import com.tech.ivant.qapp.fragments.SmsFragment;
+import com.tech.ivant.qapp.fragments.fragment_navigation_drawer;
 
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends ActionBarActivity  {
+//
     public final static String SERVICE_ID_EXTRA = "com.tech.ivant.service_id";
     public final static String BROADCAST_AUTOMATIC_CLEAN_ALARM = "com.tech.ivant.alarm_automatic_clean";
     private final static String STATE_CURRENT_POSITION = "com.tech.ivant.current_fragment_position";
@@ -47,55 +45,61 @@ public class MainActivity extends ActionBarActivity {
     private String mActivityTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mCurrentPosition;
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(savedInstanceState != null){
+//
+        if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(STATE_CURRENT_POSITION);
-        }else{
+        } else {
             mCurrentPosition = 0;
         }
-
         setContentView(R.layout.activity_main);
-
         initializeApp();
-
-        mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
-        String[] drawer_list = {
-                getString(R.string.nav_monitor_queue_title),
-                getString(R.string.nav_sms_title),
-                getString(R.string.nav_reports_title),
-                getString(R.string.nav_settings_title)};
-
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawer_list);
-        mDrawerList.setAdapter(mAdapter);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mActivityTitle = getTitle().toString();
-        setUpDrawer();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Queue Pad");
+        fragment_navigation_drawer drawerFragment = (fragment_navigation_drawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         Fragment home_fragment = new MonitorQueueFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.frame_container, home_fragment).commit();
-
-        selectItem(mCurrentPosition);
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-
+                .replace(R.id.monitorqueue_container, home_fragment).commit();
+//        mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
+//        fragment_navigation_drawer drawerFragment = (fragment_navigation_drawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+//        String[] drawer_list = {
+//                getString(R.string.nav_monitor_queue_title),
+//                getString(R.string.nav_sms_title),
+//                getString(R.string.nav_reports_title),
+//                getString(R.string.nav_settings_title)};
+//
+//        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawer_list);
+//        mDrawerList.setAdapter(mAdapter);
+////
+////
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mActivityTitle = getTitle().toString();
+//        setUpDrawer();
+//
+//        Fragment home_fragment = new MonitorQueueFragment();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.monitorqueue_container, home_fragment).commit();
+//////
+//        selectItem(mCurrentPosition);
+//
+//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        });
     }
-
+//
     private void initializeApp(){
         DBManager.initializeDB(this);
         StaticMethods.mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -103,50 +107,50 @@ public class MainActivity extends ActionBarActivity {
         StaticMethods.context = this;
         StaticMethods.setUpAutomaticCleanAlarm();
     }
-
-    public void selectItem(int position){
-        Fragment fragment;
-        switch(position){
-            case 1:
-                fragment = new SmsFragment();
-                break;
-            case 2:
-                fragment = new ReportFragment();
-                break;
-            case 3:
-                fragment = new SettingsFragment();
-                break;
-            default:
-                fragment = new MonitorQueueFragment();
-                break;
-        }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_container, fragment).commit();
-        mCurrentPosition = position;
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
-
-    private void setUpDrawer(){
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-            }
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-            }
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
-
-
+//
+//    public void selectItem(int position){
+//        Fragment fragment;
+//        switch(position){
+//            case 1:
+//                fragment = new SmsFragment();
+//                break;
+//            case 2:
+//                fragment = new ReportFragment();
+//                break;
+//            case 3:
+//                fragment = new SettingsFragment();
+//                break;
+//            default:
+//                fragment = new MonitorQueueFragment();
+//                break;
+//        }
+//
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.monitorqueue_container, fragment).commit();
+//        mCurrentPosition = position;
+//        mDrawerLayout.closeDrawer(mDrawerList);
+//    }
+//
+////
+//    private void setUpDrawer(){
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                R.string.drawer_open, R.string.drawer_close) {
+//
+//            /** Called when a drawer has settled in a completely open state. */
+//            public void onDrawerOpened(View drawerView) {
+//            }
+//
+//            /** Called when a drawer has settled in a completely closed state. */
+//            public void onDrawerClosed(View view) {
+//            }
+//        };
+//
+//        mDrawerToggle.setDrawerIndicatorEnabled(true);
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+//    }
+//
+//
     @Override
     public void onResume(){
 
@@ -191,13 +195,13 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+//        mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+//        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -206,52 +210,52 @@ public class MainActivity extends ActionBarActivity {
 
         super.onSaveInstanceState(savedInstanceState);
     }
-
-    private Dialog newServiceDialog;
-
-    public void newService(View view){
-
-        //newServiceDialog = new AlertDialog.Builder(this).setView(getLayoutInflater().inflate(R.layout.dialog_new_service, null)).show();
-        newServiceDialog = new Dialog(this);
-        newServiceDialog.setTitle("New Service");
-        newServiceDialog.setContentView(R.layout.dialog_new_service);
-        newServiceDialog.show();
-
-        Button cancel_button = (Button) newServiceDialog.findViewById(R.id.dialog_new_service_cancel_button);
-        cancel_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                newServiceDialog.dismiss();
-            }
-        });
-
-        Button create_button = (Button) newServiceDialog.findViewById(R.id.dialog_new_service_create_button);
-        create_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewService(v);
-            }
-        });
+////
+//    private Dialog newServiceDialog;
+//
+//    public void newService(View view){
+//
+//        //newServiceDialog = new AlertDialog.Builder(this).setView(getLayoutInflater().inflate(R.layout.dialog_new_service, null)).show();
+//        newServiceDialog = new Dialog(this);
+//        newServiceDialog.setTitle("New Service");
+//        newServiceDialog.setContentView(R.layout.dialog_new_service);
+//        newServiceDialog.show();
+//
+//        Button cancel_button = (Button) newServiceDialog.findViewById(R.id.dialog_new_service_cancel_button);
+//        cancel_button.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                newServiceDialog.dismiss();
+//            }
+//        });
+//
+//        Button create_button = (Button) newServiceDialog.findViewById(R.id.dialog_new_service_create_button);
+//        create_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                createNewService(v);
+//            }
+//        });
         /*
         Intent intent = new Intent(this, NewService.class);
         startActivity(intent);
         */
-    }
+//    }
 
-    public void cancelNewService(View view){
-        if(newServiceDialog != null){
-            newServiceDialog.dismiss();
-        }
-    }
-
-    public void createNewService(View view){
-        EditText service_name_edit = (EditText) newServiceDialog.findViewById(R.id.dialog_new_service_name);
-        if(service_name_edit != null) {
-            Service service = new Service(service_name_edit.getText().toString(), "");
-            ServiceDao.save(service);
-        }
-        newServiceDialog.dismiss();
-        selectItem(mCurrentPosition);
-
-    }
+//    public void cancelNewService(View view){
+//        if(newServiceDialog != null){
+//            newServiceDialog.dismiss();
+//        }
+//    }
+//
+//    public void createNewService(View view){
+//        EditText service_name_edit = (EditText) newServiceDialog.findViewById(R.id.dialog_new_service_name);
+//        if(service_name_edit != null) {
+//            Service service = new Service(service_name_edit.getText().toString(), "");
+//            ServiceDao.save(service);
+//        }
+//        newServiceDialog.dismiss();
+////        selectItem(mCurrentPosition);
+//
+//    }
 }

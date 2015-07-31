@@ -85,10 +85,10 @@ public class ViewServiceTopFragment extends Fragment {
             mAveWaitSeconds = mAveWait / secondsInMilli;
         }
 
-        TextView count = (TextView) rootView.findViewById(R.id.view_service_top_total_count);
+        TextView count = (TextView) rootView.findViewById(R.id.view_service_total_count);
         count.setText(mCount+"");
 
-        TextView waiting = (TextView) rootView.findViewById(R.id.view_service_top_average);
+        TextView waiting = (TextView) rootView.findViewById(R.id.view_service_ave_waiting_time);
         waiting.setText(mAveWaitMinutes+"m "+mAveWaitSeconds+"s");
 
     }
