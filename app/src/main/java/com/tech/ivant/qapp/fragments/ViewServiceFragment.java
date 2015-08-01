@@ -184,7 +184,7 @@ public class ViewServiceFragment extends Fragment{
 
         @Override
         public void onClick(View v) {
-            if(queueList != null) {
+            if(queueList != null && queueList.length >0) {
                 callNextDialog = new Dialog(v.getContext());
                 callNextDialog.setContentView(R.layout.dialog_call_next);
                 callNextDialog.setTitle("Next Customer - " + mService.name);
@@ -196,7 +196,7 @@ public class ViewServiceFragment extends Fragment{
                         break;
                     }
                 }
-                if(called == null){
+                if(called == null && queueList.length != 0){
                     called = queueList[0];
                     mService.startNumber = called.queueNumber;
                 }

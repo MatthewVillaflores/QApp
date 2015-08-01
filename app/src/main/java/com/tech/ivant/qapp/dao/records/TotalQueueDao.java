@@ -11,6 +11,7 @@ import com.tech.ivant.qapp.entities.records.TotalQueue;
 
 /**
  * Created by matthew on 7/21/15.
+ *
  */
 public class TotalQueueDao {
 
@@ -18,7 +19,6 @@ public class TotalQueueDao {
         if(find(totalQueue.id)==null){
             SQLiteDatabase db = DBManager.getWriteDatabase();
             ContentValues values = new ContentValues();
-            values.put(TotalQueueEntry.COLUMN_NAME_ID, totalQueue.id);
             values.put(TotalQueueEntry.COLUMN_NAME_DAY, totalQueue.day);
             values.put(TotalQueueEntry.COLUMN_NAME_MONTH, totalQueue.month);
             values.put(TotalQueueEntry.COLUMN_NAME_YEAR, totalQueue.year);

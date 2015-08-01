@@ -1,6 +1,7 @@
 package com.tech.ivant.qapp.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.tech.ivant.qapp.R;
+import com.tech.ivant.qapp.constants.Constants;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.dao.records.TotalQueueDao;
 import com.tech.ivant.qapp.entities.Service;
@@ -26,7 +28,7 @@ import java.util.Calendar;
 public class ReportFragment extends android.app.Fragment {
     public ReportFragment(){}
 
-    private ArrayList<TotalQueue[]> mTotalQueue;
+    private ArrayList<BarGraphData> mTotalQueueData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -41,25 +43,34 @@ public class ReportFragment extends android.app.Fragment {
         viewport.setScalable(true);
         viewport.setScrollable(true);
 
-        //ArrayList<BarGraphSeries<DataPoint>> barSeries = new ArrayList<>(5);
-        DataPoint[][] dataPoints = new DataPoint[mTotalQueue.size()][mTotalQueue.get(0).length];
 
-        for(int i=0;i<mTotalQueue.size();i++){
-            for(int j=0;j<mTotalQueue.get(0).length;j++){
+        //ArrayList<BarGraphSeries<DataPoint>> barSeries = new ArrayList<>(5);
+        DataPoint[][] dataPoints = new DataPoint[6][6];
+        for(int i=1;i<=6;i++) {
+            for (int j = 1; j <= 6; j++) {
+                dataPoints[i - 1][j - 1] = new DataPoint(j, 0);
             }
         }
+
+        for(int i=0;i<mTotalQueueData.size();i++){
+            BarGraphData barGraphData = mTotalQueueData.get(i);
+            for(int j=0;j<barGraphData.data.size();j++){
+                dataPoints[i][j] = new DataPoint(j+1, barGraphData.data.get(j).total);
+            }
+        }
+
+        for(DataPoint[] dataPoint : dataPoints){
+            BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoint);
+            barGraphSeries.setSpacing(20);
+            graphViewTotalQueueTime.addSeries(barGraphSeries);
+        }
+        dataPoints = new DataPoint[6][6];
 
         for(int i=1;i<=6;i++){
             for(int j=1;j<=6;j++){
                 dataPoints[i-1][j-1] = new DataPoint(j, i*j);
             }
-            BarGraphSeries barGraphSeries = new BarGraphSeries<DataPoint>(dataPoints[i-1]);
-            //barSeries.add(barGraphSeries);
-            barGraphSeries.setSpacing(20);
-            graphViewTotalQueueTime.addSeries(barGraphSeries);
         }
-//        graphViewTotalQueueTime.addSeries(holder);
-
 
         GraphView graphViewAverageWaitingTime = (GraphView) rootView.findViewById(R.id.graphViewAverageWaitingTime);
 
@@ -77,9 +88,7 @@ public class ReportFragment extends android.app.Fragment {
     }
 
     private void retrieveData(){
-        Service[] services = ServiceDao.all();
-
-        mTotalQueue = new ArrayList<>();
+        ArrayList<TotalQueue[]> tQueue = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -87,15 +96,62 @@ public class ReportFragment extends android.app.Fragment {
         TotalQueue[] temp;
 
         for(int i=0;i<5;i++) {
-            calendar.add(Calendar.DATE, i*-1);
 
             temp = TotalQueue.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
                     calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
-            mTotalQueue.add(temp);
+            tQueue.add(temp);
+
+
+            Log.d(Constants.LOG_TAG, "DB Query for "
+                    + calendar.get(Calendar.DAY_OF_MONTH) + "/"
+                    + calendar.get(Calendar.MONTH) + "/"
+                    + calendar.get(Calendar.YEAR)+ ": " + temp.length);
+
+            calendar.add(Calendar.DATE, -1);
+        }
+
+        mTotalQueueData = new ArrayList<>();
+
+
+        for(TotalQueue[] tq : tQueue){
+            for(TotalQueue totQ : tq){
+                BarGraphData barGraphData = null;
+                for (BarGraphData graphData : mTotalQueueData){
+                    if(totQ.serviceId == graphData.serviceId){
+                        graphData.data.add(totQ);
+                        barGraphData = graphData;
+                        break;
+                    }
+                }
+                if(barGraphData == null){
+                    barGraphData = new BarGraphData(totQ.serviceId);
+                    barGraphData.data.add(totQ);
+                    int i = 0;
+                    for(BarGraphData bgd : mTotalQueueData){
+                        if(barGraphData.serviceId > bgd.serviceId) break;
+                        i++;
+                    }
+                    mTotalQueueData.add(i, barGraphData);
+                }
+            }
         }
 
 
+    }
 
+    private class BarGraphData{
+        long serviceId;
+        ArrayList<TotalQueue> data;
+
+        public BarGraphData(){
+            data = new ArrayList<>();
+            serviceId = -1;
+        }
+
+        public BarGraphData(long service){
+            data = new ArrayList<>();
+            serviceId = service;
+        }
     }
 }

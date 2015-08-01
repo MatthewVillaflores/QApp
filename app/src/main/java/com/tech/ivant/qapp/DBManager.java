@@ -37,6 +37,7 @@ public class DBManager extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(ServiceDao.SQL_DELETE_TABLE);
         db.execSQL(QueueDao.SQL_DELETE_TABLE);
+        db.execSQL(TotalQueueDao.SQL_DELETE_TABLE);
         onCreate(db);
     }
 

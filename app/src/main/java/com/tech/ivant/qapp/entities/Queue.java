@@ -106,26 +106,16 @@ public class Queue {
         mService.endNumber++;
         queue.queueNumber = mService.endNumber;
 
+        TotalQueue.addQueue(queue);
         QueueDao.save(queue);
         ServiceDao.update(mService);
         return queue;
     }
 
     public static void call(Queue queue){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        TotalQueue[] today = TotalQueue.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.YEAR));
-        if (today.length == 0){
-            today = new TotalQueue[]{new TotalQueue(calendar.get(Calendar.DAY_OF_MONTH),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.YEAR),
-                    0, queue.service_id)};
-        }
-        today[0].total+=1;
-        TotalQueueDao.update(today[0]);
+
         QueueDao.delete(queue);
     }
 
 }
+
