@@ -1,17 +1,12 @@
 package com.tech.ivant.qapp;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -28,15 +23,13 @@ import android.widget.ListView;
 
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.dao.records.TotalQueueDao;
+import com.tech.ivant.qapp.dao.ReportDao;
 import com.tech.ivant.qapp.entities.Service;
-import com.tech.ivant.qapp.entities.records.TotalQueue;
+import com.tech.ivant.qapp.entities.Report;
 import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
 import com.tech.ivant.qapp.fragments.ReportFragment;
 import com.tech.ivant.qapp.fragments.SettingsFragment;
 import com.tech.ivant.qapp.fragments.SmsFragment;
-
-import java.util.Calendar;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -255,9 +248,9 @@ public class MainActivity extends ActionBarActivity {
             ServiceDao.save(service);
 
             //Instantiate Reports Entry
-            TotalQueue tQueue = new TotalQueue();
+            Report tQueue = new Report();
             tQueue.serviceId = service.id;
-            TotalQueueDao.save(tQueue);
+            ReportDao.save(tQueue);
 
         }
         newServiceDialog.dismiss();

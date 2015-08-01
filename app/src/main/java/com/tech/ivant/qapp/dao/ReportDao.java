@@ -1,4 +1,4 @@
-package com.tech.ivant.qapp.dao.records;
+package com.tech.ivant.qapp.dao;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -6,59 +6,60 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import com.tech.ivant.qapp.DBManager;
-import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.entities.records.TotalQueue;
+import com.tech.ivant.qapp.entities.Report;
 
 /**
  * Created by matthew on 7/21/15.
  *
  */
-public class TotalQueueDao {
+public class ReportDao {
 
-    public static long save(TotalQueue totalQueue){
-        if(find(totalQueue.id)==null){
+    public static long save(Report report){
+        if(find(report.id)==null){
             SQLiteDatabase db = DBManager.getWriteDatabase();
             ContentValues values = new ContentValues();
-            values.put(TotalQueueEntry.COLUMN_NAME_DAY, totalQueue.day);
-            values.put(TotalQueueEntry.COLUMN_NAME_MONTH, totalQueue.month);
-            values.put(TotalQueueEntry.COLUMN_NAME_YEAR, totalQueue.year);
-            values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, totalQueue.total);
-            totalQueue.id = db.insert(TotalQueueEntry.TABLE_NAME, null, values);
+            values.put(TotalQueueEntry.COLUMN_NAME_DAY, report.day);
+            values.put(TotalQueueEntry.COLUMN_NAME_MONTH, report.month);
+            values.put(TotalQueueEntry.COLUMN_NAME_YEAR, report.year);
+            values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, report.total);
+            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumAverageWait);
+            report.id = db.insert(TotalQueueEntry.TABLE_NAME, null, values);
             db.close();
         } else {
-            update(totalQueue);
+            update(report);
         }
-        return totalQueue.id;
+        return report.id;
     }
 
-    public static void update(TotalQueue totalQueue){
-        if(find(totalQueue.id)==null){
-            save(totalQueue);
+    public static void update(Report report){
+        if(find(report.id)==null){
+            save(report);
         } else {
             SQLiteDatabase db = DBManager.getReadDatabase();
             ContentValues values = new ContentValues();
-            values.put(TotalQueueEntry.COLUMN_NAME_ID, totalQueue.id);
-            values.put(TotalQueueEntry.COLUMN_NAME_DAY, totalQueue.day);
-            values.put(TotalQueueEntry.COLUMN_NAME_MONTH, totalQueue.month);
-            values.put(TotalQueueEntry.COLUMN_NAME_YEAR, totalQueue.year);
-            values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, totalQueue.total);
-            values.put(TotalQueueEntry.COLUMN_NAME_SERVICE_ID, totalQueue.serviceId);
-            db.update(TotalQueueEntry.TABLE_NAME, values, TotalQueueEntry.COLUMN_NAME_ID + " = " + totalQueue.id, null);
+            values.put(TotalQueueEntry.COLUMN_NAME_ID, report.id);
+            values.put(TotalQueueEntry.COLUMN_NAME_DAY, report.day);
+            values.put(TotalQueueEntry.COLUMN_NAME_MONTH, report.month);
+            values.put(TotalQueueEntry.COLUMN_NAME_YEAR, report.year);
+            values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, report.total);
+            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumAverageWait);
+            values.put(TotalQueueEntry.COLUMN_NAME_SERVICE_ID, report.serviceId);
+            db.update(TotalQueueEntry.TABLE_NAME, values, TotalQueueEntry.COLUMN_NAME_ID + " = " + report.id, null);
             db.close();
         }
     }
 
-    public static void delete(TotalQueue totalQueue){
+    public static void delete(Report report){
         SQLiteDatabase db = DBManager.getReadDatabase();
-        db.delete(TotalQueueEntry.TABLE_NAME, TotalQueueEntry.COLUMN_NAME_ID + " = " + totalQueue.id, null);
+        db.delete(TotalQueueEntry.TABLE_NAME, TotalQueueEntry.COLUMN_NAME_ID + " = " + report.id, null);
         db.close();
     }
 
-    public static TotalQueue find(long id){
+    public static Report find(long id){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME
                 + " WHERE " + TotalQueueEntry.COLUMN_NAME_ID + " = " + id + ";", null);
-        TotalQueue retval = null;
+        Report retval = null;
         if(c.getCount()>0){
             c.moveToFirst();
             retval = translateCursor(c);
@@ -69,18 +70,18 @@ public class TotalQueueDao {
         return retval;
     }
 
-    public static TotalQueue[] where(String column, String value){
+    public static Report[] where(String column, String value){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME
                 + " WHERE " + column +" = " + value + ";", null);
-        TotalQueue[] retVal = translateCursorList(c);
+        Report[] retVal = translateCursorList(c);
         c.close();
         db.close();
         return retVal;
     }
 
-    public static TotalQueue[] where(String[] columns, String[] values){
-        if( columns.length != values.length ) return new TotalQueue[0];
+    public static Report[] where(String[] columns, String[] values){
+        if( columns.length != values.length ) return new Report[0];
 
         SQLiteDatabase db = DBManager.getReadDatabase();
         StringBuilder query =  new StringBuilder();
@@ -96,37 +97,37 @@ public class TotalQueueDao {
         }
 
         Cursor c = db.rawQuery(query.toString(), null);
-        TotalQueue[] retVal = translateCursorList(c);
+        Report[] retVal = translateCursorList(c);
         c.close();
         db.close();
         return retVal;
     }
 
-    public static TotalQueue[] all(){
+    public static Report[] all(){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME + ";", null);
-        TotalQueue[] retVal = translateCursorList(c);
+        Report[] retVal = translateCursorList(c);
         c.close();
         db.close();
         return retVal;
     }
 
-    private static TotalQueue[] translateCursorList(Cursor c){
+    private static Report[] translateCursorList(Cursor c){
         if(c.getCount()>0){
             c.moveToFirst();
-            TotalQueue[] query = new TotalQueue[c.getCount()];
+            Report[] query = new Report[c.getCount()];
             for(int i=0; i<c.getCount() ; i++){
                 query[i] = translateCursor(c);
                 c.moveToNext();
             }
             return query;
         } else {
-            return new TotalQueue[0];
+            return new Report[0];
         }
     }
 
-    private static TotalQueue translateCursor(Cursor c){
-        return new TotalQueue(c.getLong(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getLong(5));
+    private static Report translateCursor(Cursor c){
+        return new Report(c.getLong(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getLong(5), c.getLong(6));
     }
 
     public static final String SQL_CREATE_TABLE =
@@ -136,6 +137,7 @@ public class TotalQueueDao {
                     + TotalQueueEntry.COLUMN_NAME_MONTH + " INTEGER, "
                     + TotalQueueEntry.COLUMN_NAME_YEAR + " INTEGER, "
                     + TotalQueueEntry.COLUMN_NAME_TOTAL + " INTEGER, "
+                    + TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT + " LONG, "
                     + TotalQueueEntry.COLUMN_NAME_SERVICE_ID + " LONG, "
                     + "FOREIGN KEY (" + TotalQueueEntry.COLUMN_NAME_SERVICE_ID + ") REFERENCES "
                     + ServiceDao.ServiceEntry.TABLE_NAME + "("
@@ -150,6 +152,7 @@ public class TotalQueueDao {
         public static final String COLUMN_NAME_MONTH = "month";
         public static final String COLUMN_NAME_YEAR = "year";
         public static final String COLUMN_NAME_TOTAL = "total";
+        public static final String COLUMN_NAME_SUM_AVE_WAIT = "ave_waiting";
         public static final String COLUMN_NAME_SERVICE_ID = "service_id";
     }
 

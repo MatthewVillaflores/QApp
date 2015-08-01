@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tech.ivant.qapp.dao.QueueDao;
 import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.dao.records.TotalQueueDao;
+import com.tech.ivant.qapp.dao.ReportDao;
 
 /**
  * Created by matthew on 6/29/15.
@@ -30,14 +30,14 @@ public class DBManager extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ServiceDao.SQL_CREATE_TABLE);
         db.execSQL(QueueDao.SQL_CREATE_TABLE);
-        db.execSQL(TotalQueueDao.SQL_CREATE_TABLE);
+        db.execSQL(ReportDao.SQL_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(ServiceDao.SQL_DELETE_TABLE);
         db.execSQL(QueueDao.SQL_DELETE_TABLE);
-        db.execSQL(TotalQueueDao.SQL_DELETE_TABLE);
+        db.execSQL(ReportDao.SQL_DELETE_TABLE);
         onCreate(db);
     }
 

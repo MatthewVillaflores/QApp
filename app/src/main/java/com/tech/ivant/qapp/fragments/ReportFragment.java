@@ -13,13 +13,9 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.constants.Constants;
-import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.dao.records.TotalQueueDao;
-import com.tech.ivant.qapp.entities.Service;
-import com.tech.ivant.qapp.entities.records.TotalQueue;
+import com.tech.ivant.qapp.entities.Report;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -66,12 +62,6 @@ public class ReportFragment extends android.app.Fragment {
         }
         dataPoints = new DataPoint[6][6];
 
-        for(int i=1;i<=6;i++){
-            for(int j=1;j<=6;j++){
-                dataPoints[i-1][j-1] = new DataPoint(j, i*j);
-            }
-        }
-
         GraphView graphViewAverageWaitingTime = (GraphView) rootView.findViewById(R.id.graphViewAverageWaitingTime);
 
         Viewport viewport1 = graphViewAverageWaitingTime.getViewport();
@@ -79,6 +69,20 @@ public class ReportFragment extends android.app.Fragment {
         viewport1.setScalable(true);
         viewport1.setMinX(0);
         viewport1.setMaxX(7);
+
+        for(int i=1;i<=6;i++) {
+            for (int j = 1; j <= 6; j++) {
+                dataPoints[i - 1][j - 1] = new DataPoint(j, 0);
+            }
+        }
+
+        for(int i=0;i<mTotalQueueData.size();i++){
+            BarGraphData barGraphData = mTotalQueueData.get(i);
+            for(int j=0;j<barGraphData.data.size();j++){
+                dataPoints[i][j] = new DataPoint(j+1, barGraphData.data.get(j).sumAverageWait / barGraphData.data.get(j).total);
+            }
+        }
+
 
         for(DataPoint[] dataPoint : dataPoints){
             graphViewAverageWaitingTime.addSeries(new LineGraphSeries(dataPoint));
@@ -88,16 +92,16 @@ public class ReportFragment extends android.app.Fragment {
     }
 
     private void retrieveData(){
-        ArrayList<TotalQueue[]> tQueue = new ArrayList<>();
+        ArrayList<Report[]> tQueue = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        TotalQueue[] temp;
+        Report[] temp;
 
         for(int i=0;i<5;i++) {
 
-            temp = TotalQueue.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
+            temp = Report.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
                     calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
 
             tQueue.add(temp);
@@ -114,8 +118,8 @@ public class ReportFragment extends android.app.Fragment {
         mTotalQueueData = new ArrayList<>();
 
 
-        for(TotalQueue[] tq : tQueue){
-            for(TotalQueue totQ : tq){
+        for(Report[] tq : tQueue){
+            for(Report totQ : tq){
                 BarGraphData barGraphData = null;
                 for (BarGraphData graphData : mTotalQueueData){
                     if(totQ.serviceId == graphData.serviceId){
@@ -142,7 +146,7 @@ public class ReportFragment extends android.app.Fragment {
 
     private class BarGraphData{
         long serviceId;
-        ArrayList<TotalQueue> data;
+        ArrayList<Report> data;
 
         public BarGraphData(){
             data = new ArrayList<>();

@@ -2,10 +2,6 @@ package com.tech.ivant.qapp.entities;
 
 import com.tech.ivant.qapp.dao.QueueDao;
 import com.tech.ivant.qapp.dao.ServiceDao;
-import com.tech.ivant.qapp.dao.records.TotalQueueDao;
-import com.tech.ivant.qapp.entities.records.TotalQueue;
-
-import java.util.Calendar;
 
 /**
  * Created by matthew on 7/22/15.
@@ -103,17 +99,20 @@ public class Queue {
         queue.service_id = serviceId;
 
         Service mService = ServiceDao.find(serviceId);
-        mService.endNumber++;
-        queue.queueNumber = mService.endNumber;
+        try {
+            mService.endNumber++;
+            queue.queueNumber = mService.endNumber;
 
-        TotalQueue.addQueue(queue);
-        QueueDao.save(queue);
-        ServiceDao.update(mService);
+            Report.addQueue(queue);
+            QueueDao.save(queue);
+            ServiceDao.update(mService);
+        } catch (NullPointerException er){}
         return queue;
     }
 
     public static void call(Queue queue){
 
+        Report.addAveWait(queue);
         QueueDao.delete(queue);
     }
 
