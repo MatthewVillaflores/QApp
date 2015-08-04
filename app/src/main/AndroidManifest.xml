@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tech.ivant.qapp" >
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -30,8 +30,14 @@
             android:name=".NewQueue"
             android:label="@string/title_activity_new_queue" >
         </activity>
-        <receiver android:name=".receiver.CleanUpReceiver"></receiver>
-        <receiver android:name=".receiver.BootUpReceiver"></receiver>
+
+        <receiver android:name=".receiver.CleanUpReceiver" />
+        <receiver android:name=".receiver.BootUpReceiver" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

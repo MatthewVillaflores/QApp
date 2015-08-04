@@ -18,13 +18,39 @@
         android:layout_below="@id/label_edit_services"
         android:layout_margin="10dp"
         />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="New"
-        android:onClick="newService"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:layout_alignRight="@+id/edit_services_list"
+        android:layout_alignEnd="@+id/edit_services_list"
+        android:layout_toRightOf="@+id/label_edit_services"
+        android:layout_toEndOf="@+id/label_edit_services"
+        android:layout_marginLeft="135dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginBottom="395dp"
+        android:layout_alignBottom="@+id/edit_services_list">
+
+        <Button
+            android:layout_width="39dp"
+            android:layout_height="106dp"
+            android:drawableTop="@drawable/plusbtn_orange"
+            android:onClick="newService"
+            android:elegantTextHeight="false"
+            android:background="?android:attr/selectableItemBackground"        android:clickable="false"
+            android:id="@+id/button2"
+
+            android:layout_weight="1.08" />
+
+        <Button
+            android:layout_width="42dp"
+            android:layout_height="106dp"
+            android:id="@+id/button"
+            android:background="?android:attr/selectableItemBackground"        android:clickable="false"
+            android:drawableTop="@drawable/editbtn"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

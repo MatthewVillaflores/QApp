@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,36 +10,34 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="49dp"
+        android:layout_width="138dp"
+        android:layout_height="70dp"
         android:weightSum="1"
-        android:background="@color/primaryColor"
+        android:background="@drawable/rounded_labels"
         android:id="@+id/linearLayout"
         android:gravity="center_vertical|center_horizontal"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="186dp"
-        android:layout_marginEnd="186dp"
-        android:layout_marginBottom="394dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:focusable="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:focusable="true"
-        android:elevation="10sp">
+        android:layout_gravity="left|top">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="28dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/view_service_label_total_count"
             android:id="@+id/view_service_label_total_count"
             android:gravity="center_vertical|center_horizontal"
-            android:background="@color/primaryColor"
+            android:background="@drawable/rounded_labels"
             android:textColor="@android:color/white"
             android:drawableLeft="@drawable/ic_totalcounticon"
-            android:textSize="13sp" />
+            android:textSize="11sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -48,37 +47,37 @@
             android:text="2"
             android:gravity="center_horizontal"
             android:autoText="false"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
         android:weightSum="1"
-        android:background="@color/primaryColor"
+        android:background="@drawable/rounded_labels"
         android:id="@+id/linearlayout_ave_waiting_time"
         android:layout_alignTop="@+id/linearLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="171dp"
-        android:layout_marginStart="171dp"
-        android:layout_alignBottom="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:elevation="10sp">
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_gravity="right|top">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="39dp"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/view_service_label_ave_waiting_time"
             android:id="@+id/view_service_label_ave_waiting_time"
             android:gravity="center_vertical"
-            android:background="@color/primaryColor"
+            android:background="@drawable/rounded_labels"
             android:textColor="@android:color/white"
             android:drawableLeft="@drawable/timeicon"
-            android:textSize="13sp" />
+            android:textSize="11sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -87,6 +86,7 @@
             android:id="@+id/view_service_ave_waiting_time"
             android:text="2"
             android:gravity="center_horizontal"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            android:textSize="16sp" />
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>
