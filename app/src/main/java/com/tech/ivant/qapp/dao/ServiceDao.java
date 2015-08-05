@@ -10,6 +10,17 @@ import com.tech.ivant.qapp.entities.Service;
 
 /**
  * Created by matthew on 7/22/15.
+ *
+ * Database Access Object for Service Entity
+ *
+ * Table name: service
+ * Fields (Columns):
+ *  -id
+ *  -name
+ *  -notes
+ *  -start_number
+ *  -end_number
+ *
  */
 public class ServiceDao {
 
@@ -50,7 +61,7 @@ public class ServiceDao {
         db.delete(ServiceEntry.TABLE_NAME, ServiceEntry.COLUMN_NAME_ID + " = " + service.id, null);
     }
 
-    //Query: Find a Service using id. returns a Service
+    //Query: Find a Service using id. returns a Service, null if nothing is found
     public static Service find(long id){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME

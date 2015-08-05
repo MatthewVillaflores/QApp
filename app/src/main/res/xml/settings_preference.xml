@@ -41,5 +41,4 @@
             android:defaultValue="57600000"
             />
     </PreferenceCategory>
-
 </PreferenceScreen>

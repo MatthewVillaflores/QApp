@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by matthew on 7/21/15.
  */
-public class TimePickerPreference extends DialogPreference {
+public class  TimePickerPreference extends DialogPreference {
 
     public static final long DEFAULT_VALUE = 57600000;
 

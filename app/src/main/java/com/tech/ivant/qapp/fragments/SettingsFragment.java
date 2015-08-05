@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.R;
+import com.tech.ivant.qapp.constants.Constants;
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.preferences.TimePickerPreference;
 import com.tech.ivant.qapp.util.TimeHandler;
@@ -39,12 +41,13 @@ public class SettingsFragment extends Fragment {
         fm.beginTransaction()
                 .replace(R.id.preferences_frame, settingsPreferences).commit();
 
+/*
         fm.beginTransaction()
                 .replace(R.id.services_edit_frame, new ServicesEditFragment()).commit();
-
+*/
 
         FrameLayout preferenceFrame = (FrameLayout) rootView.findViewById(R.id.preferences_frame);
-        FrameLayout servicesEditFrame = (FrameLayout) rootView.findViewById(R.id.services_edit_frame);
+        //FrameLayout servicesEditFrame = (FrameLayout) rootView.findViewById(R.id.services_edit_frame);
 
         preferenceFrame.setScrollContainer(false);
         //servicesEditFrame.setScrollContainer(false);
@@ -137,7 +140,14 @@ public class SettingsFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.preference_settings_layout, null);
 
             ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-            listView.setMinimumHeight(400);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.preference_services_edit_frame, new ServicesEditFragment()).commit();
+
+            //listView.setMinimumHeight(600);
+
+            Log.d(Constants.LOG_TAG, "SENPAIIIi!");
             return rootView;
         }
 

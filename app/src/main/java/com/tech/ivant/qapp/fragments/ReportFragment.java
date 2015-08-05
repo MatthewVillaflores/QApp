@@ -79,7 +79,23 @@ public class ReportFragment extends android.app.Fragment {
         for(int i=0;i<mTotalQueueData.size();i++){
             BarGraphData barGraphData = mTotalQueueData.get(i);
             for(int j=0;j<barGraphData.data.size();j++){
-                dataPoints[i][j] = new DataPoint(j+1, barGraphData.data.get(j).sumAverageWait / barGraphData.data.get(j).total);
+
+                Log.d(Constants.LOG_TAG, "Records Ave Wait Time: totalQ: " + barGraphData.data.get(j).total + " sumWait: " + barGraphData.data.get(j).sumAverageWait);
+                double aveWait;
+                try {
+                    long dividend = barGraphData.data.get(j).sumAverageWait;
+                    long divisor = barGraphData.data.get(j).total * 60000;
+                    aveWait = dividend / divisor;
+                } catch (ArithmeticException aErr){
+                    aveWait = 0;
+                }
+                Log.d(Constants.LOG_TAG, "Ave Wait: " + aveWait);
+
+                try {
+                    dataPoints[i][j] = new DataPoint(j + 1, aveWait);
+                } catch(ArithmeticException aErr){
+                    dataPoints[i][j] = new DataPoint(j+1, 0);
+                }
             }
         }
 

@@ -67,6 +67,8 @@ public class QueueAdapter extends BaseAdapter{
         View vi = convertView;
         ViewHolder holder;
 
+        //Fill up List
+
         if(convertView == null){
             vi = inflater.inflate(R.layout.adapter_view_service_queue, null);
 
@@ -109,6 +111,7 @@ public class QueueAdapter extends BaseAdapter{
 
     }
 
+    //Threading: for the timer for wait time
     private class WaitTimer implements Runnable{
         ViewHolder vHolder;
         Queue value;

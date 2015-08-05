@@ -62,6 +62,7 @@ public class Report {
         this.serviceId = serviceId;
     }
 
+    //Abstraction of where clause with multiple conditions with day, month, and year as the conditions
     public static Report[] getByDates(int day, int month, int year){
         String fields[] = {
                 ReportDao.TotalQueueEntry.COLUMN_NAME_DAY,
@@ -77,13 +78,19 @@ public class Report {
         return ReportDao.where(fields, values);
     }
 
+    //Add a Queue to the Reports
+    //Creates a New Report entry if it is the first Queue for the day,
+    // else it iterates the total count
     public static void addQueue(Queue queue){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+
+        //Get all the Reports for today
         Report[] today = Report.getByDates(calendar.get(Calendar.DAY_OF_MONTH),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.YEAR));
 
+        //Find the Report corresponding the queue's service id
         Report tQueue = null;
         if (today.length > 0) {
             for (Report tq : today) {
@@ -93,12 +100,16 @@ public class Report {
                 }
             }
         }
+
+        //If there is no entry, create a new entry
         if(tQueue == null) {
             tQueue = new Report();
             tQueue.serviceId = queue.service_id;
             ReportDao.save(tQueue);
             Log.d(Constants.LOG_TAG, "Created new entry with id: " + tQueue.id);
         }
+
+        //iterate
         tQueue.total+=1;
 
         ReportDao.update(tQueue);

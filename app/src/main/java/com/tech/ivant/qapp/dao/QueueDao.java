@@ -11,12 +11,27 @@ import com.tech.ivant.qapp.entities.Queue;
 
 /**
  * Created by matthew on 7/22/15.
+ *
+ * Database Access Object for entity Queue
+ *
+ * Table name: queue_table
+ * Fields (Columns) :
+ *  -id
+ *  -customer_name
+ *  -notes
+ *  -mobile_number
+ *  -queue_number
+ *  -queue_date
+ *  -service_id (foreign key)
+ *
  */
 public class QueueDao {
 
+    //Insert an entry in the database
     public static long save(Queue queue){
-        if(find(queue.id) == null) {
+        if(find(queue.id) == null) {        //check if there is an entry in the database if none, save
             SQLiteDatabase db = DBManager.getWriteDatabase();
+
             ContentValues values = new ContentValues();
             values.put(QueueEntry.COLUMN_NAME_CNAME, queue.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, queue.notes);
@@ -24,18 +39,26 @@ public class QueueDao {
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, queue.service_id);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, queue.queueDate);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, queue.queueNumber);
+
+            //insert to database
             queue.id = db.insert(QueueEntry.TABLE_NAME, null, values);
-        } else {
+            db.close();
+        }
+        else {      //already in the database, update instead
             update(queue);
         }
+
         return queue.id;
     }
 
+    //Update an entry in the database
     public static void update(Queue queue){
         if(find(queue.id) == null){      //Not yet in the database... save
             save(queue);
-        } else {
+        }
+        else {        //update database entry
             SQLiteDatabase db = DBManager.getReadDatabase();
+
             ContentValues values = new ContentValues();
             values.put(QueueEntry.COLUMN_NAME_CNAME, queue.customerName);
             values.put(QueueEntry.COLUMN_NAME_NOTES, queue.notes);
@@ -43,31 +66,47 @@ public class QueueDao {
             values.put(QueueEntry.COLUMN_NAME_SERVICE_ID, queue.service_id);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_DATE, queue.queueDate);
             values.put(QueueEntry.COLUMN_NAME_QUEUE_NUMBER, queue.queueNumber);
+
+            //update
             db.update(QueueEntry.TABLE_NAME, values, QueueEntry.COLUMN_NAME_ID + " = " + queue.id, null);
+            db.close();
         }
     }
 
-    public static void delete(Queue queue){
+    //Delete an entry in the database.
+    public static int delete(Queue queue){
         SQLiteDatabase db = DBManager.getReadDatabase();
-        db.delete(QueueEntry.TABLE_NAME, QueueEntry.COLUMN_NAME_ID + " = " + queue.id, null);
+        int returnValue =  db.delete(QueueEntry.TABLE_NAME, QueueEntry.COLUMN_NAME_ID + " = " + queue.id, null);
+        db.close();
+        return returnValue;
     }
 
+    //Find an entry using an id. Returns a null value when nothing is found
     public static Queue find(long id){
         //Query database SELECT * FROM queue WHERE id = 'id;
         SQLiteDatabase db = DBManager.getReadDatabase();
+
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME
                 + " WHERE " + QueueEntry.COLUMN_NAME_ID + " = "
                 + id + ";", null);
-        if(c.getCount()>0) {
+
+        Queue returnValue;
+        if( c.getCount() > 0 ) {
             c.moveToFirst();
-            return translateCursorToQueue(c);
+            returnValue = translateCursorToQueue(c);
         } else {
-            return null;
+            returnValue = null;
         }
+
+        c.close();
+        db.close();
+
+        return returnValue;
     }
 
+    //Query using WHERE clause. Returns an empty list if nothing is found
     public static Queue[] where(String columnname, String value){
-        //Query database SELECT * FROM queue WHERE columnname = value;
+        //Query database: SELECT * FROM queue WHERE columnname = value;
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME
                 + " WHERE " + columnname + " = " + value + ";", null);
@@ -79,16 +118,22 @@ public class QueueDao {
                 query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
+            c.close();
+            db.close();
             return query;
         } else {
+            c.close();
+            db.close();
             return new Queue[0];
         }
     }
 
+    //Overloaded method: implicit conversion of long to String
     public static Queue[] where(String columnname, long value){
         return where(columnname, Long.toString(value));
     }
 
+    //Get all entries in the database
     public static Queue[] all(){
         //Query database SELECT * FROM queue;
         SQLiteDatabase db = DBManager.getReadDatabase();
@@ -100,8 +145,12 @@ public class QueueDao {
                 query[i] = translateCursorToQueue(c);
                 c.moveToNext();
             }
+            c.close();
+            db.close();
             return query;
         } else {
+            c.close();
+            db.close();
             return new Queue[0];
         }
     }
@@ -110,7 +159,7 @@ public class QueueDao {
     // ID, NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE DATE, SERVICE ID
     // NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE_DATE, SERVICE_ID, ID
 
-
+    //Easy conversion of Cursor object to Queue object
     private static Queue translateCursorToQueue(Cursor c){
         return new Queue(c.getString(1), c.getString(2), c.getString(3), c.getInt(4), c.getLong(5), c.getLong(6), c.getLong(0));
     }

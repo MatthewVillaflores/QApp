@@ -13,4 +13,9 @@
         android:scrollbars="none">
     </ListView>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/preference_services_edit_frame"/>
+
 </LinearLayout>
