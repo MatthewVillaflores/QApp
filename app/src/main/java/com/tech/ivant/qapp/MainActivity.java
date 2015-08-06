@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.dao.ServiceDao;
@@ -246,8 +247,15 @@ public class MainActivity extends ActionBarActivity {
         EditText service_name_edit = (EditText) newServiceDialog.findViewById(R.id.dialog_new_service_name);
         if(service_name_edit != null) {
             Service service = new Service(service_name_edit.getText().toString(), "");
-            ServiceDao.save(service);
+            long serviceId = ServiceDao.save(service);
 
+            if(serviceId<0){
+                CharSequence serviceFullMessage = "Number of service have reached maximum (5)";
+                Toast serviceFullToast = Toast.makeText(this, serviceFullMessage, Toast.LENGTH_LONG);
+                serviceFullToast.show();
+                newServiceDialog.dismiss();
+                return;
+            }
             //Instantiate Reports Entry
             Report tQueue = new Report();
             tQueue.serviceId = service.id;

@@ -42,7 +42,7 @@ public class ServicesEditFragment extends Fragment{
     }
 
     public Service[] populateList(final View rootView){
-        final Service[] services = ServiceDao.all();
+        final Service[] services = ServiceDao.removeNoShow(ServiceDao.all());
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
 
 

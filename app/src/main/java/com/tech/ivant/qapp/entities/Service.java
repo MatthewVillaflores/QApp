@@ -29,6 +29,8 @@ public class Service {
     public int startNumber;
     public int endNumber;
 
+    public static String noShowServiceName = "No Show";
+
     public Service(){}
 
     public Service(String name, String notes) {
@@ -57,8 +59,6 @@ public class Service {
 
     public static void createNoShowService(){
         Service noShow;
-
-        String noShowServiceName = "No Show";
 
         Service[] serviceList = ServiceDao.where(ServiceDao.ServiceEntry.COLUMN_NAME_SNAME, noShowServiceName);
 

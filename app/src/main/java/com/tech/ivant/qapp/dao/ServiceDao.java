@@ -8,6 +8,8 @@ import android.provider.BaseColumns;
 import com.tech.ivant.qapp.DBManager;
 import com.tech.ivant.qapp.entities.Service;
 
+import java.util.ArrayList;
+
 /**
  * Created by matthew on 7/22/15.
  *
@@ -29,6 +31,12 @@ public class ServiceDao {
      * If there is already an entry corresponding to that Service object, it will update instead
      */
     public static long save(Service service){
+        //Limit table rows to 6, 5 services plus no show service
+        Service[] services = all();
+        if(services.length>5){
+            return -1;
+        }
+
         //Check if current service is in the database if no, save; else, update.
         if(find(service.id) == null){
             SQLiteDatabase db = DBManager.getWriteDatabase();
@@ -117,7 +125,7 @@ public class ServiceDao {
         return new Service[0];
     }
 
-    /**
+    /**1574
      * Overloaded method: implicit conversion of long to String
      */
     public static Service[] where(String column, long value){
@@ -146,6 +154,32 @@ public class ServiceDao {
         }
 
         return new Service[0];
+    }
+
+    /**
+     * This method will remove the noShow service from the given array of services.
+     * Returns an array of services with the noShow ommitted.
+     */
+    public static Service[] removeNoShow(Service[] services){
+        if(services.length==0){
+            return services;
+        }
+
+        Service[] servicesWithoutNoShow = new Service[services.length-1];
+
+        int iter = 0;
+        try {
+            for (Service service : services) {
+                if (!service.name.equals(Service.noShowServiceName)) {
+                    servicesWithoutNoShow[iter] = service;
+                    iter++;
+                }
+            }
+        } catch(ArrayIndexOutOfBoundsException err){
+            return services;
+        }
+        return servicesWithoutNoShow;
+
     }
 
 
