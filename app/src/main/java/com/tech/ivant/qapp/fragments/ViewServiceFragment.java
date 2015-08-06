@@ -14,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tech.ivant.qapp.dao.QueueDao;
 import com.tech.ivant.qapp.entities.Queue;
@@ -48,6 +50,7 @@ public class ViewServiceFragment extends Fragment{
     private ListView mListView;
     private Queue[] queueList;
     private BroadcastReceiver mCleanupBroadCastListener;
+    private SharedPreferences mSharedPreference;
 
     public ViewServiceFragment(){}
 
@@ -59,6 +62,12 @@ public class ViewServiceFragment extends Fragment{
         mService  = ServiceDao.find(arguments.getLong(MonitorQueueFragment.KEY_SERVICE_ID));
 
         mListView = (ListView) rootView.findViewById(R.id.queueListView);
+
+        mSharedPreference = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        boolean canManualCall = mSharedPreference.getBoolean(rootView.getResources().getString(R.string.KEY_PREFERENCE_MANUAL_CALL), true);
+        if(canManualCall){
+            mListView.setOnItemClickListener(new QueueListListener());
+        }
 
         Button newQueue = (Button) rootView.findViewById(R.id.addQueueButton);
         NewQueueListener newqueuelistener = new NewQueueListener();
@@ -136,8 +145,7 @@ public class ViewServiceFragment extends Fragment{
             addQueueDialog.setContentView(R.layout.dialog_add_queue);
 
             TextView currentDate = (TextView) addQueueDialog.findViewById(R.id.addQueueCurrentDate);
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-            String preferredDateFormat = sharedPreferences.getString(v.getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT), "MM/dd/yy");
+            String preferredDateFormat = mSharedPreference.getString(v.getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT), "MM/dd/yy");
             SimpleDateFormat dateFormat = new SimpleDateFormat(preferredDateFormat);
             currentDate.setText(dateFormat.format(System.currentTimeMillis()));
 
@@ -185,9 +193,6 @@ public class ViewServiceFragment extends Fragment{
         @Override
         public void onClick(View v) {
             if(queueList != null && queueList.length >0) {
-                callNextDialog = new Dialog(v.getContext());
-                callNextDialog.setContentView(R.layout.dialog_call_next);
-                callNextDialog.setTitle("Next Customer - " + mService.name);
 
                 Queue called = null;
                 for(Queue queue : queueList){
@@ -201,46 +206,73 @@ public class ViewServiceFragment extends Fragment{
                     mService.startNumber = called.queueNumber;
                 }
 
-                TextView customerName = (TextView) callNextDialog.findViewById(R.id.dialogCallNextCustomerName);
-                customerName.setText(called.customerName);
+                showCallNextDialog(called, v.getContext());
+            } else {
+                CharSequence noQueueMessage = "No Queue to be Called";
+                int duration = Toast.LENGTH_SHORT;
 
-                TextView arrivalTime = (TextView) callNextDialog.findViewById(R.id.dialogCallNextArrivedTime);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-                arrivalTime.setText(dateFormat.format(called.queueDate));
+                Toast noQueueToast = Toast.makeText(v.getContext(), noQueueMessage, duration);
+                noQueueToast.show();
 
-                TextView mobileNumber = (TextView) callNextDialog.findViewById(R.id.dialogCallNextMobileNumber);
-                mobileNumber.setText(called.mobileNumber);
-
-                TextView notes = (TextView) callNextDialog.findViewById(R.id.dialogCallNextNotes);
-                notes.setText(called.notes);
-
-                Button cancelButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextCancelButton);
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callNextDialog.dismiss();
-                    }
-                });
-
-                Button noShowButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextNoShowButton);
-
-                final Queue cCalled = called;
-
-                Button arrivedButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextArrivedButton);
-                arrivedButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mService.startNumber++;
-                        ServiceDao.update(mService);
-                        Queue.call(cCalled);
-                        updateList(v);
-                        callNextDialog.dismiss();
-                    }
-                });
-
-
-                callNextDialog.show();
             }
         }
+    }
+
+    private class QueueListListener implements AdapterView.OnItemClickListener{
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Queue clickedQueue = queueList[position];
+
+            showCallNextDialog(clickedQueue, view.getContext());
+
+        }
+    }
+
+    private void showCallNextDialog(Queue called, Context context){
+
+        callNextDialog = new Dialog(context);
+        callNextDialog.setContentView(R.layout.dialog_call_next);
+        callNextDialog.setTitle("Next Customer - " + mService.name);
+
+        TextView customerName = (TextView) callNextDialog.findViewById(R.id.dialogCallNextCustomerName);
+        customerName.setText(called.customerName);
+
+        TextView arrivalTime = (TextView) callNextDialog.findViewById(R.id.dialogCallNextArrivedTime);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
+        arrivalTime.setText(dateFormat.format(called.queueDate));
+
+        TextView mobileNumber = (TextView) callNextDialog.findViewById(R.id.dialogCallNextMobileNumber);
+        mobileNumber.setText(called.mobileNumber);
+
+        TextView notes = (TextView) callNextDialog.findViewById(R.id.dialogCallNextNotes);
+        notes.setText(called.notes);
+
+        Button cancelButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextCancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callNextDialog.dismiss();
+            }
+        });
+
+        Button noShowButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextNoShowButton);
+
+        final Queue cCalled = called;
+
+        Button arrivedButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextArrivedButton);
+        arrivedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mService.startNumber++;
+                ServiceDao.update(mService);
+                Queue.call(cCalled, mService);
+                updateList(v);
+                callNextDialog.dismiss();
+            }
+        });
+
+
+        callNextDialog.show();
     }
 }

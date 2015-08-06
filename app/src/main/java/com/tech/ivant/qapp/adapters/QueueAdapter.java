@@ -20,6 +20,11 @@ import java.util.ArrayList;
 
 /**
  * Created by matthew on 7/18/15.
+ *
+ * Adapter for the Queue that appears on the Monitor Queue Fragment
+ * Under the ViewService Fragment
+ * MonitorQueueFragment -> ViewServiceFragment -> ListView
+ *
  */
 public class QueueAdapter extends BaseAdapter{
 
@@ -62,12 +67,13 @@ public class QueueAdapter extends BaseAdapter{
         public TextView queueWaitTime;
     }
 
+    /**
+     * Inflate/fill up a single list item with custom view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         ViewHolder holder;
-
-        //Fill up List
 
         if(convertView == null){
             vi = inflater.inflate(R.layout.adapter_view_service_queue, null);
@@ -111,7 +117,10 @@ public class QueueAdapter extends BaseAdapter{
 
     }
 
-    //Threading: for the timer for wait time
+    /**
+     * Thread class
+     * Changes the text on waitTime to update every second
+     */
     private class WaitTimer implements Runnable{
         ViewHolder vHolder;
         Queue value;
@@ -128,17 +137,16 @@ public class QueueAdapter extends BaseAdapter{
 
         @Override
         public void run() {
+            //compute elapsed time
             long elapsedTime = System.currentTimeMillis() - value.queueDate;
-
             long elapsedMinute = elapsedTime / minutesInMilli;
             elapsedTime = elapsedTime % minutesInMilli;
-
             long elapsedSecond = elapsedTime / secondsInMilli;
 
+            //set TextView's text
             vHolder.queueWaitTime.setText(elapsedMinute+"m "+elapsedSecond+"s");
 
             mHandler.postDelayed(this, 0);
-
         }
     }
 }

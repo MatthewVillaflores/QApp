@@ -27,7 +27,10 @@ import com.tech.ivant.qapp.entities.Queue;
  */
 public class QueueDao {
 
-    //Insert an entry in the database
+    /**
+     * Given a Queue object. Insert an entry of that object into the database
+     * If there is already an entry corresponding to that Queue object, it will update
+     */
     public static long save(Queue queue){
         if(find(queue.id) == null) {        //check if there is an entry in the database if none, save
             SQLiteDatabase db = DBManager.getWriteDatabase();
@@ -51,7 +54,10 @@ public class QueueDao {
         return queue.id;
     }
 
-    //Update an entry in the database
+    /**
+     * Given a Queue object, this method updates its entry on the database.
+     * If there is no entry corresponding to that Queue, it inserts a new one.
+     */
     public static void update(Queue queue){
         if(find(queue.id) == null){      //Not yet in the database... save
             save(queue);
@@ -73,7 +79,9 @@ public class QueueDao {
         }
     }
 
-    //Delete an entry in the database.
+    /**
+     * Given a Queue object, deletes that object from the database
+     */
     public static int delete(Queue queue){
         SQLiteDatabase db = DBManager.getReadDatabase();
         int returnValue =  db.delete(QueueEntry.TABLE_NAME, QueueEntry.COLUMN_NAME_ID + " = " + queue.id, null);
@@ -81,9 +89,14 @@ public class QueueDao {
         return returnValue;
     }
 
-    //Find an entry using an id. Returns a null value when nothing is found
+    /**
+     * Find an entry in the database using a key (id)
+     * Returns a Queue object, or null if nothing is found
+     *
+     * SQL command:
+     *  SELECT * FROM queue WHERE id = (long value)id;
+     */
     public static Queue find(long id){
-        //Query database SELECT * FROM queue WHERE id = 'id;
         SQLiteDatabase db = DBManager.getReadDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME
@@ -104,9 +117,14 @@ public class QueueDao {
         return returnValue;
     }
 
-    //Query using WHERE clause. Returns an empty list if nothing is found
+    /**
+     * Get entries from the database satisfying a given condition (Query using WHERE clause)
+     * Returns an empty list if nothing is found, returns a Queue array otherwise
+     *
+     * SQL command:
+     *  SELECT * FROM queue WHERE columnname = value;
+     */
     public static Queue[] where(String columnname, String value){
-        //Query database: SELECT * FROM queue WHERE columnname = value;
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME
                 + " WHERE " + columnname + " = " + value + ";", null);
@@ -128,14 +146,22 @@ public class QueueDao {
         }
     }
 
-    //Overloaded method: implicit conversion of long to String
+    /**
+     * Overloaded method: implicit conversion of long to String
+     */
     public static Queue[] where(String columnname, long value){
         return where(columnname, Long.toString(value));
     }
 
-    //Get all entries in the database
+    /**
+     * Get all entries in the database
+     * returns a list containing all entries in the database
+     * returns an empty list for an empty database
+     *
+     * SQL command:
+     *  SELECT * FROM queue;
+     */
     public static Queue[] all(){
-        //Query database SELECT * FROM queue;
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + QueueEntry.TABLE_NAME + ";", null);
         if(c.getCount()>0) {
@@ -159,7 +185,9 @@ public class QueueDao {
     // ID, NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE DATE, SERVICE ID
     // NAME, NOTES, MOBILE, QUEUE_NUMBER, QUEUE_DATE, SERVICE_ID, ID
 
-    //Easy conversion of Cursor object to Queue object
+    /**
+     * Easy translation of Cursor object to Queue object
+     */
     private static Queue translateCursorToQueue(Cursor c){
         return new Queue(c.getString(1), c.getString(2), c.getString(3), c.getInt(4), c.getLong(5), c.getLong(6), c.getLong(0));
     }

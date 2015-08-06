@@ -24,9 +24,13 @@ import com.tech.ivant.qapp.entities.Service;
  */
 public class ServiceDao {
 
-    //Insert service into the database
+    /**
+     * Given a Service object. Insert an entry of that object into the database
+     * If there is already an entry corresponding to that Service object, it will update instead
+     */
     public static long save(Service service){
-        if(find(service.id) == null){       //Check if current service is in the database if no, save; else, update.
+        //Check if current service is in the database if no, save; else, update.
+        if(find(service.id) == null){
             SQLiteDatabase db = DBManager.getWriteDatabase();
             ContentValues values = new ContentValues();
             values.put(ServiceEntry.COLUMN_NAME_SNAME, service.name);
@@ -40,28 +44,44 @@ public class ServiceDao {
         return service.id;
     }
 
-    //Update entry on database
+    /**
+     * Given a Service object, this method updates its entry on the database.
+     * If there is no entry corresponding to that Service, it inserts a new one.
+     */
     public static void update(Service service){
-        if(find(service.id) != null){       //Check if current service is in the database, if yes, update; else, save.
+        //Check if current service is in the database, if yes, update; else, save.
+        if(find(service.id) != null){
             SQLiteDatabase db = DBManager.getWriteDatabase();
             ContentValues values = new ContentValues();
             values.put(ServiceEntry.COLUMN_NAME_SNAME, service.name);
             values.put(ServiceEntry.COLUMN_NAME_NOTES, service.notes);
             values.put(ServiceEntry.COLUMN_NAME_START_NUMBER, service.startNumber);
             values.put(ServiceEntry.COLUMN_NAME_END_NUMBER, service.endNumber);
-            db.update(ServiceEntry.TABLE_NAME, values, ServiceEntry.COLUMN_NAME_ID + " = " + service.id, null);
+            db.update(ServiceEntry.TABLE_NAME,
+                    values,
+                    ServiceEntry.COLUMN_NAME_ID + " = " + service.id,
+                    null);
         } else {
             save(service);
         }
     }
 
-    //delete entry on database
+
+    /**
+     * Given a Service object, deletes that object from the database
+     */
     public static void delete(Service service){
         SQLiteDatabase db = DBManager.getReadDatabase();
         db.delete(ServiceEntry.TABLE_NAME, ServiceEntry.COLUMN_NAME_ID + " = " + service.id, null);
     }
 
-    //Query: Find a Service using id. returns a Service, null if nothing is found
+    /**
+     * Find an entry in the database using a key (id)
+     * Returns a Service object, or null if nothing is found
+     *
+     * SQL command:
+     *  SELECT * FROM service WHERE id = (long value)id;
+     */
     public static Service find(long id){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME
@@ -73,11 +93,17 @@ public class ServiceDao {
         return null;
     }
 
-    //Query: Find Services based on a column and a value. returns a list. returns empty list if found nothing
+    /**
+     * Get entries from the database satisfying a given condition (Query using WHERE clause)
+     * Returns an empty list if nothing is found, returns a Service array otherwise
+     *
+     * SQL command:
+     *  SELECT * FROM service WHERE columnname = value;
+     */
     public static Service[] where(String column, String query){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME
-                + " WHERE " + column + " = " + query+ ";", null);
+                + " WHERE " + column + " = \"" + query+ "\";", null);
         if(c.getCount() > 0){
             c.moveToFirst();
             Service[] services = new Service[c.getCount()];
@@ -90,12 +116,22 @@ public class ServiceDao {
 
         return new Service[0];
     }
-    //Overload: implicit conversion from long to String
+
+    /**
+     * Overloaded method: implicit conversion of long to String
+     */
     public static Service[] where(String column, long value){
         return where(column, Long.toString(value));
     }
 
-    //Query: get all Service in the database. returns a list. returns empty list if databa
+    /**
+     * Get all entries in the database
+     * returns a list containing all entries in the database
+     * returns an empty list for an empty database
+     *
+     * SQL command:
+     *  SELECT * FROM service;
+     */
     public static Service[] all(){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME + ";", null);

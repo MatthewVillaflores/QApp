@@ -40,12 +40,13 @@ public class Queue {
     public long service_id;
     public long id;
 
-    //Initialize an new empty Queue object
+    /**
+     * Initialize a new empty Queue object
+     */
     public Queue(){
         this.id = -1;
     }
 
-    //Initialize with a name, notes and foreign key(serviceId)
     public Queue(String customerName, String notes, long service_id) {
         this.customerName = customerName;
         this.notes = notes;
@@ -55,7 +56,6 @@ public class Queue {
         this.queueDate = System.currentTimeMillis();
     }
 
-    //Initialize with a name, notes, mobileNumber and foreign key(serviceId)
     public Queue(String customerName, String notes, String mobileNumber, long service_id){
         this.customerName = customerName;
         this.notes = notes;
@@ -65,7 +65,6 @@ public class Queue {
         this.queueDate = System.currentTimeMillis();
     }
 
-    //Initialize with a name, notes, foreign key(serviceId), and id
     public Queue(String customerName, String notes, long service_id, long id) {
         this.customerName = customerName;
         this.notes = notes;
@@ -74,7 +73,6 @@ public class Queue {
         this.queueDate = System.currentTimeMillis();
     }
 
-    //Initialize with a name, notes, mobileNumber, foreign key(serviceId), and id
     public Queue(String customerName, String notes, String mobileNumber, long service_id, long id){
         this.customerName = customerName;
         this.notes = notes;
@@ -83,7 +81,6 @@ public class Queue {
         this.id = id;
     }
 
-    //Initialize with name, notes, foreign_key(serviceId), id, queueNumber, queueDate
     public Queue(String customerName, String notes, long service_id, long id, int queueNumber, long queueDate) {
         this.customerName = customerName;
         this.notes = notes;
@@ -93,7 +90,6 @@ public class Queue {
         this.queueDate = queueDate;
     }
 
-    //Initialize with name, notes, mobileNumber, foreign_key(serviceId), id, queueNumber, queueDate
     public Queue(String customerName, String notes, String mobileNumber, int queueNumber, long queueDate, long service_id, long id) {
         this.customerName = customerName;
         this.notes = notes;
@@ -104,7 +100,9 @@ public class Queue {
         this.id = id;
     }
 
-    //Save a queue. Also adds the entry to the Reports database (iterates)
+    /**
+     * Save a queue. Also adds the entry to the Reports database (iterates)
+     */
     public static Queue enqueue(String customerName, String mobileNumber, String notes, long serviceId){
 
         Queue queue = new Queue();
@@ -127,11 +125,32 @@ public class Queue {
         return queue;
     }
 
-    //Method called when a person is "Called"
-    public static void call(Queue queue){
+    /**
+     * Method called when a person is "Called"
+     * Aside from deleting the queue from the database,
+     *  this also adds the waiting time of the queue to the Reports' total
+     */
+    public static void call(Queue queue, Service service){
+
+        if (queue.queueNumber == service.startNumber){
+            service.startNumber++;
+        }
+        else if (queue.queueNumber == service.endNumber){
+            service.endNumber--;
+        }
+        else {
+            Queue[] queues = QueueDao.where(QueueDao.QueueEntry.COLUMN_NAME_SERVICE_ID, service.id);
+            for(Queue q : queues){
+                if(q.queueNumber > queue.queueNumber){
+                    q.queueNumber--;
+                }
+            }
+            service.endNumber--;
+        }
 
         Report.addAveWait(queue);
         QueueDao.delete(queue);
+        ServiceDao.update(service);
     }
 
 }

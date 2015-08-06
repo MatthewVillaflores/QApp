@@ -10,8 +10,7 @@
     <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/frame_container"
-        />
+        android:id="@+id/frame_container" />
 
     <ListView
         android:id="@+id/navigationDrawer"

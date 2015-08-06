@@ -99,6 +99,7 @@ public class MainActivity extends ActionBarActivity {
         StaticMethods.mSharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
         StaticMethods.context = this;
         StaticMethods.setUpAutomaticCleanAlarm();
+        Service.createNoShowService();
     }
 
     public void selectItem(int position){

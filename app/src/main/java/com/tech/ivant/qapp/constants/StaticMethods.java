@@ -23,6 +23,9 @@ import java.util.Calendar;
 
 /**
  * Created by matthew on 7/22/15.
+ *
+ * Contains various static methods for utility
+ *
  */
 public class StaticMethods {
     private static final String LOG_KEY = "STATIC_METHODS";
@@ -31,6 +34,9 @@ public class StaticMethods {
     public static SharedPreferences mSharedPreference;
     public static Context context;
 
+    /**
+     * Sets up the alarm event for automatic clearing of Queue list
+     */
     public static void setUpAutomaticCleanAlarm(){
 
         SharedPreferences sharedPreferences = mSharedPreference;
@@ -54,6 +60,13 @@ public class StaticMethods {
         }
     }
 
+    /**
+     * Computes the height of a listView based on it's items
+     * This helps to disable the listView's scrolling
+     * Reference:
+     *  http://stackoverflow.com/questions/3495890/how-can-i-put-a-listview-into-a-scrollview-without-it-collapsing
+     * @param listView
+     */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
 

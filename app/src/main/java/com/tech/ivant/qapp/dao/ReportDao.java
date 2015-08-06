@@ -26,7 +26,10 @@ import com.tech.ivant.qapp.entities.Report;
  */
 public class ReportDao {
 
-    //Insert an entry to the database
+    /**
+     * Given a Report object. Insert an entry of that object into the database
+     * If there is already an entry corresponding to that Report object, it will update
+     */
     public static long save(Report report){
         if(find(report.id)==null){  //Check if entry is not in the database
             SQLiteDatabase db = DBManager.getWriteDatabase();
@@ -36,7 +39,7 @@ public class ReportDao {
             values.put(TotalQueueEntry.COLUMN_NAME_MONTH, report.month);
             values.put(TotalQueueEntry.COLUMN_NAME_YEAR, report.year);
             values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, report.total);
-            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumAverageWait);
+            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumWaitTime);
 
             //insert entry
             report.id = db.insert(TotalQueueEntry.TABLE_NAME, null, values);
@@ -47,7 +50,10 @@ public class ReportDao {
         return report.id;
     }
 
-    //Update an entry in the database
+    /**
+     * Given a Report object, this method updates its entry on the database.
+     * If there is no entry corresponding to that Report, it inserts a new one.
+     */
     public static void update(Report report){
         if(find(report.id)==null){      //check if entry is already on the base
             //save instead if there is no entry
@@ -61,7 +67,7 @@ public class ReportDao {
             values.put(TotalQueueEntry.COLUMN_NAME_MONTH, report.month);
             values.put(TotalQueueEntry.COLUMN_NAME_YEAR, report.year);
             values.put(TotalQueueEntry.COLUMN_NAME_TOTAL, report.total);
-            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumAverageWait);
+            values.put(TotalQueueEntry.COLUMN_NAME_SUM_AVE_WAIT, report.sumWaitTime);
             values.put(TotalQueueEntry.COLUMN_NAME_SERVICE_ID, report.serviceId);
 
             //update entry in database
@@ -70,7 +76,9 @@ public class ReportDao {
         }
     }
 
-    //Delete an entry in the database
+    /**
+     * Given a Report object, deletes that object from the database
+     */
     public static int delete(Report report){
         SQLiteDatabase db = DBManager.getReadDatabase();
         int returnValue = db.delete(TotalQueueEntry.TABLE_NAME, TotalQueueEntry.COLUMN_NAME_ID + " = " + report.id, null);
@@ -78,7 +86,13 @@ public class ReportDao {
         return returnValue;
     }
 
-    //Query using an id. Returns a null value if nothing is found
+    /**
+     * Find an entry in the database using a key (id)
+     * Returns a Report object, or null if nothing is found
+     *
+     * SQL command:
+     *  SELECT * FROM records_table WHERE id = (long value)id;
+     */
     public static Report find(long id){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME
@@ -94,7 +108,13 @@ public class ReportDao {
         return retval;
     }
 
-    //Query using a WHERE clause. Returns an empty Report array if nothing is found.
+    /**
+     * Get entries from the database satisfying a given condition (Query using WHERE clause)
+     * Returns an empty list if nothing is found, returns a Report array otherwise
+     *
+     * SQL command:
+     *  SELECT * FROM records_table WHERE columnname = value;
+     */
     public static Report[] where(String column, String value){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME
@@ -105,6 +125,13 @@ public class ReportDao {
         return retVal;
     }
 
+    /**
+     * Get entries from the database satisfying multiple conditions (Multiple WHERE clauses)
+     * Returns an empty list if nothing is found, returns a Report array otherwise
+     *
+     * SQL command:
+     *  SELECT * FROM records_table WHERE columnname1 = value1 AND columnname2 = value2...
+     */
     //Query using a WHERE clause with multiple condition. Returns an empty array if nothing is found
     public static Report[] where(String[] columns, String[] values){
         if( columns.length != values.length ) return new Report[0];
@@ -129,7 +156,14 @@ public class ReportDao {
         return retVal;
     }
 
-    //Query all entry in the database
+    /**
+     * Get all entries in the database
+     * returns a list containing all entries in the database
+     * returns an empty list for an empty database
+     *
+     * SQL command:
+     *  SELECT * FROM records_table;
+     */
     public static Report[] all(){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TotalQueueEntry.TABLE_NAME + ";", null);
@@ -139,7 +173,9 @@ public class ReportDao {
         return retVal;
     }
 
-    //Translation of Cursor object to an array of Report object
+    /**
+     * Translation: translate Curosr object to array of Report object
+     */
     private static Report[] translateCursorList(Cursor c){
         if(c.getCount()>0){
             c.moveToFirst();
@@ -154,7 +190,9 @@ public class ReportDao {
         }
     }
 
-    //Translation of a Cursor object to Report object
+    /**
+     * Easy translation of Cursor object to Reports object
+     */
     private static Report translateCursor(Cursor c){
         return new Report(c.getLong(0), c.getInt(1), c.getInt(2), c.getInt(3), c.getInt(4), c.getLong(5), c.getLong(6));
     }

@@ -22,8 +22,11 @@ import java.util.ArrayList;
 
 /**
  * Created by matthew on 7/9/15.
+ *
+ * Adapter for the Service List in the Settings
+ *
  */
-public class EditServiceAdapter extends BaseAdapter implements View.OnClickListener {
+public class EditServiceAdapter extends BaseAdapter{
 
     private ArrayList<Service> data;
     private Activity activity;
@@ -64,6 +67,9 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
     }
 
 
+    /**
+     * Inflate layout
+     */
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent) {
         View vi = convertView;
@@ -78,14 +84,9 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
             holder.list_delete_button = (Button)vi.findViewById(R.id.list_delete_button);
 
             vi.setTag(holder);
-
-
         }
         else{
             holder = (ViewHolder)vi.getTag();
-
-            //if(data.size()>0){
-            //}
         }
 
         final BaseAdapter adapter = this;
@@ -106,32 +107,11 @@ public class EditServiceAdapter extends BaseAdapter implements View.OnClickListe
                 }
             });
             holder.list_edit_button.setOnClickListener(new EditButtonListener(data.get(position), vi, adapter));
-
-            vi.setOnClickListener(new ServiceListOnItemClickListener(position));
-
         }
 
         notifyDataSetChanged();
         return vi;
 
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    private class ServiceListOnItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        public ServiceListOnItemClickListener(int position){
-            mPosition = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 
     private class DeleteButtonListener implements DialogInterface.OnClickListener{

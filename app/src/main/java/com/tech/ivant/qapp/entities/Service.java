@@ -1,20 +1,26 @@
 package com.tech.ivant.qapp.entities;
 
+import com.tech.ivant.qapp.dao.ServiceDao;
+
 /**
  * Created by matthew on 7/22/15.
+ *
+ * Service entity
+ *
+ * Current implemented fields:
+ * -id
+ * -name
+ * -notes
+ * -startNumber
+ * -endNumber
+ *
+ * Fields not yet implemented:
+ * -logo
+ * -online
+ * -priorityNumber
+ *
  */
 public class Service {
-
-    /**
-     * defaultWaitingTime
-     * endNumber
-     * logo
-     * name
-     * notes
-     * online
-     * priorityNumber
-     * startNumber
-     */
 
     public long id;
     public String name;
@@ -47,5 +53,22 @@ public class Service {
         this.notes = notes;
         this.startNumber = startNumber;
         this.endNumber = endNumber;
+    }
+
+    public static void createNoShowService(){
+        Service noShow;
+
+        String noShowServiceName = "No Show";
+
+        Service[] serviceList = ServiceDao.where(ServiceDao.ServiceEntry.COLUMN_NAME_SNAME, noShowServiceName);
+
+        if(serviceList.length <= 0 ){
+            noShow = new Service();
+            noShow.name = noShowServiceName;
+            ServiceDao.save(noShow);
+
+        }
+
+
     }
 }
