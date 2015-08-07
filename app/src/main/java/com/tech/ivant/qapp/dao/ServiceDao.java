@@ -96,7 +96,7 @@ public class ServiceDao {
                 + " WHERE " + ServiceEntry.COLUMN_NAME_ID + " = " + id + ";", null);
         if(c.getCount() > 0){
             c.moveToFirst();
-            return new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
+            return translateCursorToService(c);
         }
         return null;
     }
@@ -112,17 +112,7 @@ public class ServiceDao {
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME
                 + " WHERE " + column + " = \"" + query+ "\";", null);
-        if(c.getCount() > 0){
-            c.moveToFirst();
-            Service[] services = new Service[c.getCount()];
-            for(int i=0;i<c.getCount();i++){
-                services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
-                c.moveToNext();
-            }
-            return services;
-        }
-
-        return new Service[0];
+        return translateCursorToServiceArray(c);
     }
 
     /**1574
@@ -143,17 +133,7 @@ public class ServiceDao {
     public static Service[] all(){
         SQLiteDatabase db = DBManager.getReadDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + ServiceEntry.TABLE_NAME + ";", null);
-        if(c.getCount() > 0){
-            c.moveToFirst();
-            Service[] services = new Service[c.getCount()];
-            for(int i=0;i<c.getCount();i++){
-                services[i] = new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4));
-                c.moveToNext();
-            }
-            return services;
-        }
-
-        return new Service[0];
+        return translateCursorToServiceArray(c);
     }
 
     /**
@@ -182,6 +162,27 @@ public class ServiceDao {
 
     }
 
+    /**
+     * Translation of Cursor to Service object
+     */
+
+    private static Service[] translateCursorToServiceArray(Cursor c){
+        if(c.getCount() > 0){
+            c.moveToFirst();
+            Service[] services = new Service[c.getCount()];
+            for(int i=0;i<c.getCount();i++){
+                services[i] = translateCursorToService(c);
+                c.moveToNext();
+            }
+            return services;
+        } else {
+            return new Service[0];
+        }
+    }
+
+    private static Service translateCursorToService(Cursor c){
+        return new Service(c.getLong(0), c.getString(1), c.getString(2), c.getInt(3), c.getInt(4), c.getInt(5));
+    }
 
     public static final String SQL_CREATE_TABLE =
             "CREATE TABLE " + ServiceEntry.TABLE_NAME +" ("
@@ -189,7 +190,8 @@ public class ServiceDao {
                     + ServiceEntry.COLUMN_NAME_SNAME + " STRING, "
                     + ServiceEntry.COLUMN_NAME_NOTES + " TEXT, "
                     + ServiceEntry.COLUMN_NAME_START_NUMBER + " INTEGER, "
-                    + ServiceEntry.COLUMN_NAME_END_NUMBER + " INTEGER "
+                    + ServiceEntry.COLUMN_NAME_END_NUMBER + " INTEGER, "
+                    + ServiceEntry.COLUMN_NAME_LOGO_ID + " INTEGER "
                     + ");";
     public static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + ServiceEntry.TABLE_NAME + ";";
@@ -201,6 +203,7 @@ public class ServiceDao {
         public static final String COLUMN_NAME_NOTES = "notes";
         public static final String COLUMN_NAME_START_NUMBER = "start_number";
         public static final String COLUMN_NAME_END_NUMBER = "end_number";
+        public static final String COLUMN_NAME_LOGO_ID = "logo_id";
     }
 
 }
