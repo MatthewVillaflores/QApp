@@ -39,17 +39,28 @@ import java.util.Arrays;
 public class ViewServiceFragment extends Fragment{
     public final static String LOG_TAG = "VewServiceFragment";
 
-    private Service mService;
+    public Service mService;
+
+    public Service getmService() {
+        return mService;
+    }
+
     private Dialog addQueueDialog;
     private Dialog callNextDialog;
     private ArrayAdapter<String> mAdapter;
     private QueueAdapter qAdapter;
     private BaseAdapter bAdapter;
     private ListView mListView;
-    private Queue[] queueList;
+
+    public Queue[] getQueueList() {
+        return queueList;
+    }
+
+    public Queue[] queueList;
     private BroadcastReceiver mCleanupBroadCastListener;
 
     public ViewServiceFragment(){}
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

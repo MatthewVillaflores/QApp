@@ -28,6 +28,17 @@ public class MonitorQueueFragment extends Fragment {
     public static final String EXTRA_NEW_QUEUE = "com.tech.ivant.qapp.new_queue";
 
     private View mRootView;
+    public ViewServiceFragment fragmentBottom;
+
+    public ViewServiceTopFragment getFragmentTop() {
+        return fragmentTop;
+    }
+
+    public ViewServiceTopFragment fragmentTop;
+
+    public ViewServiceFragment getFragmentBottom() {
+        return fragmentBottom;
+    }
 
     public MonitorQueueFragment(){}
 
@@ -84,7 +95,7 @@ public class MonitorQueueFragment extends Fragment {
             return;
         }
 
-        Fragment fragmentTop = new ViewServiceTopFragment();
+        fragmentTop = new ViewServiceTopFragment();
         FragmentManager fragmentManager = getFragmentManager();
         Bundle arguments = new Bundle();
         arguments.putLong(KEY_SERVICE_ID, mService.id);
