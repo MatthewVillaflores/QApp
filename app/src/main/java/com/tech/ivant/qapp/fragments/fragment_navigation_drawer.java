@@ -86,7 +86,7 @@ public class fragment_navigation_drawer extends android.support.v4.app.Fragment 
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(getActivity(), NewService.class);
+                        intent = new Intent(getActivity(), SettingsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         break;

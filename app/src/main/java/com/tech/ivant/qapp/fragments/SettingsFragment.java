@@ -101,8 +101,8 @@ public class SettingsFragment extends Fragment {
             Log.d("KEYCOMPANYNAME", KEY_COMPANY_NAME);
 
             addPreferencesFromResource(R.xml.settings_preference);
-            MainActivity parentActivity = (MainActivity) getActivity();
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(parentActivity);
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
             Preference company_name = findPreference(KEY_COMPANY_NAME);
             String company_name_string = sharedPreferences.getString(KEY_COMPANY_NAME, "Company ABC");
