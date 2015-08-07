@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import com.tech.ivant.qapp.MainActivity;
 import com.tech.ivant.qapp.NewService;
 import com.tech.ivant.qapp.R;
+import com.tech.ivant.qapp.ReportsActivity;
 import com.tech.ivant.qapp.SettingsActivity;
+import com.tech.ivant.qapp.SmsActivity;
 import com.tech.ivant.qapp.adapters.adapter_drawerList;
 import com.tech.ivant.qapp.entities.drawerList_model;
 
@@ -68,12 +70,20 @@ public class fragment_navigation_drawer extends android.support.v4.app.Fragment 
             public void OnClick(View view, int position) {
                 Intent intent;
                 switch (position){
-                    case 1:
+                    case 0:
                         intent = new Intent(getActivity(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(getActivity(), SmsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(getActivity(), ReportsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         break;
                     case 3:
                         intent = new Intent(getActivity(), NewService.class);

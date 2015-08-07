@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -7,36 +7,20 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="247dp"
         android:id="@+id/queueListView"
-        android:layout_marginBottom="447dp"
-        android:layout_alignBottom="@+id/frameLayout" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/queueControlButtons">
+        />
 
 
-    </RelativeLayout>
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="447dp"
-        android:layout_marginRight="130dp"
-        android:layout_marginEnd="130dp"
-        android:layout_marginLeft="125dp"
-        android:layout_marginStart="125dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/frameLayout">
+        android:id="@+id/queueControlButtons"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:weightSum="1">
 
         <Button
             android:layout_width="wrap_content"
@@ -47,12 +31,9 @@
             android:textColor="@android:color/white"
             android:textAppearance="@android:style/TextAppearance.Small"
             android:drawableLeft="@drawable/plusbtn_orange"
-            android:layout_marginLeft="61dp"
-            android:layout_marginStart="61dp"
-            android:layout_marginRight="138dp"
-            android:layout_marginEnd="138dp"
+
             android:layout_gravity="left|top"
-            />
+            android:layout_weight="0.03" />
 
         <Button
             android:layout_width="100dp"
@@ -63,18 +44,12 @@
             android:background="@drawable/roundedbutton"
             android:textColor="@android:color/white"
             android:textAppearance="@android:style/TextAppearance.Small"
-            android:drawableLeft="@drawable/bellbtn"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="42dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="214dp"
-            android:layout_marginStart="214dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="63dp"
-            android:layout_marginEnd="63dp"
-            />
-    </FrameLayout>
+            android:drawableLeft="@drawable/bellbtn_orange"
+            android:layout_marginLeft="10dp"
 
-</RelativeLayout>
+            android:layout_weight="0.03">
+
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

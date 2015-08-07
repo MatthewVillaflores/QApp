@@ -87,6 +87,11 @@
     <string name="dialog_call_next_noshow">NO SHOW</string>
     <string name="dialog_call_next_cancel">CANCEL</string>
     <string name="dialog_edit_service_default_waiting_time">Default Waiting Time</string>
+    <string name="title_activity_sms">SmsActivity</string>
+    <string name="sms_welcome_message">Welcome Message</string>
+    <string name="sms_message">Hi CustomerName. Thank you for visiting CompanyName. You are currently CurrentQueuePosition in line, estimated time to be served is EstimatedTime. We will notify you once you are number FirstNotifyPosition in line. Thanks!</string>
+    <string name="sms_button">Button</string>
+    <string name="title_activity_reports">ReportsActivity</string>
 
 
 </resources>

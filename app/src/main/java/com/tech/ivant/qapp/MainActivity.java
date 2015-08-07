@@ -26,13 +26,21 @@ import android.support.v4.app.FragmentActivity;
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.dao.ReportDao;
+import android.widget.TextView;
+import com.tech.ivant.qapp.constants.StaticMethods;
+import com.tech.ivant.qapp.dao.ServiceDao;
+import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.entities.Service;
 import com.tech.ivant.qapp.entities.Report;
 import com.tech.ivant.qapp.fragments.MonitorQueueFragment;
 import com.tech.ivant.qapp.fragments.ReportFragment;
 import com.tech.ivant.qapp.fragments.SettingsFragment;
 import com.tech.ivant.qapp.fragments.SmsFragment;
+import com.tech.ivant.qapp.fragments.ViewServiceFragment;
+import com.tech.ivant.qapp.fragments.ViewServiceTopFragment;
 import com.tech.ivant.qapp.fragments.fragment_navigation_drawer;
+
+import java.text.SimpleDateFormat;
 
 
 public class MainActivity extends ActionBarActivity  {
@@ -41,12 +49,15 @@ public class MainActivity extends ActionBarActivity  {
     public final static String BROADCAST_AUTOMATIC_CLEAN_ALARM = "com.tech.ivant.alarm_automatic_clean";
     private final static String STATE_CURRENT_POSITION = "com.tech.ivant.current_fragment_position";
 
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
-    private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
-    private ActionBarDrawerToggle mDrawerToggle;
+//    private ListView mDrawerList;
+//    private ArrayAdapter<String> mAdapter;
+//    private DrawerLayout mDrawerLayout;
+//    private String mActivityTitle;
+//    private ActionBarDrawerToggle mDrawerToggle;
     private int mCurrentPosition;
+    private Dialog addQueueDialog;
+    private Dialog callNextDialog;
+    public MonitorQueueFragment monitorQueueFragment;
 //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +76,10 @@ public class MainActivity extends ActionBarActivity  {
         fragment_navigation_drawer drawerFragment = (fragment_navigation_drawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-        Fragment home_fragment = new MonitorQueueFragment();
+        monitorQueueFragment = new MonitorQueueFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.monitorqueue_container, home_fragment).commit();
+                .replace(R.id.monitorqueue_container, monitorQueueFragment).commit();
 //        mDrawerList = (ListView)findViewById(R.id.navigationDrawer);
 //        fragment_navigation_drawer drawerFragment = (fragment_navigation_drawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
 //        String[] drawer_list = {
@@ -175,20 +186,85 @@ public class MainActivity extends ActionBarActivity  {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*
+
         int id = item.getItemId();
-
+        final View view = new View(this);
+        final ViewServiceFragment fragmentBottom = monitorQueueFragment.getFragmentBottom();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.addQueue_toolbar) {
+            addQueueDialog = new Dialog(view.getContext());
+            addQueueDialog.setTitle("Add Queue - ");
+            addQueueDialog.setContentView(R.layout.dialog_add_queue);
+            TextView currentDate = (TextView) addQueueDialog.findViewById(R.id.addQueueCurrentDate);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+            String preferredDateFormat = sharedPreferences.getString(view.getResources().getString(R.string.KEY_PREFERENCE_DATE_FORMAT), "MM/dd/yy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(preferredDateFormat);
+            currentDate.setText(dateFormat.format(System.currentTimeMillis()));
+
+            Button cancel = (Button) addQueueDialog.findViewById(R.id.addQueueCancelButton);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addQueueDialog.dismiss();
+                }
+            });
+
+            Button add = (Button) addQueueDialog.findViewById(R.id.addQueueAddButton);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditText editTextName = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextName);
+                    EditText editTextMobileNumber = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextMobileNumber);
+                    EditText editTextNotes = (EditText) addQueueDialog.findViewById(R.id.addQueueEditTextNotes);
+
+                    String customerName = editTextName.getText().toString();
+                    String mobileNumber = editTextMobileNumber.getText().toString();
+                    String notes = editTextNotes.getText().toString();
+                    long service_id = fragmentBottom.getmService().id;
+
+                    Queue queue = Queue.enqueue(customerName, mobileNumber, notes, service_id);
+                    fragmentBottom.updateList(view);
+                    addQueueDialog.dismiss();
+                }
+            });
+            addQueueDialog.show();
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        if (id == R.id.callNext_toolbar) {
+            callNextDialog = new Dialog(new View(this).getContext());
+            callNextDialog.setContentView(R.layout.dialog_call_next);
+            TextView customerName = (TextView) callNextDialog.findViewById(R.id.dialogCallNextCustomerName);
 
-        */
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            TextView arrivalTime = (TextView) callNextDialog.findViewById(R.id.dialogCallNextArrivedTime);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
+            TextView mobileNumber = (TextView) callNextDialog.findViewById(R.id.dialogCallNextMobileNumber);
+            TextView notes = (TextView) callNextDialog.findViewById(R.id.dialogCallNextNotes);
+
+            Button cancelButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextCancelButton);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callNextDialog.dismiss();
+                }
+            });
+
+            Button noShowButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextNoShowButton);
+            Button arrivedButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextArrivedButton);
+//            arrivedButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mService.startNumber++;
+//                    ServiceDao.update(mService);
+//                    Queue.call(cCalled);
+//                    updateList(v);
+//                    callNextDialog.dismiss();
+//                }
+//            });
+            callNextDialog.show();
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
 
