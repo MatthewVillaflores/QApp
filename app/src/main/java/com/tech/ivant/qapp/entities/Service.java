@@ -32,6 +32,7 @@ public class Service {
     public int logoId;
 
     public static String noShowServiceName = "No Show";
+    public static long noShowServiceId = -100;
 
     public Service(){}
 
@@ -79,6 +80,7 @@ public class Service {
         if(serviceList.length <= 0 ){
             noShow = new Service();
             noShow.name = noShowServiceName;
+            noShow.id = noShowServiceId;
             ServiceDao.save(noShow);
 
         }

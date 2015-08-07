@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:layout_marginTop="5dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawerList_image"
+        android:src="@drawable/drawer_monitoricon"
+        android:padding="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawerList_color"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/drawerList_image"
+        android:background="@color/accentColor"
+        android:layout_toStartOf="@+id/view_service_total_count"
+        android:layout_marginRight="71dp"
+        android:layout_marginEnd="71dp"
+        android:layout_alignRight="@+id/drawerList_image"
+        android:layout_alignEnd="@+id/drawerList_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/drawerList_title"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_alignBottom="@+id/drawerList_image"
+        android:layout_toRightOf="@+id/drawerList_color"
+        android:layout_toEndOf="@+id/drawerList_color"
+        android:layout_marginBottom="17dp" />
+
+</RelativeLayout>

@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginBottom="30dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="current_date"
-        android:id="@+id/addQueueCurrentDate"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5 minutes waiting"
-        android:id="@+id/addQueueWaitTime"
-        android:textSize="16dp"
-        android:gravity="center_horizontal"
-        android:layout_below="@+id/addQueueCurrentDate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="0dp"
+    android:clickable="false">
 
     <EditText
         android:layout_width="match_parent"
@@ -35,10 +15,14 @@
         android:id="@+id/addQueueEditTextName"
         android:hint="Name"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/addQueueWaitTime"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@color/dialog_dark"
+        android:textSize="22sp"
+        android:layout_alignLeft="@+id/dialog_add_queue_customer_layout"
+        android:layout_alignStart="@+id/dialog_add_queue_customer_layout"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/addQueueEditTextMobileNumber" />
 
     <EditText
         android:layout_width="match_parent"
@@ -48,36 +32,114 @@
         android:id="@+id/addQueueEditTextMobileNumber"
         android:hint="Mobile Number"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/addQueueEditTextName"
+    android:background="@color/dialog_dark"
+        android:textSize="22sp"
+        android:layout_marginBottom="123dp"
+        android:layout_alignBottom="@+id/addQueueEditTextNotes"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="160dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:ems="10"
+        android:ems= "10"
         android:lines="4"
         android:id="@+id/addQueueEditTextNotes"
         android:hint="Notes"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@id/addQueueEditTextMobileNumber" />
+        android:background="@color/dialog_dark"
+        android:textSize="22sp"
+        android:gravity="left"
+        android:paddingTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="210dp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/addQueueEditTextNotes"
-        android:layout_centerHorizontal="true">
-        <Button
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dialog_light"
+        android:id="@+id/dialog_add_queue_customer_layout"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="48dp"
+        android:layout_alignBottom="@+id/addQueueEditTextName">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="current_date"
+            android:id="@+id/addQueueCurrentDate"
+            android:layout_gravity="center_horizontal"
+            android:textIsSelectable="false"
+            android:textSize="20sp"
+            android:layout_alignBottom="@+id/imageView8"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView8"
+            android:src="@drawable/dateicon"
+
+            android:layout_toLeftOf="@+id/addQueueCurrentDate"
+            android:layout_toStartOf="@+id/addQueueCurrentDate"
+            android:layout_marginBottom="14dp"
+            android:layout_above="@+id/addQueueWaitTime" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 minutes waiting"
+            android:id="@+id/addQueueWaitTime"
+            android:textSize="16dp"
+            android:gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/addQueueEditTextMobileNumber"
+        android:layout_marginTop="38dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="117dp"
+            android:layout_height="wrap_content"
             android:text="Cancel"
-            android:id="@+id/addQueueCancelButton" />
+            android:id="@+id/addQueueCancelButton"
+            android:textColor="@android:color/white"
+            android:background="@drawable/roundedbutton"
+            android:drawableLeft="@drawable/cancelicon"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:elevation="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left|top" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Queue"
-            android:id="@+id/addQueueAddButton"/>
-    </LinearLayout>
+            android:id="@+id/addQueueAddButton"
+            android:textColor="@android:color/white"
+            android:background="@drawable/roundedbutton"
+            android:paddingRight="10dp"
+            android:drawableLeft="@drawable/checkicon"
+            android:paddingLeft="10dp"
+            android:elevation="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right|top" />
+    </FrameLayout>
 </RelativeLayout>

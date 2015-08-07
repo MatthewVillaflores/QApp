@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Queue App</string>
+    <string name="app_name">Queue Pad</string>
 
     <string name="action_settings">Settings</string>
     <string name="new_service_button">New Service</string>
@@ -8,16 +8,16 @@
     <string name="service_name_hint">Service Name</string>
     <string name="service_note_hint">Optional note</string>
     <string name="title_activity_view_service">View Service</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="view_service_name_hint">Service Name</string>
     <string name="view_service_note_hint">Service Note</string>
-    <string name="view_service_queue_button">Queue</string>
+    <string name="view_service_queue_button">Add Queue</string>
+    <string name="menu_main_icon_plus">Add Queue</string>
+    <string name="menu_main_icon_bell">Call Next</string>
     <string name="view_activity_call_button">Call</string>
-    <string name="title_activity_new_queue">Queue</string>
+    <string name="title_activity_new_queue">Add Queue</string>
     <string name="new_queue_name_hint">Enter name</string>
     <string name="new_queue_notes_hint">Optional notes</string>
-    <string name="new_queue_submit_button">Enqueue</string>
+    <string name="new_queue_submit_button">Add Queue</string>
     <string name="new_queue_mobile_number_hint">Mobile Number</string>
     <string name="nav_monitor_queue_title">Monitor Queue</string>
     <string name="nav_sms_title">Sms</string>
@@ -34,14 +34,21 @@
     <string name="settings_date_format_title">Date Format</string>
     <string name="settings_language_title">Language</string>
     <string name="settings_service_edit_title">Services</string>
-    <string name="dialog_new_service_help_text">Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services</string>
+    <string name="dialog_new_service_help_text">Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services.</string>
     <string name="dialog_new_service_hint">Service Name</string>
     <string name="dialog_new_service_save_button">Save</string>
     <string name="dialog_new_service_cancel_button">Cancel</string>
-    <string name="dialog_edit_service_helper_text">Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services</string>
+    <string name="dialog_edit_service_helper_text">Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services.</string>
     <string name="dialog_edit_service_hint">Service Name</string>
     <string name="dialog_edit_service_save_button">Save</string>
     <string name="dialog_edit_service_cancel_button">Cancel</string>
+    <string name="dialog_edit_service_icon_helper_text">Please select an icon most appropriate for this service.</string>
+    <string name="view_service_label_total_count">Total Count</string>
+    <string name="view_service_label_ave_waiting_time">Ave. Waiting Time</string>
+    <string name="monitor_queue_label_name">Name</string>
+    <string name="monitor_queue_label_arrival_time">Arrival Time</string>
+
+
 
 
     <string name="KEY_PREFERENCE_COMPANY_NAME">ivant_queuepad_company_name</string>
@@ -68,7 +75,18 @@
         <item>dd/MM/yy</item>
     </string-array>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="monitor_queue_label_waiting_time">Waiting Time</string>
+    <string name="view_service_call_next">Call Next</string>
+    <string name="title_activity_settings">Settings</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="dialog_call_next_waiting_time">WAITING TIME</string>
+    <string name="dialog_call_next_arrived">ARRIVED</string>
+    <string name="dialog_call_next_noshow">NO SHOW</string>
+    <string name="dialog_call_next_cancel">CANCEL</string>
+    <string name="dialog_edit_service_default_waiting_time">Default Waiting Time</string>
 
 
 </resources>

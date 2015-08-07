@@ -150,7 +150,7 @@ public class ServiceDao {
         int iter = 0;
         try {
             for (Service service : services) {
-                if (!service.name.equals(Service.noShowServiceName)) {
+                if (!(service.id == Service.noShowServiceId)) {
                     servicesWithoutNoShow[iter] = service;
                     iter++;
                 }

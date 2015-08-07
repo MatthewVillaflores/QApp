@@ -39,6 +39,16 @@ public class MonitorQueueFragment extends Fragment {
 
         Service services[] = ServiceDao.all();
 
+        //put NoShow service to last
+        for(int i=0;i<services.length;i++){
+            if(services[i].id == Service.noShowServiceId){
+                Service temp = services[services.length-1];
+                services[services.length-1] = services[i];
+                services[i] = temp;
+
+            }
+        }
+
         if(services.length > 0) {
             mService = services[0];
 

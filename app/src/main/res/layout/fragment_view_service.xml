@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/queueListView"
-        android:layout_above="@+id/queueControlButtons"/>
+        android:layout_marginBottom="447dp"
+        android:layout_alignBottom="@+id/frameLayout" />
 
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,19 +21,60 @@
         android:id="@+id/queueControlButtons">
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Queue"
-            android:id="@+id/addQueueButton"
-            android:layout_gravity="center" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="447dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginStart="125dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/frameLayout">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Call Next"
+            android:text="@string/view_service_queue_button"
+            android:id="@+id/addQueueButton"
+            android:background="@drawable/roundedbutton"
+            android:textColor="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:drawableLeft="@drawable/plusbtn_orange"
+            android:layout_marginLeft="61dp"
+            android:layout_marginStart="61dp"
+            android:layout_marginRight="138dp"
+            android:layout_marginEnd="138dp"
+            android:layout_gravity="left|top"
+            />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/view_service_call_next"
             android:id="@+id/callNextButton"
-            android:layout_gravity="center" />
-    </LinearLayout>
+            android:layout_gravity="right|top"
+            android:background="@drawable/roundedbutton"
+            android:textColor="@android:color/white"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:drawableLeft="@drawable/bellbtn"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="42dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="214dp"
+            android:layout_marginStart="214dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="63dp"
+            android:layout_marginEnd="63dp"
+            />
+    </FrameLayout>
 
 </RelativeLayout>
