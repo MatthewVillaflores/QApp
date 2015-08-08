@@ -192,7 +192,7 @@ public class ServiceDao {
      */
 
     private static Service[] translateCursorToServiceArray(Cursor c){
-        if(c.getCount() > 0){
+        if(c.getCount() > 0 && c != null){
             c.moveToFirst();
             Service[] services = new Service[c.getCount()];
             for(int i=0;i<c.getCount();i++){
