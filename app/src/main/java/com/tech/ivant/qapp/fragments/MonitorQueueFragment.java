@@ -2,6 +2,7 @@ package com.tech.ivant.qapp.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,11 +80,12 @@ public class MonitorQueueFragment extends Fragment {
             for (final Service service : services) {
                 Button button = new Button(getActivity());
                 button.setText(service.name);
+                button.setTextColor(getResources().getColor(R.color.primaryColor));
+                button.setBackgroundResource(R.drawable.service_buttons);
                 button.setPadding(50, 50, 50, 50);
 
 
                 linearLayout.addView(button, layoutParams);
-
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

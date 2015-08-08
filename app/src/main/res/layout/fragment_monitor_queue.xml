@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/accentColor"
-        android:id="@+id/monitorQueueSeparator1" />
+        android:id="@+id/monitorQueueSeparator1"
+        android:layout_marginBottom="5dp"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -31,7 +32,8 @@
         android:id="@+id/serviceListHScroll"
         android:layout_below="@+id/monitorQueueSeparator1"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
