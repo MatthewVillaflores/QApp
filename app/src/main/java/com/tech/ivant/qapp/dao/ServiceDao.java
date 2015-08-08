@@ -51,6 +51,31 @@ public class ServiceDao {
         }
         return service.id;
     }
+    /**
+     * Save method for NoShow Service
+     */
+    public static void saveNoShow(Service service){
+        //If service is not noShow service, return
+        if(service.id != Service.noShowServiceId) return;
+
+        //Limit table rows to 6, 5 services plus no show service
+        Service[] services = all();
+        if(services.length>5) return;
+
+        //Check if current service is in the database if no, save; else, update.
+        if(find(service.id) == null){
+            SQLiteDatabase db = DBManager.getWriteDatabase();
+            ContentValues values = new ContentValues();
+            values.put(ServiceEntry.COLUMN_NAME_ID, service.id);
+            values.put(ServiceEntry.COLUMN_NAME_SNAME, service.name);
+            values.put(ServiceEntry.COLUMN_NAME_NOTES, service.notes);
+            values.put(ServiceEntry.COLUMN_NAME_START_NUMBER, service.startNumber);
+            values.put(ServiceEntry.COLUMN_NAME_END_NUMBER, service.endNumber);
+            db.insert(ServiceEntry.TABLE_NAME, null, values);
+        } else {
+            update(service);
+        }
+    }
 
     /**
      * Given a Service object, this method updates its entry on the database.

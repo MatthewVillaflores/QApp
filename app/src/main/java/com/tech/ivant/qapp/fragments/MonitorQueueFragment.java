@@ -3,6 +3,7 @@ package com.tech.ivant.qapp.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
+import com.tech.ivant.qapp.constants.Constants;
 import com.tech.ivant.qapp.entities.Queue;
 import com.tech.ivant.qapp.R;
 import com.tech.ivant.qapp.entities.Service;
@@ -49,6 +51,10 @@ public class MonitorQueueFragment extends Fragment {
         //updateList(rootView);
 
         Service services[] = ServiceDao.all();
+
+        for(Service service : services){
+            Log.d(Constants.LOG_TAG, "SERVICE: [" + service.id + "]" + service.name);
+        }
 
         //put NoShow service to last
         for(int i=0;i<services.length;i++){

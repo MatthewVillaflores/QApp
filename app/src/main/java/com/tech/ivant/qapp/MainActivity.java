@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v4.app.FragmentActivity;
+
+import com.tech.ivant.qapp.constants.Constants;
 import com.tech.ivant.qapp.constants.StaticMethods;
 import com.tech.ivant.qapp.dao.ServiceDao;
 import com.tech.ivant.qapp.dao.ReportDao;
@@ -192,6 +195,7 @@ public class MainActivity extends ActionBarActivity  {
         final ViewServiceFragment fragmentBottom = monitorQueueFragment.getFragmentBottom();
         //noinspection SimplifiableIfStatement
         if (id == R.id.addQueue_toolbar) {
+            Log.d(Constants.LOG_TAG, "addQueuefromtoolbar");
             addQueueDialog = new Dialog(view.getContext());
             addQueueDialog.setTitle("Add Queue - ");
             addQueueDialog.setContentView(R.layout.dialog_add_queue);

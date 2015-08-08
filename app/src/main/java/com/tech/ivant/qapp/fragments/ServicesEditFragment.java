@@ -28,10 +28,13 @@ import java.util.List;
 public class ServicesEditFragment extends Fragment{
     public ServicesEditFragment(){}
     private EditServiceAdapter mServiceAdapter;
+    private View mRootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View rootView = inflater.inflate(R.layout.fragment_services_edit, container, false);
+
+        mRootView = rootView;
 
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
         final Service[] services = populateList(rootView);
@@ -44,7 +47,6 @@ public class ServicesEditFragment extends Fragment{
     public Service[] populateList(final View rootView){
         final Service[] services = ServiceDao.removeNoShow(ServiceDao.all());
         ListView services_edit_list = (ListView) rootView.findViewById(R.id.edit_services_list);
-
 
         try {
              mServiceAdapter = new EditServiceAdapter
@@ -92,6 +94,10 @@ public class ServicesEditFragment extends Fragment{
         */
 
         return services;
+    }
+
+    public void updateList(){
+        populateList(mRootView);
     }
 
 

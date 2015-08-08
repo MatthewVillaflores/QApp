@@ -39,9 +39,8 @@
             android:drawableTop="@drawable/plusbtn_orange"
             android:onClick="newService"
             android:elegantTextHeight="false"
-            android:background="?android:attr/selectableItemBackground"        android:clickable="false"
+            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/button2"
-
             android:layout_weight="1.08" />
 
         <Button

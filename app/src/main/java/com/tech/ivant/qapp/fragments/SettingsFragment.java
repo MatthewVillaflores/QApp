@@ -62,6 +62,9 @@ public class SettingsFragment extends Fragment {
         return rootView;
     }
 
+    public void updateServicesList(){
+
+    }
 
 
     public static class SettingsPreferences extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
@@ -135,15 +138,19 @@ public class SettingsFragment extends Fragment {
             */
         }
 
+        private ServicesEditFragment mServicesEditFragment;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.preference_settings_layout, null);
 
             ListView listView = (ListView) rootView.findViewById(android.R.id.list);
 
+            mServicesEditFragment = new ServicesEditFragment();
+
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.preference_services_edit_frame, new ServicesEditFragment()).commit();
+                    .replace(R.id.preference_services_edit_frame, mServicesEditFragment).commit();
 
             //listView.setMinimumHeight(600);
 
@@ -187,6 +194,10 @@ public class SettingsFragment extends Fragment {
                 }
             }
 
+        }
+
+        public void updateServicesList(){
+            mServicesEditFragment.updateList();
         }
     }
 

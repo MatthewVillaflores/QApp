@@ -32,7 +32,7 @@ public class Service {
     public int logoId;
 
     public static String noShowServiceName = "No Show";
-    public static long noShowServiceId = -100;
+    public static long noShowServiceId = -10;
 
     public Service(){}
 
@@ -75,14 +75,9 @@ public class Service {
     public static void createNoShowService(){
         Service noShow;
 
-        Service[] serviceList = ServiceDao.where(ServiceDao.ServiceEntry.COLUMN_NAME_SNAME, noShowServiceName);
-
-        if(serviceList.length <= 0 ){
-            noShow = new Service();
-            noShow.name = noShowServiceName;
-            noShow.id = noShowServiceId;
-            ServiceDao.save(noShow);
-
+        if(ServiceDao.find(noShowServiceId) == null){
+            noShow = new Service(noShowServiceId, noShowServiceName, "");
+            ServiceDao.saveNoShow(noShow);
         }
 
 
