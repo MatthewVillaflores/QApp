@@ -2,11 +2,13 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="500dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="150dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="502dp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,45 +22,94 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <EditText
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/dialog_edit_service_name"
-            android:hint="@string/dialog_edit_service_hint"
-            android:background="@color/dialog_dark"
-            android:layout_marginTop="39dp"
-            android:textSize="22sp"
-            android:layout_alignRight="@+id/dialog_edit_service_save_button"
-            android:layout_alignEnd="@+id/dialog_edit_service_save_button"
-            android:layout_below="@+id/dialog_edit_service_help"
-            android:layout_above="@+id/dialog_edit_service_save_button"
-            android:layout_marginBottom="226dp"
-            android:layout_alignLeft="@+id/dialog_edit_service_cancel_button"
-            android:layout_alignStart="@+id/dialog_edit_service_cancel_button" />
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="@string/dialog_edit_service_save_button"
-            android:id = "@+id/dialog_edit_service_save_button"
-            android:textColor="@android:color/white"
-            android:background="@drawable/roundedbutton"
-            android:drawableLeft="@drawable/checkicon"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:layout_marginLeft="221dp"
+            android:layout_height="266dp"
+            android:weightSum="1"
+            android:layout_gravity="right|bottom"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:layout_alignLeft="@+id/dialog_new_Service_default_time"
-            android:layout_alignStart="@+id/dialog_new_Service_default_time"
-            android:layout_marginStart="221dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:elevation="10dp" />
+            android:id="@+id/linearLayout3">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:id="@+id/dialog_edit_service_name"
+                android:hint="@string/dialog_edit_service_hint"
+                android:background="@color/dialog_dark"
+                android:textSize="22sp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:weightSum="1"
+                android:background="@color/dialog_dark"
+                android:layout_marginBottom="10dp"
+
+                android:id="@+id/linearLayout2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/dialog_edit_service_default_waiting_time"
+                    android:id="@+id/textView10"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/dialog_new_Service_default_time"
+                    android:text="5"
+                    android:background="@color/dialog_dark"
+                    android:layout_marginBottom="75dp"
+                    android:layout_above="@+id/dialog_edit_service_save_button"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="206dp"
+                >
+
+                <Spinner
+                    android:layout_width="103dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/dialog_edit_service_icon_helper_text"
+                    android:id="@+id/textView11"
+                    android:textColor="@android:color/black"
+                    android:layout_above="@+id/dialog_edit_service_save_button"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:gravity="top|center_horizontal"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_gravity="center_horizontal|bottom">
 
         <Button
             android:layout_width="wrap_content"
@@ -67,87 +118,26 @@
             android:id = "@+id/dialog_edit_service_cancel_button"
             android:textColor="@android:color/white"
             android:background="@drawable/roundedbutton"
-            android:layout_alignTop="@+id/dialog_edit_service_save_button"
-            android:layout_alignLeft="@+id/dialog_new_Service_default_time"
-            android:layout_alignStart="@+id/dialog_new_Service_default_time"
             android:drawableLeft="@drawable/cancelicon"
-            android:layout_toStartOf="@+id/dialog_edit_service_save_button"
-            android:layout_marginRight="220dp"
-            android:layout_marginEnd="220dp"
-            android:layout_alignRight="@+id/dialog_edit_service_save_button"
-            android:layout_alignEnd="@+id/dialog_edit_service_save_button"
+            android:layout_marginRight="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:elevation="10dp" />
+            android:elevation="10dp"
+            android:layout_gravity="left|bottom" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="54dp"
-            android:weightSum="1"
-            android:background="@color/dialog_dark"
-            android:layout_alignTop="@+id/dialog_edit_service_name"
-            android:layout_alignLeft="@+id/dialog_edit_service_name"
-            android:layout_alignStart="@+id/dialog_edit_service_name"
-            android:layout_alignRight="@+id/dialog_edit_service_save_button"
-            android:layout_alignEnd="@+id/dialog_edit_service_save_button"
-            android:layout_marginBottom="162dp"
-            android:layout_above="@+id/dialog_edit_service_save_button"
-            android:id="@+id/linearLayout2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/dialog_edit_service_default_waiting_time"
-                android:id="@+id/textView10"
-                android:textSize="12sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/dialog_new_Service_default_time"
-                android:text="5"
-                android:background="@color/dialog_dark"
-                android:layout_marginBottom="75dp"
-                android:layout_above="@+id/dialog_edit_service_save_button"
-                android:layout_centerHorizontal="true"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="67dp"
-            android:layout_alignTop="@+id/linearLayout2"
-            android:layout_marginTop="69dp"
-            android:layout_alignLeft="@+id/linearLayout2"
-            android:layout_alignStart="@+id/linearLayout2"
-            android:layout_alignRight="@+id/linearLayout2"
-            android:layout_alignEnd="@+id/linearLayout2"
-            android:layout_above="@+id/dialog_edit_service_save_button">
-
-            <Spinner
-                android:layout_width="103dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/view" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/dialog_edit_service_icon_helper_text"
-                android:id="@+id/textView11"
-                android:textColor="@android:color/black"
-                android:layout_above="@+id/dialog_edit_service_save_button"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_edit_service_save_button"
+            android:id = "@+id/dialog_edit_service_save_button"
+            android:textColor="@android:color/white"
+            android:background="@drawable/roundedbutton"
+            android:drawableLeft="@drawable/checkicon"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_gravity="right|bottom" />
+    </LinearLayout>
 
 </FrameLayout>

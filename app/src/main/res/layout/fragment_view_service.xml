@@ -7,7 +7,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="247dp"
+        android:layout_height="446dp"
         android:id="@+id/queueListView"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
