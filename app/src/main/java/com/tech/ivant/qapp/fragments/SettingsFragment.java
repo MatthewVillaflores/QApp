@@ -29,6 +29,7 @@ public class SettingsFragment extends Fragment {
 
     public SettingsFragment(){}
 
+    public SettingsPreferences mSettingsPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -36,10 +37,10 @@ public class SettingsFragment extends Fragment {
 
         FragmentManager fm = getFragmentManager();
 
-        SettingsPreferences settingsPreferences = new SettingsPreferences();
+        mSettingsPreferences = new SettingsPreferences();
 
         fm.beginTransaction()
-                .replace(R.id.preferences_frame, settingsPreferences).commit();
+                .replace(R.id.preferences_frame, mSettingsPreferences).commit();
 
 /*
         fm.beginTransaction()
@@ -63,7 +64,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public void updateServicesList(){
-
+        mSettingsPreferences.updateServicesList();
     }
 
 

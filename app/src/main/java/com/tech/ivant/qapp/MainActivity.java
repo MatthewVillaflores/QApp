@@ -224,6 +224,7 @@ public class MainActivity extends ActionBarActivity  {
                     String customerName = editTextName.getText().toString();
                     String mobileNumber = editTextMobileNumber.getText().toString();
                     String notes = editTextNotes.getText().toString();
+
                     long service_id = fragmentBottom.getmService().id;
 
                     Queue queue = Queue.enqueue(customerName, mobileNumber, notes, service_id);
