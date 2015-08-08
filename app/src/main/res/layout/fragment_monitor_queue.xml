@@ -45,61 +45,28 @@
     </HorizontalScrollView>
 
     <FrameLayout
+
         android:layout_width="match_parent"
         android:layout_height="41dp"
-        android:layout_gravity="center_horizontal|top">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:background="@color/accentColor"
-            android:weightSum="1"
-            android:elevation="10sp"
-            android:id="@+id/monitorqueue_listHeader"
-
-            android:layout_gravity="left|top">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:src="@drawable/numlisticon"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="10dp"/>
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView3"
-                android:src="@drawable/nameicon"/>
-
-            <TextView
-                android:layout_width="47dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/monitor_queue_label_name"
-                android:id="@+id/textView2"
-                android:layout_gravity="center_vertical"
-                android:padding="5sp"
-                android:textSize="10sp"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
+        android:orientation="horizontal">
 
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="33dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/accentColor"
             android:id="@+id/listHeader_filler"
-            android:elevation="9dp" />
+            android:elevation="0dp"
+            android:layout_gravity="center_horizontal|top" >
+
+        </View>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="173dp"
-            android:layout_height="33dp"
+            android:layout_width="184dp"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
             android:layout_gravity="right|top"
-            android:elevation="10dp">
+            android:background="@color/accentColor">
 
             <ImageView
                 android:layout_width="18dp"
@@ -135,6 +102,46 @@
                 android:textSize="10sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/accentColor"
+            android:weightSum="1"
+            android:elevation="5dp"
+            android:id="@+id/monitorqueue_listHeader"
+
+            android:layout_gravity="left|top">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/numlisticon"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"/>
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@drawable/nameicon"/>
+
+            <TextView
+                android:layout_width="47dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/monitor_queue_label_name"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_vertical"
+                android:padding="5sp"
+                android:textSize="10sp"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+
     </FrameLayout>
 
     <FrameLayout
