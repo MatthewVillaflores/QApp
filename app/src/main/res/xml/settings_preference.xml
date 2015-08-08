@@ -5,7 +5,7 @@
     <EditTextPreference
         android:key="@string/KEY_PREFERENCE_COMPANY_NAME"
         android:title="@string/settings_company_name"
-        android:defaultValue="Company ABC" />
+        android:defaultValue="Company ABC"/>
     <ListPreference
         android:key="@string/KEY_PREFERENCE_LANGUAGE"
         android:title="@string/settings_language_title"
@@ -23,22 +23,21 @@
     <CheckBoxPreference
         android:key="@string/KEY_PREFERENCE_HOUR_FORMAT"
         android:title="@string/settings_24hour_format_title"
-        android:defaultValue="false" />
+        android:defaultValue="false"/>
     <PreferenceCategory>
         <CheckBoxPreference
             android:key="@string/KEY_PREFERENCE_MANUAL_CALL"
             android:title="@string/settings_manual_call_title"
             android:summary="@string/settings_manual_call_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
         <CheckBoxPreference
             android:key="@string/KEY_PREFERENCE_AUTOMATIC_CLEAN"
             android:title="@string/settings_automatic_clean_title"
             android:summary="@string/settings_automatic_clean_summary"
-            android:defaultValue="false" />
+            android:defaultValue="false"/>
         <com.tech.ivant.qapp.preferences.TimePickerPreference
             android:key="@string/KEY_PREFERENCE_AUTOMATIC_CLEAN_TIME"
             android:title="Automatic Clean Time"
-            android:defaultValue="57600000"
-            />
+            android:defaultValue="57600000" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -25,14 +25,14 @@
     <string name="nav_settings_title">Settings</string>
     <string name="drawer_open">Open Nav</string>
     <string name="drawer_close">Close Nav</string>
-    <string name="settings_company_name">Company Name</string>
+    <string name="settings_company_name">COMPANY NAME</string>
     <string name="settings_automatic_clean_summary">This will make the system clear up the Customer Queue List everyday, during the selected cut off time</string>
     <string name="settings_automatic_clean_title">Automatically remove all customers in the Queue List by:</string>
     <string name="settings_manual_call_summary">This will allow you to bypass the sequence order of customers, you can tap on the specific customer record and call him/her as the next in line.</string>
     <string name="settings_manual_call_title">Allow manual call of customers in the Queue List</string>
     <string name="settings_24hour_format_title">Use 24-hour Time Format</string>
-    <string name="settings_date_format_title">Date Format</string>
-    <string name="settings_language_title">Language</string>
+    <string name="settings_date_format_title">DATE FORMAT</string>
+    <string name="settings_language_title">LANGUAGE</string>
     <string name="settings_service_edit_title">Services</string>
     <string name="dialog_new_service_help_text">Each Service will have a separate queue of customers. You can create a maximum of 5 sets of Services.</string>
     <string name="dialog_new_service_hint">Service Name</string>

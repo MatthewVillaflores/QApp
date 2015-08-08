@@ -156,7 +156,7 @@ public class SettingsFragment extends Fragment {
 
             //listView.setMinimumHeight(600);
 
-            Log.d(Constants.LOG_TAG, "SENPAIIIi!");
+            Log.d(Constants.LOG_TAG, "Senpaiii!");
             return rootView;
         }
 
