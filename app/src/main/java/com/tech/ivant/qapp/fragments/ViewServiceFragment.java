@@ -64,7 +64,6 @@ public class ViewServiceFragment extends Fragment{
 
     public ViewServiceFragment(){}
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View rootView = inflater.inflate(R.layout.fragment_view_service, container, false);
@@ -138,6 +137,37 @@ public class ViewServiceFragment extends Fragment{
         broadcastDbChange();
     }
 
+    public Queue getToBeCalled(){
+        Queue called = null;
+        for(Queue queue : queueList){
+            if(queue.queueNumber == mService.startNumber){
+                called = queue;
+                break;
+            }
+        }
+        if(called == null && queueList.length != 0){
+            called = queueList[0];
+            mService.startNumber = called.queueNumber;
+        }
+
+        return called;
+    }
+
+    public void callNext(){
+        Queue called = getToBeCalled();
+
+        if(called != null) {
+            showCallNextDialog(called, getActivity());
+        } else {
+            CharSequence noQueueMessage = "No Queue to be Called";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast noQueueToast = Toast.makeText(getActivity(), noQueueMessage, duration);
+            noQueueToast.show();
+
+        }
+    }
+
     public void broadcastDbChange(){
         Intent localBroadcast = new Intent("db_new_queue");
         localBroadcast.putExtra(MonitorQueueFragment.EXTRA_NEW_QUEUE, true);
@@ -200,32 +230,9 @@ public class ViewServiceFragment extends Fragment{
     }
 
     private class CallNextListener implements View.OnClickListener{
-
         @Override
         public void onClick(View v) {
-            if(queueList != null && queueList.length >0) {
-
-                Queue called = null;
-                for(Queue queue : queueList){
-                    if(queue.queueNumber == mService.startNumber){
-                        called = queue;
-                        break;
-                    }
-                }
-                if(called == null && queueList.length != 0){
-                    called = queueList[0];
-                    mService.startNumber = called.queueNumber;
-                }
-
-                showCallNextDialog(called, v.getContext());
-            } else {
-                CharSequence noQueueMessage = "No Queue to be Called";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast noQueueToast = Toast.makeText(v.getContext(), noQueueMessage, duration);
-                noQueueToast.show();
-
-            }
+            callNext();
         }
     }
 
@@ -275,8 +282,6 @@ public class ViewServiceFragment extends Fragment{
         arrivedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mService.startNumber++;
-                ServiceDao.update(mService);
                 Queue.call(cCalled, mService);
                 updateList(v);
                 callNextDialog.dismiss();

@@ -147,6 +147,7 @@ public class SettingsFragment extends Fragment {
 
             ListView listView = (ListView) rootView.findViewById(android.R.id.list);
 
+
             mServicesEditFragment = new ServicesEditFragment();
 
             FragmentManager fragmentManager = getFragmentManager();

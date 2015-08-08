@@ -237,39 +237,9 @@ public class MainActivity extends ActionBarActivity  {
         }
 
         if (id == R.id.callNext_toolbar) {
-            callNextDialog = new Dialog(new View(this).getContext());
-            callNextDialog.setContentView(R.layout.dialog_call_next);
-            TextView customerName = (TextView) callNextDialog.findViewById(R.id.dialogCallNextCustomerName);
-
-            TextView arrivalTime = (TextView) callNextDialog.findViewById(R.id.dialogCallNextArrivedTime);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa");
-            TextView mobileNumber = (TextView) callNextDialog.findViewById(R.id.dialogCallNextMobileNumber);
-            TextView notes = (TextView) callNextDialog.findViewById(R.id.dialogCallNextNotes);
-
-            Button cancelButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextCancelButton);
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callNextDialog.dismiss();
-                }
-            });
-
-            Button noShowButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextNoShowButton);
-            Button arrivedButton = (Button) callNextDialog.findViewById(R.id.dialogCallNextArrivedButton);
-//            arrivedButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mService.startNumber++;
-//                    ServiceDao.update(mService);
-//                    Queue.call(cCalled);
-//                    updateList(v);
-//                    callNextDialog.dismiss();
-//                }
-//            });
-            callNextDialog.show();
+            fragmentBottom.callNext();
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
 
