@@ -81,6 +81,7 @@ public class MonitorQueueFragment extends Fragment {
                 button.setText(service.name);
                 button.setPadding(50, 50, 50, 50);
 
+
                 linearLayout.addView(button, layoutParams);
 
                 button.setOnClickListener(new View.OnClickListener() {
