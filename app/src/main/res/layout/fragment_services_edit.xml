@@ -10,16 +10,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_service_edit_title"
-        android:textSize="24dp"
-       />
+        android:textSize="24dp" />
 
     <ListView
         android:id="@+id/edit_services_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/label_edit_services"
-        android:layout_margin="10dp"
-        android:paddingTop="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center" />
 
     <LinearLayout
@@ -30,7 +28,6 @@
 
         android:layout_marginLeft="135dp"
         android:layout_marginStart="135dp"
-        android:layout_marginBottom="469dp"
         android:layout_gravity="right|top">
 
         <ImageButton
