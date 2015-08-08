@@ -146,7 +146,7 @@ public class SettingsFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.preference_settings_layout, null);
 
             ListView listView = (ListView) rootView.findViewById(android.R.id.list);
-
+            listView.setMinimumHeight(500);
 
             mServicesEditFragment = new ServicesEditFragment();
 
